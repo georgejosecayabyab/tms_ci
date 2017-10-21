@@ -1,4 +1,4 @@
 # tms_ci
 A thesis management system
-by us
+by me
 this is my change
