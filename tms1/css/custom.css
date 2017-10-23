@@ -1,0 +1,46 @@
+
+
+#remember{
+
+	padding-left: 20px;
+	
+}
+
+#signin{
+
+	padding-left: 110px;
+}
+
+#forget{
+
+	padding-left: 10px;
+}
+
+#Title{
+
+	font-size: 50px;
+}
+
+.box.box-primary {
+    border-top-color:#00a65a;
+}
+
+.nav-tabs-custom>.nav-tabs>li.active {
+    border-top-color: #00a65a;
+}
+
+
+.regularLabel{
+
+	
+	background-color: #e7e7e7;
+    color: #444;
+    border-color: #ddd;
+    font-size: 10.5px;
+}
+
+.titleCard {
+
+	font-size: 50px;
+}
+	
