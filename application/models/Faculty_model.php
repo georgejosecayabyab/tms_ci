@@ -3,7 +3,7 @@
 	class faculty_model extends CI_Model
 	{
 		//get faculty detail using id
-		public function get_faculty_detail($id)
+		public function get_faculty_detail($user_id)
 		{
 			$sql = "SELECT *
 					FROM RANK R JOIN FACULTY F
@@ -12,35 +12,147 @@
 								ON F.USER_ID=FS.USER_ID
 								JOIN USER U 
 								ON U.USER_ID=F.USER_ID
-					WHERE F.USER_ID=".$id.";";
+					WHERE F.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
 		}
 
-
-		//update user faculty detail
-		public function edit_user_data($data)
-		{
-			
-		}
-
-		//update faculty detail
-		public function edit_faculty_data($data)
-		{
-
-		}
-
 		//get advisee groups
-		public function get_active_advisee_thesis_groups($id)
+		public function get_active_advisee_thesis_groups($faculty_id)
 		{
-			$sql = "SELECT *	
+			$sql = "SELECT GROUP_ID, GROUP_NAME, THESIS_TITLE	
 					FROM THESIS_GROUP G 	JOIN FACULTY F
 									ON G.ADVISER_ID = F.USER_ID
 									JOIN THESIS T
 									ON T.THESIS_ID = G.THESIS_ID
-					WHERE G.ADVISER_ID=".$id." AND T.THESIS_STATUS='ON-GOING'";
+					WHERE G.ADVISER_ID=".$faculty_id." AND T.THESIS_STATUS='ON-GOING'";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}
+
+		//get defense list as a panel or adviser
+		public function get_defense_list($faculty_id)
+		{
+			$sql = "SELECT DD.GROUP_ID, DATE(DD.DEFENSE_DATE) AS DEF_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS END, DD.VENUE, DD.STATUS, TG.GROUP_NAME, DATEDIFF(DD.DEFENSE_DATE, CURDATE()) AS DIFF
+					FROM DEFENSE_DATE DD
+					JOIN THESIS_GROUP TG
+					ON TG.GROUP_ID=DD.GROUP_ID
+					WHERE DD.GROUP_ID IN (SELECT GROUP_ID
+					FROM PANEL_GROUP
+					WHERE PANEL_ID=".$faculty_id.")
+					AND DATEDIFF(DD.DEFENSE_DATE, CURDATE()) > 0;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		//get advisee thesis group members
+		public function get_advisee_thesis_group_members($faculty_id)
+		{
+			$sql = "SELECT *
+					FROM STUDENT_GROUP SG JOIN USER U
+					ON U.USER_ID=SG.STUDENT_ID
+					JOIN THESIS_GROUP TG
+					ON TG.GROUP_ID = SG.GROUP_ID
+					WHERE SG.STATUS=1
+					AND TG.ADVISER_ID=".$faculty_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		//get num notification on each group under advisee
+		public function get_notification_count_under_advisee($faculty_id)
+		{
+			$sql = "SELECT TG.GROUP_NAME, TG.GROUP_ID, N.CREATED_BY, CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS CREATOR, N.TARGET_USER_ID, N.NOTIFICATION_DETAILS, N.IS_READ, COUNT(TG.GROUP_ID) AS NOTIF
+					FROM THESIS_GROUP TG
+					JOIN STUDENT_GROUP SG
+					ON SG.GROUP_ID=TG.GROUP_ID
+					JOIN STUDENT S
+					ON S.USER_ID=SG.STUDENT_ID
+					JOIN USER U
+					ON U.USER_ID=S.USER_ID
+					JOIN NOTIFICATION N
+					ON N.CREATED_BY=U.USER_ID
+					WHERE N.TARGET_USER_ID=".$faculty_id."
+					AND TG.ADVISER_ID=".$faculty_id."
+					AND N.IS_READ=0
+					GROUP BY TG.GROUP_ID;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		//get notifications of group, not working yet(10/24/2017)
+		public function get_notifications($group_id)
+		{
+			$sql = "SELECT N.NOTIFICATION_ID, N.CREATED_BY, U.FIRST_NAME, U.LAST_NAME, N.TARGET_USER_ID, N.IS_READ, TG.GROUP_ID, TG.GROUP_NAME
+					FROM NOTIFICATION N JOIN USER U
+					ON U.USER_ID=N.CREATED_BY
+					JOIN STUDENT_GROUP SG
+					ON SG.STUDENT_ID = N.CREATED_BY
+					JOIN THESIS_GROUP TG
+					ON TG.GROUP_ID = SG.GROUP_ID
+					WHERE N.IS_READ=0
+					AND TG.GROUP_ID=".$group_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		//get discussion
+		public function get_discussion()
+		{	
+			$sql = "SELECT GROUP_ID, COUNT(GROUP_ID) AS 'COUNT'
+					FROM TOPIC_DISCUSSION
+					GROUP BY GROUP_ID;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+		//get group info
+		public function get_group_details($group_id)
+		{
+			$sql = "SELECT * 
+					FROM THESIS_GROUP TG 
+					JOIN THESIS T
+					ON T.THESIS_ID = TG.THESIS_ID
+					JOIN COURSE C
+					ON C.COURSE_ID = TG.COURSE_ID
+					JOIN USER U
+					ON TG.ADVISER_ID = U.USER_ID
+					WHERE TG.GROUP_ID=".$group_id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+		//get group defense
+		public function get_defense($group_id)
+		{
+			$sql = "SELECT DATE(DEFENSE_DATE) AS DEF_DATE, VENUE
+					FROM DEFENSE_DATE
+					WHERE GROUP_ID=".$group_id."
+					AND STATUS=0";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+		//get group thesis specialization
+		public function get_thesis_specialization($group_id)
+		{
+			$sql = "SELECT * 
+					FROM THESIS_SPECIALIZATION TS
+					JOIN THESIS T
+					ON T.THESIS_ID = TS.THESIS_ID
+					JOIN THESIS_GROUP TG
+					ON TG.THESIS_ID = T.THESIS_ID
+					JOIN SPECIALIZATION S
+					ON S.SPECIALIZATION_ID = TS.SPECIALIZATION_ID
+					WHERE TS.THESIS_ID=(SELECT THESIS_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.");";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+
+
+
+		////////////////////////////
+
+
+
 	}
 ?>

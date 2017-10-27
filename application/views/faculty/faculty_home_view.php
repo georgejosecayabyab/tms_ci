@@ -20,58 +20,45 @@
 
 
       <div class="row" id="scheduleRow">
-
-
+        <?php foreach($defense as $row):?>
           <div class="col-lg-4 col-xs-4">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h3>Oct 19, Thursday</h3>
-              <p> <b> Time: </b> 10:00 AM - 12:00 NN </p>
-              <p> <b> Venue: </b> G205 </p>
-              <p> <b> Topic: </b> CT - THESIS PORTAL  </p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-calendar"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
+            <!-- small box -->
+            <?php 
+              if($row['DIFF'] >= 14)
+              {
+                echo '<div class="small-box bg-blue">';
+              }
+              else if($row['DIFF'] >= 7)
+              {
+                echo '<div class="small-box bg-yellow">';
+              }
+              else
+              {
+                echo '<div class="small-box bg-red">';
+              }
+            ?>
+              <div class="inner">
+                <h3><?php 
 
-
-          <div class="col-lg-4 col-xs-4">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3>Oct 25, 2017</h3>
-              <p> <b> Time: </b> 12:00 NN - 2:00 PM </p>
-              <p> <b> Venue: </b> G205 </p>
-              <p> <b> Topic: </b> CSO - INTEGRATED SYSTEM  </p>
-            </div>
-            <div class="icon">
+                $date_new = strtotime($row['DEF_DATE']);
+                $formatted_date_new = date('F d, Y', $date_new);
+                echo $formatted_date_new;
+                ?></h3>
+                <p> <b> Time: </b><?php echo $row['START'].'-'.$row['END'];?></p>
+                <p> <b> Venue: </b><?php echo $row['VENUE'];?></p>
+                <p> <b> Topic: </b><?php echo $row['GROUP_NAME']?></p>
+              </div>
+              <div class="icon">
               <i class="fa fa-calendar"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
-        </div>
-        
+        <?php endforeach;?>
 
-         <div class="col-lg-4 col-xs-4">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h3>Nov 10, 2017</h3>
-              <p> <b> Time: </b> 10:00 AM - 12:00 NN </p>
-              <p> <b> Venue: </b> G205 </p>
-              <p> <b> Topic: </b> LOREN IPSUM  </p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-calendar"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
       </div>
+
+
 
       <div class="row">
       <div class="col-lg-6 col-xs-4">

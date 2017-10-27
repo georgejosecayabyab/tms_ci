@@ -89,5 +89,9 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+
+<!-- FastClick -->
+<script src="<?php echo base_url();?>js/fastclick.js"></script>
+<!-- AdminLTE for demo purposes -->
 </body>
 </html>

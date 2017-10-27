@@ -17,29 +17,80 @@
     <section class="content container-fluid">
 
 
-
+    
 
       <div class="row" id="groupsRow">
 
-
+        <?php foreach($advisee as $row):?>
           <div class="col-lg-6 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <p> <h3> Team GNM  </h3> </p>
+              <p> <h3> <?php echo $row['GROUP_NAME'];?>  </h3> </p>
               <div class="row">
                   <div class="col-lg-6">
                 
-                  <p> <b> Thesis Topic: </b> CCS - CT Thesis Management Platform </p>
-                  <p> <b> Members: </b> Camilon, Mariano, Cayabyab, Cobankiat </p>
+                  <p> <b> Thesis Topic: </b> <?php echo $row['THESIS_TITLE'];?> </p>
+                  <p> <b> Members: </b>
+                  <?php 
+                    $list="";
+                    foreach($member as $member_row)
+                    {
+                      if($member_row['group_id']==$row['GROUP_ID'])
+                      {
+                        $list .= $member_row['last_name'].', ';
+                      }
+                    }
+                    echo substr(trim($list), 0, -1);
+
+                  ?>
+                  </p>
                   
                   <br>
                   </div>
 
                   <div class="col-lg-6">
                 
-                  <p> <b> Discussion: </b> 4 </p>
-                  <p> <b> New Notifications: </b> 10 </p>
+                  <p> <b> Discussion: </b> 
+                    <?php
+                      $num = 0;
+                      foreach($discussion as $discuss)
+                      {
+                        if($discuss['GROUP_ID']==$row['GROUP_ID'])
+                        {
+                          $num = $discuss['COUNT'];
+                        }
+                      }
+                      if($num > 0)
+                      {
+                        echo $num;
+                      }
+                      else
+                      {
+                        echo $num;
+                      }
+                    ?>
+                  </p>
+                  <p> <b> New Notifications: </b>
+                    <?php
+                      $num = 0;
+                      foreach($notification as $notify)
+                      {
+                        if($notify['GROUP_NAME']==$row['GROUP_NAME'])
+                        {
+                          $num = $notify['NOTIF'];
+                        }
+                      }
+                      if($num > 0)
+                      {
+                        echo $num;
+                      }
+                      else
+                      {
+                        echo $num;
+                      }
+                    ?>
+                  </p>
                  
                   </div>
 
@@ -49,49 +100,11 @@
             <div class="icon">
               <i class="fa fa-users"></i>
             </div>
-            <a href="facultyAdviseeSpecific.html" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo site_url('faculty/view_advisee_specific/'.$row['GROUP_ID']);?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
-
-           
-
-
-        
-          <div class="col-lg-6 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              <p> <h3> Elite Proletariat  </h3> </p>
-              <div class="row">
-                  <div class="col-lg-6">
-                
-                  <p> <b> Thesis Topic: </b> CSO Integrated Activities System </p>
-                  <p> <b> Members: </b> Capistrano, Laguio, Flores, Dagunton, </p>
-                  
-                  <br>
-                  </div>
-
-                  <div class="col-lg-6">
-                
-                  <p> <b> Discussion: </b> 2 </p>
-                  <p> <b> New Notifications: </b> 4 </p>
-                 
-                  </div>
-
-              </div>
-
-            </div>
-            <div class="icon">
-              <i class="fa fa-users"></i>
-            </div>
-            <a href="facultyAdviseeSpecific.html" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-
-
-
-
+      <?php endforeach;?>
 
       </div>
 
