@@ -103,6 +103,30 @@
 			redirect("home/index");
 		}
 
+		public function view_panel_details()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['panel_details'] = $this->faculty_model->get_panel_details($user_id);
+			$data['member'] = $this->faculty_model->get_panel_thesis_group_members($user_id);
+			$data['tags'] = $this->faculty_model->get_panel_thesis_group_tags($user_id);
+			
+			//$data['notification'] = $this->faculty_model->get_notifications
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "",
+				'panels' => "active",
+				'archive' => "" 
+			);
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_panel_initial_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+
+
+		}
 		//////////////////////////////////////////////
 
 		

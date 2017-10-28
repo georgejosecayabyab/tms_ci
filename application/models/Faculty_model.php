@@ -146,7 +146,56 @@
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}
+		// Jego
 
+		//get panel thesis group memeber (Thesis group members)
+		public function get_panel_thesis_group_members($id)
+		{
+			$sql ="	SELECT U.FIRST_NAME, U.LAST_NAME
+					FROM USER U 	JOIN STUDENT S
+									ON U.USER_ID = S.USER_ID
+                					JOIN STUDENT_GROUP SG
+									ON S.USER_ID = SG.STUDENT_ID
+									JOIN THESIS_GROUP TG
+                					ON TG.GROUP_ID = SG.GROUP_ID
+                					JOIN PANEL_GROUP PG
+                					ON TG.GROUP_ID = PG.GROUP_ID
+					WHERE PG.PANEL_ID = ".$id."
+					GROUP BY U.USER_ID;";
+		}
+		//get thesis group tags (Thesis Specialization)
+		public function get_panel_thesis_group_tags($id)
+		{
+			$sql = "SELECT S.specialization, TG.group_id
+					FROM THESIS T 	JOIN thesis_specialization TS
+									ON T.THESIS_ID = TS.THESIS_ID
+                					JOIN specialization S
+                					ON TS.specialization_id = S.specialization_id
+                					JOIN THESIS_GROUP TG 
+                					ON T.THESIS_id = TG.THESIS_id
+                					JOIN PANEL_GROUP PG
+                					ON PG.GROUP_ID = TG.GROUP_ID
+					WHERE PG.panel_id = ".$id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+
+		}
+
+		//get panel details (Time, Date, Topic, State)
+		public function get_panel_details($id)
+		{
+
+			$sql = "SELECT *
+					FROM panel_group pg	JOIN thesis_group tg 
+										ON pg.group_id = tg.group_id
+                        				JOIN defense_date dd
+										ON pg.group_id = dd.group_id
+                        				JOIN thesis t
+                        				ON tg.thesis_id = t.thesis_id
+					WHERE pg.panel_id =".$id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
 
 
 
