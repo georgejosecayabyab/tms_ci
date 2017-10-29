@@ -143,7 +143,7 @@ desired effect
         <li class="<?php echo $active_tab['home'];?>"><a href="<?php echo site_url("faculty/index");?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li class="<?php echo $active_tab['schedule'];?>"><a href="#"><i class="fa fa-clock-o"></i> <span>Schedule</span></a></li>
         <li class="<?php echo $active_tab['advisees'];?>"><a href="<?php echo site_url("faculty/view_advisee_list");?>"><i class="fa fa-users"></i> <span>Advisees</span></a></li>
-        <li class="<?php echo $active_tab['panels'];?>"><a href="<?php echo site_url("faculty/");?>"><i class="fa fa-graduation-cap"></i> <span>Panels</span></a></li>
+        <li class="<?php echo $active_tab['panels'];?>"><a href="<?php echo site_url("faculty/view_panel_details");?>"><i class="fa fa-graduation-cap"></i> <span>Panels</span></a></li>
         <li class="<?php echo $active_tab['archive'];?>"><a href="#"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
         
       </ul>

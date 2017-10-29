@@ -115,8 +115,7 @@
                 <div class="user-block">
                   <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
                       <span class="username">
-                        <a href="#">Current System Use</a>
-                       
+                        <a href="#"></a>
                       </span>
                   <span class="description">Ralph Cobankiat - 7:30 PM today</span>
                 </div>
@@ -141,7 +140,7 @@
               <!-- /.post -->
 
               <!-- Post -->
-             <div class="post">
+              <div class="post">
                 <div class="user-block">
                   <img class="img-circle img-bordered-sm" src="img/003-user.png" alt="user image">
                       <span class="username">

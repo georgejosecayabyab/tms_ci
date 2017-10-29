@@ -151,7 +151,7 @@
 		//get panel thesis group memeber (Thesis group members)
 		public function get_panel_thesis_group_members($id)
 		{
-			$sql ="	SELECT U.FIRST_NAME, U.LAST_NAME
+			$sql ="SELECT TG.GROUP_ID, U.FIRST_NAME, U.LAST_NAME
 					FROM USER U 	JOIN STUDENT S
 									ON U.USER_ID = S.USER_ID
                 					JOIN STUDENT_GROUP SG
@@ -162,6 +162,8 @@
                 					ON TG.GROUP_ID = PG.GROUP_ID
 					WHERE PG.PANEL_ID = ".$id."
 					GROUP BY U.USER_ID;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
 		}
 		//get thesis group tags (Thesis Specialization)
 		public function get_panel_thesis_group_tags($id)
@@ -185,14 +187,27 @@
 		public function get_panel_details($id)
 		{
 
-			$sql = "SELECT *
-					FROM panel_group pg	JOIN thesis_group tg 
-										ON pg.group_id = tg.group_id
-                        				JOIN defense_date dd
-										ON pg.group_id = dd.group_id
-                        				JOIN thesis t
-                        				ON tg.thesis_id = t.thesis_id
-					WHERE pg.panel_id =".$id.";";
+			$sql = "SELECT PG.PANEL_GROUP_ID, PG.PANEL_ID, PG.STATUS, PG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_ID, DD.DEFENSE_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS END, DD.VENUE, DD.STATUS, TG.INITIAL_VERDICT, IV.VERDICT AS 'IV_CODE', TG.FINAL_VERDICT, FV.VERDICT AS 'FV_CODE'
+					FROM PANEL_GROUP PG	JOIN THESIS_GROUP TG 
+										ON PG.GROUP_ID = TG.GROUP_ID
+                        				JOIN DEFENSE_DATE DD
+										ON PG.GROUP_ID = DD.GROUP_ID
+                        				JOIN THESIS T
+                        				ON TG.THESIS_ID = T.THESIS_ID
+                        				JOIN INITIAL_VERDICT IV
+                        				ON TG.INITIAL_VERDICT=IV.VERDICT_CODE
+                        				JOIN FINAL_VERDICT FV
+                        				ON TG.FINAL_VERDICT=FV.VERDICT_CODE
+					WHERE PG.PANEL_ID =".$id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_thesis_comment_count()
+		{
+			$sql = "SELECT GROUP_ID, COUNT(THESIS_COMMENT) AS 'COUNT'
+				    FROM THESIS_COMMENT
+				    GROUP BY GROUP_ID;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}

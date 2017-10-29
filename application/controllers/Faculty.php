@@ -108,9 +108,11 @@
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
 			$data['panel_details'] = $this->faculty_model->get_panel_details($user_id);
 			$data['member'] = $this->faculty_model->get_panel_thesis_group_members($user_id);
 			$data['tags'] = $this->faculty_model->get_panel_thesis_group_tags($user_id);
+			$data['comment'] = $this->faculty_model->get_thesis_comment_count();
 			
 			//$data['notification'] = $this->faculty_model->get_notifications
 			$data['active_tab'] = array(
@@ -122,7 +124,7 @@
 			);
 
 			$this->load->view('faculty/faculty_base_head', $data);
-			$this->load->view('faculty/faculty_panel_initial_view', $data);
+			$this->load->view('faculty/faculty_panel_view', $data);
 			$this->load->view('faculty/faculty_base_foot', $data); 
 
 
