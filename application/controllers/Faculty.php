@@ -105,6 +105,7 @@
 			redirect("home/index");
 		}
 
+		//panel general
 		public function view_panel_details()
 		{
 			$session = $this->session->userdata();
@@ -131,7 +132,26 @@
 
 
 		}
-		//////////////////////////////////////////////
+
+		public function view_panel_specific($group_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "",
+				'panels' => "active",
+				'archive' => "" 
+			);
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_panel_specific_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+
+		}
 
 		
 	}

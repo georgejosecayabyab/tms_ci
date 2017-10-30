@@ -103,7 +103,7 @@
           <div class="icon">
             <i class="fa fa-users"></i>
           </div>
-          <a href="facultyPanelSpecific.html" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?php echo site_url('faculty/view_panel_specific/'.$row['GROUP_ID']);?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <?php endforeach;?>
