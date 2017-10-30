@@ -63,6 +63,8 @@
 			$data['defense'] = $this->faculty_model->get_defense($group_id);
 			$data['tag'] = $this->faculty_model->get_thesis_specialization($group_id);
 			$data['member'] = $this->faculty_model->get_advisee_thesis_group_members($user_id);
+			$data['discussion'] = $this->faculty_model->get_discussion_specific($group_id);
+			$data['reply'] = $this->faculty_model->get_discussion();
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",

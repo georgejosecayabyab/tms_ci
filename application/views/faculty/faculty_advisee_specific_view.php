@@ -108,74 +108,74 @@
             <li><a href="#timeline" data-toggle="tab">Verdict</a></li>
             <li><a href="#settings" data-toggle="tab">Settings</a></li>
           </ul>
+          <!-- tab contents -->
           <div class="tab-content">
-            <div class="active tab-pane" id="activity">
-              <!-- Post -->
-              <div class="post">
-                <div class="user-block">
-                  <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
-                      <span class="username">
-                        <a href="#"></a>
-                      </span>
-                  <span class="description">Ralph Cobankiat - 7:30 PM today</span>
+            <div class="active tab-pane" id="activity"><!-- DISCUSSION -->
+              <!-- DISCUSSION START -->
+              <?php if(sizeof($discussion) > 0):?><!-- if there is discussion-->
+                <?php foreach($discussion as $row):?>
+                <!-- Post -->
+                <div class="post">
+                  <div class="user-block">
+                    <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
+                        <span class="username">
+                          <a href="#"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
+                        </span>
+                    <span class="description"><!-- created by , date, time-->
+                    <?php 
+                      echo $row['NAME'].' - '.$row['TIME'].' ';
+                      $date_new = strtotime($row['DATE']);
+                      $formatted_date_new = date('F d, Y', $date_new);
+                      echo $formatted_date_new;
+                    ?></span>
+                  </div>
+                  <!-- /.user-block -->
+                  <p>
+                    <?php echo $row['TOPIC_INFO']?>
+                  </p>
+                  <ul class="list-inline">
+                    
+                    </li>
+                    <li class="pull-right">
+                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
+                      <?php
+                        $num = 0;
+                        foreach($reply as $rep)
+                        {
+                          if($rep['GROUP_ID']==$row['GROUP_ID'])
+                          {
+                            $num = $rep['COUNT'];
+                          }
+                        }
+                        if($num > 0)
+                        {
+                          echo '('.$num.')';
+                        }
+                        else
+                        {
+                          echo '('.$num.')';
+                        }
+                      ?>
+                      </a></li>
+                  </ul>
+
+                  <br>
                 </div>
-                <!-- /.user-block -->
-                <p>
-                  Lorem ipsum represents a long-held tradition for designers,
-                  typographers and the like. Some people hate it and argue for
-                  its demise, but others ignore the hate as they create awesome
-                  tools to help create filler text for everyone from bacon lovers
-                  to Charlie Sheen fans.
-                </p>
-                <ul class="list-inline">
-                  
-                  </li>
-                  <li class="pull-right">
-                    <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Replies
-                      (2)</a></li>
-                </ul>
-
-                <br>
-              </div>
-              <!-- /.post -->
-
-              <!-- Post -->
-              <div class="post">
-                <div class="user-block">
-                  <img class="img-circle img-bordered-sm" src="img/003-user.png" alt="user image">
-                      <span class="username">
-                        <a href="#">Functionalities To Do #1</a>
-                       
-                      </span>
-                  <span class="description">Jego Mariano - 10:30 PM Friday</span>
+                <?php endforeach;?>
+              <?php else:?><!-- if there is none-->
+                <div class="post">
+                  <div class="user-block">
+                    <?php echo 'No Discussions';?>
+                  </div>
                 </div>
-                <!-- /.user-block -->
-                <p>
-                  Lorem ipsum represents a long-held tradition for designers,
-                  typographers and the like. Some people hate it and argue for
-                  its demise, but others ignore the hate as they create awesome
-                  tools to help create filler text for everyone from bacon lovers
-                  to Charlie Sheen fans.
-                </p>
-                <ul class="list-inline">
-                  
-                  </li>
-                  <li class="pull-right">
-                    <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Replies
-                      (5)</a></li>
-                </ul>
-
-                <br>
-              </div>
+              <?php endif;?>
               <!-- /.post -->
-
-              <!-- Post -->
-            
-              <!-- /.post -->
-            </div>
+            <!-- DISCUSSION END -->
+            </div><!-- END DISCUSSION -->
             <!-- /.tab-pane -->
-            <div class="tab-pane" id="timeline">
+            <div class="tab-pane" id="timeline"><!-- VERDICT-->
               <!-- The timeline -->
+              <!-- VERDICT START-->
               <ul class="timeline timeline-inverse">
                 <!-- timeline time label -->
                 

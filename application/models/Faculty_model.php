@@ -105,6 +105,17 @@
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}
+
+		public function get_discussion_specific($group_id)
+		{	
+			$sql = "SELECT TD.GROUP_ID, TD.TOPIC_NAME, TD.TOPIC_INFO, TD.CREATED_BY, CONCAT(U.FIRST_NAME, ' ',U.LAST_NAME) AS 'NAME', TIME_FORMAT(TD.DATE_TIME, '%h:%i %p') AS 'TIME', DATE(TD.DATE_TIME) AS 'DATE'
+					FROM TOPIC_DISCUSSION TD 
+					JOIN USER U
+					ON U.USER_ID = TD.CREATED_BY
+					WHERE TD.GROUP_ID=".$group_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
 		//get group info
 		public function get_group_details($group_id)
 		{
