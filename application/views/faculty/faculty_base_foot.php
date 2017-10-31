@@ -86,6 +86,8 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
+
+<script src="<?php echo base_url();?>jquery-1.11.2.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
@@ -93,5 +95,13 @@
 <!-- FastClick -->
 <script src="<?php echo base_url();?>js/fastclick.js"></script>
 <!-- AdminLTE for demo purposes -->
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#table').DataTable();
+} );
+
+</script>
 </body>
 </html>
