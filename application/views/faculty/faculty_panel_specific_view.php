@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 id="Title">
-        CT - Thesis Portal
+        CT - Thesis Possrtal
         
       </h1>
       <ol class="breadcrumb">
@@ -38,7 +38,7 @@
 
 
         <div id="pdf">
-        <iframe src = "ViewerJS/demodoc.pdf" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe>
+        <iframe src = "<?php echo base_url();?>ViewerJS/demodoc.pdf" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document -->
       </div>
         <div id="pdf" >
 

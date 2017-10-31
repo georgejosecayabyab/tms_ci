@@ -33,14 +33,14 @@
 		//get defense list as a panel or adviser
 		public function get_defense_list($faculty_id)
 		{
-			$sql = "SELECT DD.GROUP_ID, DATE(DD.DEFENSE_DATE) AS DEF_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS END, DD.VENUE, DD.STATUS, TG.GROUP_NAME, DATEDIFF(DD.DEFENSE_DATE, CURDATE()) AS DIFF
+			$sql = "SELECT DD.GROUP_ID, DATE(DD.DEFENSE_DATE) AS DEF_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS END, DD.VENUE, DD.STATUS, TG.GROUP_NAME, DATEDIFF(DD.DEFENSE_DATE, CURDATE()) AS DIFF, CURDATE() AS 'NOW'
 					FROM DEFENSE_DATE DD
 					JOIN THESIS_GROUP TG
 					ON TG.GROUP_ID=DD.GROUP_ID
 					WHERE DD.GROUP_ID IN (SELECT GROUP_ID
 					FROM PANEL_GROUP
 					WHERE PANEL_ID=".$faculty_id.")
-					AND DATEDIFF(DD.DEFENSE_DATE, CURDATE()) > 0;";
+					AND DATEDIFF(DD.DEFENSE_DATE, CURDATE()) >= 0;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}

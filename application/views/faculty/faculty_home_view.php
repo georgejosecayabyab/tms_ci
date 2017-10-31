@@ -39,10 +39,16 @@
             ?>
               <div class="inner">
                 <h3><?php 
-
-                $date_new = strtotime($row['DEF_DATE']);
-                $formatted_date_new = date('F d, Y', $date_new);
-                echo $formatted_date_new;
+                if($row['DEF_DATE']==$row['NOW'])
+                {
+                  echo 'Today';
+                }
+                else
+                {
+                  $date_new = strtotime($row['DEF_DATE']);
+                  $formatted_date_new = date('F d, Y', $date_new);
+                  echo $formatted_date_new;
+                }
                 ?></h3>
                 <p> <b> Time: </b><?php echo $row['START'].'-'.$row['END'];?></p>
                 <p> <b> Venue: </b><?php echo $row['VENUE'];?></p>
