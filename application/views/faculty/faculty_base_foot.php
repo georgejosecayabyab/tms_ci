@@ -50,7 +50,7 @@
 
          <ul class="control-sidebar-menu">
           <li>
-            <a href="javascript:;">
+            <a href="<?php echo site_url('faculty/logout');?>">
               <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
               <div class="menu-info">

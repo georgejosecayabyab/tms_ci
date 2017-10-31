@@ -3,13 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 id="Title">
-        CT - Thesis Possrtal
-        
+        <?php echo $group['thesis_title'];?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="facultyPanelInitial.html">Panels</a></li>
-         <li class="active">CT - Thesis Platform</li>
+         <li class="active"><?php echo $group['thesis_title'];?></li>
         
       </ol>
     </section>
@@ -38,7 +37,7 @@
 
 
         <div id="pdf">
-        <iframe src = "<?php echo base_url();?>ViewerJS/demodoc.pdf" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document -->
+        <iframe src = "<?php echo base_url();?>ViewerJS/demodoc.pdf" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document. check if exists -->
       </div>
         <div id="pdf" >
 
@@ -50,9 +49,6 @@
                 <!-- The timeline -->
                 <ul class="timeline timeline-inverse">
 
-                  <li>
-                    
-                  </li>
                   <!-- timeline time label -->
                   <li class="time-label">
                         <span class="bg-gray" id="panelComments">
@@ -63,113 +59,78 @@
                   </li>
                   <!-- /.timeline-label -->
                   <!-- timeline item -->
+                  <?php 
+                    if(sizeof($comment)>0)
+                    {
+                      $date = '';
+                      foreach($comment as $row)
+                      {
+                        if($date != $row['DATE'])
+                        {
+                          $date_new = strtotime($row['DATE']);
+                          $formatted_date_new = date('F d, Y', $date_new);
+                          $date = $row['DATE'];
+                          echo '<li class="time-label">
+                            <span class="bg-green">'
+                              .$formatted_date_new.'
+                            </span>
+                          </li>';
+                          echo '<li>
+                           <i class="fa fa-comments bg-green"></i>
 
-                  <li class="time-label">
-                        <span class="bg-green">
-                          18 Oct. 2017
-                        </span>
-                  </li>
+                            <div class="timeline-item">
+                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
+                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                  <li>
-                   <i class="fa fa-comments bg-green"></i>
+                              <div class="timeline-body">'
+                                .$row['THESIS_COMMENT'].
+                              '</div>
+                              <div class="timeline-footer">
+                                <a class="btn btn-primary btn-xs">Edit</a>
+                                <a class="btn btn-danger btn-xs">Delete</a>
+                              </div>
+                            </div>
+                          </li>';
+                        }
+                        else
+                        {
+                          echo '<li>
+                           <i class="fa fa-comments bg-green"></i>
 
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                            <div class="timeline-item">
+                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
-                      <h3 class="timeline-header"><a href="#"> Jocelyn Cu</a> commented</h3>
+                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo... Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Edit</a>
-                        <a class="btn btn-danger btn-xs">Delete</a>
-                      </div>
-                    </div>
-                  </li>
+                              <div class="timeline-body">'
+                                .$row['THESIS_COMMENT'].
+                              '</div>
+                              <div class="timeline-footer">
+                                <a class="btn btn-primary btn-xs">Edit</a>
+                                <a class="btn btn-danger btn-xs">Delete</a>
+                              </div>
+                            </div>
+                          </li>';
+                        }
+                      }
+                    }
+                    else
+                    {
+                      echo 'No comments';//fix this
+                    }
+                  ?>
+                
                   <!-- END timeline item -->
                   <!-- timeline item -->
 
-
                   <li class="time-label">
-                        <span class="bg-green">
-                          15 Oct. 2017
-                        </span>
+                      <span class="bg-gray" id="panelComments">
+                          Post a comment
+                      </span>
                   </li>
 
-
-                  <li>
-                   <i class="fa fa-comments bg-green"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="#"> Renato Jose Molano</a> commented</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Edit</a>
-                        <a class="btn btn-danger btn-xs">Delete</a>
-                      </div>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-
-                  <li class="time-label">
-                        <span class="bg-green">
-                          12 Oct. 2017
-                        </span>
-                  </li>
-
-
-                  <li>
-                   <i class="fa fa-comments bg-green"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="#"> Geanne Franco</a> commented</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo... Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Edit</a>
-                        <a class="btn btn-danger btn-xs">Delete</a>
-                      </div>
-                    </div>
-                  </li>
-    
-
-                
-                    <li class="time-label">
-                        <span class="bg-gray" id="panelComments">
-                            Post a comment
-                        </span>
-                  </li>
-
-                    <li id="inputComment">
+                  <li id="inputComment">
                     <i class="fa  fa-pencil-square-o bg-blue"></i>
 
                     <div class="timeline-item">
@@ -178,21 +139,16 @@
 
                       <div class="timeline-body">
                         <div class="form-group">
-                  <label></label>
-                  <textarea class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
-                </div>
+                          <label></label>
+                          <textarea class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
+                        </div>
                       </div>
                       <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Submit</a>
+                        <a class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">Submit</a>
                         
                       </div>
                     </div>
                   </li>
-
-                  
-
-
-
                 </ul>
               </div>
       

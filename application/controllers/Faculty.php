@@ -7,11 +7,12 @@
 			parent::__construct();
 			$this->load->database();
 			$this->load->model('faculty_model');
+			//check if session exist
 		}
 
 		//faculty/home
 		public function index()
-		{
+		{	
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
@@ -139,6 +140,8 @@
 			$user_id = $session['user_id'];
 
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
+			$data['group'] = $this->faculty_model->get_group_details($group_id);
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",
