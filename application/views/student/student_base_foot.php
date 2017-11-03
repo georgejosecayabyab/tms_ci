@@ -80,11 +80,11 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="js/jquery.min.js"></script>
+<script src="<?php echo base_url();?>js/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

@@ -50,7 +50,7 @@ class student_model extends CI_Model
                 				ON TG.THESIS_ID = T.THESIS_ID
 				WHERE S.USER_ID = ".$user_id.";";
 		$query = $this->db->query($sql);
-		return $query->result_array();
+		return $query->first_row('array');
 	}
 	//get group tags
 	public function get_group_specialization($user_id)

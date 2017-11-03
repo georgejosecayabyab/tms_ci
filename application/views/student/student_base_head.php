@@ -10,19 +10,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title> CTP - Student | Home </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="css/skins/skin-green.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/skins/skin-green.min.css">
 
-  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/custom.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -122,11 +122,13 @@ desired effect
 
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
-        
+        <div class="pull-left image">
+          <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
         <div class="pull-left info">
-          
+          <p><?php echo $student_data['first_name'].' '.$student_data['last_name'];?></p>
           <!-- Status -->
-         </a>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
 
@@ -138,7 +140,7 @@ desired effect
       <ul id="header" class="sidebar-menu" data-widget="tree">
         <li  class="header">MENU -STUDENT</li>
         <!-- Optionally, you can add icons to the links -->
-       <li class="active"><a href="studentHome.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="active"><a href="studentHome.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="studentGroup.html"><i class="fa fa-users"></i> <span>Group</span></a></li>
         <li><a href="studentGroupSched.html"><i class="fa fa-clock-o"></i> <span>Group Schedule</span></a></li>
         <li><a href="studentForms.html"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>

@@ -15,7 +15,16 @@
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
+			
 			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['active_tab'] = array(
+				'home' => "active",
+				'group' => "",
+				'group_schedule' => "",
+				'form' => "",
+				'panels' => "",
+				'archive' => "" 
+			);
 
 			$this->load->view('student/student_base_head', $data);
 			$this->load->view('student/student_home_view', $data);
