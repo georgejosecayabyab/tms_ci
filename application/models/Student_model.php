@@ -66,7 +66,7 @@ class student_model extends CI_Model
                                 				ON TG.GROUP_ID = SG.GROUP_ID
 				WHERE SG.STUDENT_ID = ".$user_id.";";
 		$query = $this->db->query($sql);
-		reutrn $query->result_array();
+		return $query->result_array();
 	}
 }
 

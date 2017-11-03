@@ -57,7 +57,7 @@
 						//student or faculty
 						if($is_student == 1)
 						{
-							redirect("sample/welcome");//student
+							redirect("student");//student
 						}
 						else
 						{
