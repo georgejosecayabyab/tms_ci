@@ -140,11 +140,11 @@ desired effect
       <ul id="header" class="sidebar-menu" data-widget="tree">
         <li  class="header">MENU -STUDENT</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="studentHome.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li><a href="studentGroup.html"><i class="fa fa-users"></i> <span>Group</span></a></li>
-        <li><a href="studentGroupSched.html"><i class="fa fa-clock-o"></i> <span>Group Schedule</span></a></li>
-        <li><a href="studentForms.html"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
-        <li><a href="studentThesisArchive.html"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
+        <li class="<?php echo $active_tab['home'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="<?php echo $active_tab['group'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-users"></i> <span>Group</span></a></li>
+        <li class="<?php echo $active_tab['group_schedule'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-clock-o"></i> <span>Group Schedule</span></a></li>
+        <li class="<?php echo $active_tab['form'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
+        <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
         
         
       </ul>

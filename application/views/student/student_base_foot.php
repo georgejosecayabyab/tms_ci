@@ -14,61 +14,59 @@
       
     </ul>
     <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
-        
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+      <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane active" id="control-sidebar-home-tab">
+          
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <i class="menu-icon fa fa-user bg-green"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">View Profile</h4>
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">View Profile</h4>
 
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-         <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                 
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+           <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <i class="menu-icon fa fa-gears bg-green"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Edit Profile</h4>
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Edit Profile</h4>
 
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-        </ul>
+                 
+                </div>
+              </a>
+            </li>
+          </ul>
 
 
 
-         <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+           <ul class="control-sidebar-menu">
+            <li>
+              <a href="<?php echo site_url('student/logout');?>">
+                <i class="menu-icon fa fa-sign-out bg-green"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Logout Profile</h4>
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Logout</h4>
 
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        
-        <!-- /.control-sidebar-menu -->
+                
+                </div>
+              </a>
+            </li>
+          </ul>
+          
+          <!-- /.control-sidebar-menu -->
 
+        </div>
+        <!-- /.tab-pane -->
       </div>
-      <!-- /.tab-pane -->
-   
-     
-    </div>
   </aside>
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed

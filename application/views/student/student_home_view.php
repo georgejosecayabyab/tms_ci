@@ -21,7 +21,7 @@
       <div class="row" id="scheduleRow">
 
 
-          <div class="col-lg-4 col-xs-4">
+        <div class="col-lg-4 col-xs-4">
           <!-- small box -->
           <div class="small-box bg-red">
 
@@ -39,7 +39,7 @@
         </div>
 
 
-          <div class="col-lg-4 col-xs-4">
+        <div class="col-lg-4 col-xs-4">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">

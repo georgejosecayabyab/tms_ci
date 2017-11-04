@@ -1,3 +1,5 @@
+  <?php echo $this->session->flashdata('msg'); ?>
+  <?php echo validation_errors(); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -60,6 +62,8 @@
                   <!-- /.timeline-label -->
                   <!-- timeline item -->
                   <?php 
+                    //echo form_open('faculty/delete_comment');
+                    echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
                     if(sizeof($comment)>0)
                     {
                       $date = '';
@@ -85,12 +89,15 @@
 
                               <div class="timeline-body">'
                                 .$row['THESIS_COMMENT'].
-                              '</div>
-                              <div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">Edit</a>
-                                <a class="btn btn-danger btn-xs">Delete</a>
-                              </div>
-                            </div>
+                              '</div>';
+                              if($row['USER_ID']==$faculty_data['user_id'])
+                              {
+                                echo '<div class="timeline-footer">
+                                  <a class="btn btn-primary btn-xs">Edit</a>
+                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                                </div>';
+                              }
+                            echo '</div>
                           </li>';
                         }
                         else
@@ -105,12 +112,15 @@
 
                               <div class="timeline-body">'
                                 .$row['THESIS_COMMENT'].
-                              '</div>
-                              <div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">Edit</a>
-                                <a class="btn btn-danger btn-xs">Delete</a>
-                              </div>
-                            </div>
+                              '</div>';
+                              if($row['USER_ID']==$faculty_data['user_id'])
+                              {
+                                echo '<div class="timeline-footer">
+                                  <a class="btn btn-primary btn-xs">Edit</a>
+                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                                </div>';
+                              }
+                            echo '</div>
                           </li>';
                         }
                       }
@@ -119,6 +129,7 @@
                     {
                       echo 'No comments';//fix this
                     }
+                    //echo '</form>';
                   ?>
                 
                   <!-- END timeline item -->
@@ -136,17 +147,18 @@
                     <div class="timeline-item">
                      
                       <h3 class="timeline-header">Post a Comment</h3>
-
-                      <div class="timeline-body">
-                        <div class="form-group">
-                          <label></label>
-                          <textarea class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
+                      <?php echo form_open('faculty/validate_comment');?>
+                        <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
+                        <div class="timeline-body">
+                          <div class="form-group">
+                            <label></label>
+                            <textarea name="comment" class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
+                          </div>
                         </div>
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">Submit</a>
-                        
-                      </div>
+                        <div class="timeline-footer">
+                          <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">
+                        </div>
+                      </form>
                     </div>
                   </li>
                 </ul>

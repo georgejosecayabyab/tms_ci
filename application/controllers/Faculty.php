@@ -7,6 +7,8 @@
 			parent::__construct();
 			$this->load->database();
 			$this->load->model('faculty_model');
+			$this->load->helper(array('form', 'url'));
+			$this->load->library('form_validation');
 			//check if session exist
 		}
 
@@ -134,6 +136,7 @@
 
 		}
 
+		
 		public function view_panel_specific($group_id)
 		{
 			$session = $this->session->userdata();
@@ -177,6 +180,49 @@
 			$this->load->view('faculty/faculty_base_foot', $data); 
 		}
 
+		public function validate_comment()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$comment = $this->input->post("comment");
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('comment', 'Comment', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('faculty/view_panel_specific/'.$group_id);
+			}
+			else
+			{
+				if($this->input->post('submit_comment') == "Submit")
+				{
+					$panel_group_id = $this->faculty_model->get_panel_group_id($user_id, $group_id);
+					$data = array(
+						'thesis_comment' =>  $comment,
+						'panel_group_id' => $panel_group_id['panel_group_id'],
+						'date_time' => $date_time
+					);
+					$this->faculty_model->insert_thesis_comment($data);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
+                  	redirect('faculty/view_panel_specific/'.$group_id);
+				}
+			}
+
+		}
+
+		public function delete_comment($thesis_comment_id)
+		{
+			//$this->faculty_model->delete_thesis_comment($thesis_comment_id);
+			$result = $this->faculty_model->get_thesis_group_by_thesis_comment_id($thesis_comment_id);
+			$group_id = $result['group_id'];
+			$this->faculty_model->delete_thesis_comment($thesis_comment_id);
+			redirect('faculty/view_panel_specific/'.$group_id);
+			
+		}
 		
 	}
 
