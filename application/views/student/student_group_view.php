@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 id="Title">
-        Team GNM
+        <?php echo $group['group_name'];?>
       </h1>
       <br>
       <ol class="breadcrumb">
         <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#">Group</a></li>
-        <li class="active">Team GNM</li>
+        <li class="active"><?php echo $group['group_name'];?></li>
       </ol>
     </section>
 
@@ -24,19 +24,24 @@
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url();?>img/team-2.png" alt="User profile picture">
 
-              <h3 class="profile-username text-center">CCS - CT Thesis Management Platform</h3>
+              <h3 class="profile-username text-center"><?php echo $group['thesis_title'];?></h3>
 
              
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Current Course</b> <a class="pull-right"> THES-2 </a>
+                  <b>Current Course</b> <a class="pull-right"><?php echo $group['course_code'];?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Defense Date</b> <a class="pull-right"> Nov 10 2017</a>
+                  <b>Defense Date</b> <a class="pull-right">
+                    <?php 
+                    $date_new = strtotime($defense['DEF_DATE']);
+                    $formatted_date_new = date('F d, Y', $date_new);
+                    echo $formatted_date_new;?>
+                  </a>
                 </li>
                 <li class="list-group-item">
-                  <b>Defense Venue</b> <a class="pull-right"> A1007</a>
+                  <b>Defense Venue</b> <a class="pull-right"><?php echo $defense['VENUE'];?></a>
                 </li>
                
               </ul>
@@ -57,7 +62,17 @@
               <strong><i class="fa fa-users margin-r-5"></i>Thesis Members</strong>
 
               <p>
-                Vincent Ulap Camilon, Ralph Rainer Cobankiat, George Cayabyab, Jose Gabriel Mariano
+               <?php
+                $list = "";
+                foreach($member as $member_row)
+                {
+                  if($member_row['group_id']==$group['group_id'])
+                  {
+                    $list .= $member_row['first_name'].' '.$member_row['last_name'].', ';
+                  }
+                }
+                echo substr(trim($list), 0, -1);
+              ?>
               </p>
 
               <hr>
@@ -65,7 +80,7 @@
              <strong><i class="fa fa-graduation-cap margin-r-5"></i>Thesis Adivser</i></strong>
 
               <p>
-                Geanne Ross L. Franco 
+                <?php echo $group['first_name'].' '.$group['last_name'];?>
               </p>
 
               <hr>
@@ -73,13 +88,13 @@
               <strong><i class="fa fa-pencil margin-r-5"></i> Specialization</strong>
 
               <p>
-            
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                <span class="label regularLabel">Information Systems</span>
-                <span class="label regularLabel">Django Framework</span>
-                
+                <?php if(sizeof($tag)>0):?>
+                  <?php foreach($tag as $row):?>
+                    <span class="label regularLabel"><?php echo $row['specialization'];?></span>
+                  <?php endforeach;?>
+                <?php else:?>
+                  <?php echo 'None';?><!-- create + button for adding new tag-->
+                <?php endif;?>
               </p>
 
               <hr>
@@ -106,71 +121,73 @@
 
               <div class="active tab-pane" id="activity">
                 <!-- Post -->
-
-                <div class="post">
-
-                  <div class="user-block">
-<div class="row">
-<div class="col-md-3">
-                <button type="button" class="btn btn-block btn-success" onclick="location.href='studentNewDiscussion.html';" id="discussion">Create New Discussion </button>
-            </div>
-            </div>
-                    <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
-                        <span class="username">
-                          <a href="studentDiscussionsSpecific.html">Current System Use</a>
-                         
-                        </span>
-                    <span class="description">Ralph Cobankiat - 7:30 PM today</span>
+                <!-- discussion button-->
+                <div class="row">
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-block btn-success" onclick="location.href='studentNewDiscussion.html';" id="discussion">Create New Discussion </button>
                   </div>
-                  <!-- /.user-block -->
-                  <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
-                  </p>
-                  <ul class="list-inline">
-                    
-                    </li>
-                    <li class="pull-right">
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Replies
-                        (2)</a></li>
-                  </ul>
-
-                  <br>
                 </div>
-                <!-- /.post -->
+                <!-- end of discussion button-->
 
+                <?php if(sizeof($discussion) > 0):?><!-- if there is discussion-->
+                <?php foreach($discussion as $row):?>
                 <!-- Post -->
-               <div class="post">
+                <div class="post">
                   <div class="user-block">
                     <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
                         <span class="username">
-                          <a href="studentDiscussionsSpecific.html">Functionalities To Do #1</a>
-                         
+                          <a href="#"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
                         </span>
-                    <span class="description">Jego Mariano - 10:30 PM Friday</span>
+                    <span class="description"><!-- created by , date, time-->
+                    <?php 
+                      echo $row['NAME'].' - '.$row['TIME'].' ';
+                      $date_new = strtotime($row['DATE']);
+                      $formatted_date_new = date('F d, Y', $date_new);
+                      echo $formatted_date_new;
+                    ?></span>
                   </div>
                   <!-- /.user-block -->
                   <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
+                    <?php echo $row['TOPIC_INFO']?>
                   </p>
                   <ul class="list-inline">
                     
                     </li>
                     <li class="pull-right">
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Replies
-                        (5)</a></li>
+                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
+                      <?php
+                        $num = 0;
+                        foreach($reply as $rep)
+                        {
+                          if($rep['GROUP_ID']==$row['GROUP_ID'])
+                          {
+                            $num = $rep['COUNT'];
+                          }
+                        }
+                        if($num > 0)
+                        {
+                          echo '('.$num.')';
+                        }
+                        else
+                        {
+                          echo '('.$num.')';
+                        }
+                      ?>
+                      </a></li>
                   </ul>
 
                   <br>
                 </div>
+                <?php endforeach;?>
+              <?php else:?><!-- if there is none-->
+                <div class="post">
+                  <div class="user-block">
+                    <?php echo 'No Discussions';?>
+                  </div>
+                </div>
+              <?php endif;?>
                 <!-- /.post -->
+
 
                 <!-- Post -->
               

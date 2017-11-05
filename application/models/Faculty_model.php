@@ -12,7 +12,7 @@
 								ON U.USER_ID=F.USER_ID
 					WHERE F.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
-			return $query->first_row('array');
+			return $query->first_row('array'); 
 		}
 
 		//get advisee groups
@@ -47,7 +47,8 @@
 		public function get_advisee_thesis_group_members($faculty_id)
 		{
 			$sql = "SELECT *
-					FROM STUDENT_GROUP SG JOIN USER U
+					FROM STUDENT_GROUP SG 
+					JOIN USER U
 					ON U.USER_ID=SG.STUDENT_ID
 					JOIN THESIS_GROUP TG
 					ON TG.GROUP_ID = SG.GROUP_ID

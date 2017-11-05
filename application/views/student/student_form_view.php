@@ -46,29 +46,17 @@
 
        <div class="col-lg-10 col-xs-8">
         <div class="form-group">
-                  <h2> THS-1</h2>
+          <h2><?php echo $course['course_code'];?></h2>
+        </div>
 
-                </div>
-
-
+        
         <div class="form-group">
+          <?php foreach($form as $row):?>
           <div class="box-header with-border">
-            <h3 class="box-title"><a href="#">Form3.docx</a>
+            <h3 class="box-title"><a href="<?php echo site_url('student/download_form/'.$row['form_name']);?>"><?php echo $row['form_name'];?></a>
           </div>
-        <div class="form-group">
-          <div class="box-header with-border">
-            <h3 class="box-title"><a href="#">Form3.docx</a>
-          </div>
-
-        <div class="form-group">
-          <div class="box-header with-border">
-            <h3 class="box-title"><a href="#">Form3.docx</a>
-          </div>
-                  
-                     
-                  
-
-                </div>
+          <?php endforeach;?>
+        </div>
 
         
 
