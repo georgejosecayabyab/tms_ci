@@ -127,7 +127,16 @@
                     }
                     else
                     {
-                      echo 'No comments';//fix this
+                      echo '
+                        <li>
+                          <div class="timeline-item">
+                            <div class="timeline-body">
+                              No Comment
+                            </div>
+                          </div>
+                        </li>
+                        <!-- END timeline item -->
+                        <!-- timeline item -->';
                     }
                     //echo '</form>';
                   ?>

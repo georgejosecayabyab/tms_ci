@@ -8,8 +8,6 @@
 			$sql = "SELECT *
 					FROM RANK R JOIN FACULTY F
 								ON R.RANK_CODE=F.RANK
-								JOIN FACULTY_SPECIALIZATION FS
-								ON F.USER_ID=FS.USER_ID
 								JOIN USER U 
 								ON U.USER_ID=F.USER_ID
 					WHERE F.USER_ID=".$user_id.";";
