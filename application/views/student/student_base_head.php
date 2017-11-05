@@ -34,6 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -123,7 +124,7 @@ desired effect
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?php echo base_url();?>img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $student_data['first_name'].' '.$student_data['last_name'];?></p>
@@ -141,10 +142,10 @@ desired effect
         <li  class="header">MENU -STUDENT</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="<?php echo $active_tab['home'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li class="<?php echo $active_tab['group'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-users"></i> <span>Group</span></a></li>
+        <li class="<?php echo $active_tab['group'];?>"><a href="<?php echo site_url('student/view_group');?>"><i class="fa fa-users"></i> <span>Group</span></a></li>
         <li class="<?php echo $active_tab['group_schedule'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-clock-o"></i> <span>Group Schedule</span></a></li>
-        <li class="<?php echo $active_tab['form'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
-        <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('student/index');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
+        <li class="<?php echo $active_tab['form'];?>"><a href="<?php echo site_url('student/view_forms');?>"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
+        <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('student/view_archive');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
         
         
       </ul>

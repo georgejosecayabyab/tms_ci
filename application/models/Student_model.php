@@ -68,6 +68,27 @@ class student_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_meetings($user_id)
+	{
+		$sql = "SELECT MEETING_ID, GROUP_ID, VENUE, DATE(DATE) AS 'CALENDAR', TIME_FORMAT(START_TIME, '%h:%i %p') AS START, TIME_FORMAT(END_TIME, '%h:%i %p') AS END, DATEDIFF(DATE, CURDATE()) AS DIFF, CURDATE() AS 'NOW'
+				FROM MEETING 
+				WHERE GROUP_ID IN (SELECT GROUP_ID FROM STUDENT_GROUP WHERE STUDENT_ID=".$user_id." AND STATUS=1);";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function check_if_in_group($user_id)
+	{
+		$sql = "SELECT * 
+				FROM STUDENT S 
+				JOIN STUDENT_GROUP SG 
+				ON SG.STUDENT_ID=S.USER_ID
+				WHERE SG.STUDENT_ID=".$user_id."
+				AND SG.STATUS=1;";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
 }
 
 
