@@ -344,11 +344,11 @@
 
 
               <div class="tab-pane" id="newUpload">
-                <form class="form-horizontal">
+                <form action="<?php echo site_url('student/upload_file');?>" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                  <div class="form-group">
                   <label for="exampleInputFile"><font size="+1">Upload New Document Submission</font></label>
-                  <input type="file" id="submission">
-
+                  <input id="submission" type="file" name="userfile" size="20" />
+                  <input type="submit" value="upload" />
                   <p class="help-block"><font size="-1"> Last upload was on: upload date </font></p>
                 </div>
                 </form>
