@@ -275,5 +275,35 @@
 			return $query->first_row('array');
 		}
 
+		public function get_new_faculty_notification($user_id)
+		{
+			$sql = "SELECT * 
+					FROM NOTIFICATION
+					WHERE IS_READ=0
+					AND TARGET_USER_ID=".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_all_faculty_notification($user_id)
+		{
+			$sql = "SELECT * 
+					FROM NOTIFICATION
+					WHERE TARGET_USER_ID=".$user_id."
+					ORDER BY NOTIFICATION_ID;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function update_notification($notification_id)
+		{
+			$data = array(
+               'is_read' => 1 //1 means it has been read
+            );
+
+			$this->db->where('notification_id', $notification_id);
+			$this->db->update('notification', $data); 
+		}
+
 	}
 ?>

@@ -82,13 +82,72 @@
 
 <!-- jQuery 3 -->
 <script src="<?php echo base_url();?>js/jquery.min.js"></script>
+<script>
+  var interval = 5000;
+  get_new_notifications();
+  get_all_notifications();
+
+  function get_all_notifications()
+  {
+    $.ajax({
+      type:'POST',
+      url:'http://[::1]/tms_ci/index.php/faculty/get_all_notifications',
+      success: function(data)
+      {
+        $('#notification_list').empty();
+        for(i=0; i<10;i++)
+        {
+          $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
+        }
+      }
+    });
+  }
+  function get_new_notifications()
+  {
+    $.ajax({
+      type: 'POST',
+      url:'http://[::1]/tms_ci/index.php/faculty/get_new_notifications',
+      success: function(data)
+      {
+        $('#new_notification_number').empty();
+        //$('#notification_list').empty();
+        console.log(data);
+        if(data.length > 0)
+        {
+          $('#new_notification_number').append(data.length);
+        }
+
+      },
+      error: function(data, errorThrown)
+      {
+        console.log(errorThrown);
+      }
+    });
+  }
+
+  $('#notification').on('click',function(){
+    $.ajax({
+      type: 'POST',
+      url: 'http://[::1]/tms_ci/index.php/faculty/update_notification',          
+      success: function () {
+        console.log('none');
+        $('#new_notification_number').empty();
+      },
+      error: function(data, errorThrown)
+      {
+        console.log(errorThrown);
+      }
+    });
+  });
+
+  setInterval(get_new_notifications, interval);
+</script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
 
-<script src="<?php echo base_url();?>jquery-1.11.2.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
