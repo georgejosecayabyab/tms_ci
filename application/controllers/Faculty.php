@@ -1,4 +1,6 @@
-<?php if(!defined('BASEPATH')) exit('Direct access not allowed');
+<?php 
+	if(!defined('BASEPATH')) exit('Direct access not allowed');
+	
 
 	class faculty extends CI_Controller
 	{
@@ -10,6 +12,11 @@
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
 			//check if session exist
+
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$user_type = $session['user_type'];
+			if($user_type != 1) exit('Access not allowed');
 		}
 
 		//faculty/home
@@ -17,7 +24,10 @@
 		{	
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
+			$user_type = $session['user_type'];
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['notif_as_panel'] = $this->faculty_model->get_notifications_as_panel($user_id);
+			$data['notif_as_adviser'] = $this->faculty_model->get_notifications_as_advisee($user_id);
 			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
 			$data['defense'] = $this->faculty_model->get_defense_list($user_id);
 			$data['active_tab'] = array(
@@ -104,7 +114,8 @@
 		public function logout()
 		{
 			$data = array(
-				'user_id' => ''
+				'user_id' => '',
+				'user_type' => ''
 			);
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();

@@ -99,6 +99,10 @@
         {
           $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
         }
+      },
+      error: function(data)
+      {
+        console.log('wrong!');
       }
     });
   }
@@ -109,12 +113,17 @@
       url:'http://[::1]/tms_ci/index.php/faculty/get_new_notifications',
       success: function(data)
       {
-        $('#new_notification_number').empty();
         //$('#notification_list').empty();
         console.log(data);
         if(data.length > 0)
         {
+          $('#new_notification_number').empty();
           $('#new_notification_number').append(data.length);
+          get_all_notifications();
+        }
+        else
+        {
+          $('#new_notification_number').empty();
         }
 
       },
@@ -131,7 +140,7 @@
       url: 'http://[::1]/tms_ci/index.php/faculty/update_notification',          
       success: function () {
         console.log('none');
-        $('#new_notification_number').empty();
+        get_new_notifications();
       },
       error: function(data, errorThrown)
       {
@@ -141,6 +150,8 @@
   });
 
   setInterval(get_new_notifications, interval);
+  setInterval(get_all_notifications, interval);
+  
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>

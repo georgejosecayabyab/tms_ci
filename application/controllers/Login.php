@@ -50,12 +50,13 @@
 						//set session
 						$is_student = $this->login_model->is_student($result['user_id']);
 						$data = array(
-								'user_id' => $result['user_id']
+								'user_id' => $result['user_id'],
+								'user_type' => $is_student
 						);
 
 						$this->session->set_userdata($data);
 						//student or faculty
-						if($is_student == 1)
+						if($is_student == 0)
 						{
 							redirect("student");//student
 						}

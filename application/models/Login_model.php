@@ -27,11 +27,11 @@
 			$num = $query->num_rows();
 			if ($num > 0)
 			{
-				return 1;//student
+				return 0;//student
 			}
 			else 
 			{
-				return 0;//faculty
+				return 1;//faculty
 			}
 		}
 

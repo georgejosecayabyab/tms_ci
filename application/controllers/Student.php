@@ -12,6 +12,11 @@
 
 			$this->load->helper('download');
 
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$user_type = $session['user_type'];
+			if($user_type != 0) exit('Access not allowed');
+
 		}
 
 		public function index()
@@ -169,7 +174,8 @@
 		public function logout()
 		{
 			$data = array(
-				'user_id' => ''
+				'user_id' => '',
+				'user_type' => ''
 			);
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();

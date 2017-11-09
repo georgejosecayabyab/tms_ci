@@ -293,6 +293,7 @@
 					ORDER BY NOTIFICATION_ID;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
+			
 		}
 
 		public function update_notification($notification_id)
@@ -303,6 +304,37 @@
 
 			$this->db->where('notification_id', $notification_id);
 			$this->db->update('notification', $data); 
+		}
+
+		public function get_notifications_as_panel($user_id)
+		{	
+			$sql = "SELECT N.NOTIFICATION_ID, N.NOTIFICATION_DETAILS, PG.PANEL_ID, TG.GROUP_ID, TG.GROUP_NAME, TIME_FORMAT(N.DATE_CREATED, '%h:%i %p') AS 'TIME'
+					FROM PANEL_GROUP PG
+					JOIN THESIS_GROUP TG
+					ON TG.GROUP_ID=PG.GROUP_ID
+					JOIN NOTIFICATION N
+					ON N.GROUP_ID=TG.GROUP_ID
+					WHERE PG.GROUP_ID IN (SELECT GROUP_ID FROM PANEL_GROUP WHERE PANEL_ID=".$user_id.")
+					AND PG.PANEL_ID=".$user_id."
+					AND N.TARGET_USER_ID=".$user_id."
+					AND N.IS_READ=0;";
+
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_notifications_as_advisee($user_id)
+		{	
+			$sql = "SELECT N.NOTIFICATION_ID, N.NOTIFICATION_DETAILS, TG.GROUP_ID, TG.GROUP_NAME, TIME_FORMAT(N.DATE_CREATED, '%h:%i %p') AS 'TIME', N.IS_READ
+					FROM THESIS_GROUP TG
+					JOIN NOTIFICATION N
+					ON N.GROUP_ID=TG.GROUP_ID
+					WHERE TG.ADVISER_ID=".$user_id."
+					AND N.TARGET_USER_ID=".$user_id."
+					AND N.IS_READ=0;";
+
+			$query = $this->db->query($sql);
+			return $query->result_array();
 		}
 
 	}

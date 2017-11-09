@@ -88,25 +88,21 @@
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-                  <li>
+                <?php if(sizeof($notif_as_panel)>0):?>
+                  <?php foreach($notif_as_panel as $row):?>
+                    <li>
                     <a href="facultyHome.html">
-                       <span >
+                      <span >
                         <i class="fa fa-comment-o"></i>
                       </span>
-                  <span class="text">New Comment from CT-THESIS PORTAL</span>
-                  <small class="label label-default"><i class="fa fa-clock-o"></i> 10:30 AM Oct 11, 2017</small>
-                 </a>
-                </li>
-                  <li>
-                      <a href="facultyHome.html">
-                       <span >
-                        <i class="fa fa-comment-o"></i>
-                      </span>
-               
-                  <span class="text">New Comment from CSO Integrated System</span>
-                  <small class="label label-default"><i class="fa fa-clock-o"></i> 10:30 AM Oct 11, 2017</small>
-                 </a>
-                </li>
+                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'].'from '.$row['GROUP_NAME'];?></span>
+                      <small class="label label-default"><i class="fa fa-clock-o"></i><?php echo $row['TIME'];?></small>
+                    </a>
+                  </li>
+                  <?php endforeach;?>
+                <?php else:?>
+                  <?php echo 'No new notifications';?>
+                <?php endif;?>
               </ul>
             </div>
             <!-- /.box-body -->
@@ -135,26 +131,21 @@
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-                  <li>
+                <?php if(sizeof($notif_as_adviser)>0):?>
+                  <?php foreach($notif_as_adviser as $row):?>
+                    <li>
                     <a href="facultyHome.html">
                       <span >
                         <i class="fa fa-comment-o"></i>
                       </span>
-               
-                  <span class="text">New Comment from Team GNM</span>
-                  <small class="label label-default"><i class="fa fa-clock-o"></i> 10:30 AM Oct 11, 2017</small>
-                 </a>
-                </li>
-                  <li>
-                      <a href="facultyHome.html">
-                        <span >
-                        <i class="fa fa-comment-o"></i>
-                      </span>
-               
-                  <span class="text">New Comment from Loren Ipsum</span>
-                  <small class="label label-default"><i class="fa fa-clock-o"></i> 10:30 AM Oct 11, 2017</small>
-                 </a>
-                </li>
+                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'].' from '.$row['GROUP_NAME'];?></span>
+                      <small class="label label-default"><i class="fa fa-clock-o"></i><?php echo $row['TIME'];?></small>
+                    </a>
+                  </li>
+                  <?php endforeach;?>
+                <?php else:?>
+                  <?php echo 'No new notifications';?>
+                <?php endif;?>
               </ul>
             </div>
             <!-- /.box-body -->
