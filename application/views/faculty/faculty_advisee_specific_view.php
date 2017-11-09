@@ -177,86 +177,85 @@
               <!-- The timeline -->
               <!-- VERDICT START-->
               <ul class="timeline timeline-inverse">
-                <!-- timeline time label -->
-                
-                <!-- /.timeline-label -->
-                <!-- timeline item -->
-                <li>
-                  <i class="fa fa-envelope bg-green"></i>
+                <?php 
+                  //echo form_open('faculty/delete_comment');
+                  echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
+                  if(sizeof($comment)>0)
+                  {
+                    $date = '';
+                    foreach($comment as $row)
+                    {
+                      if($date != $row['DATE'])
+                      {
+                        $date_new = strtotime($row['DATE']);
+                        $formatted_date_new = date('F d, Y', $date_new);
+                        $date = $row['DATE'];
+                        echo '<li class="time-label">
+                          <span class="bg-green">'
+                            .$formatted_date_new.'
+                          </span>
+                        </li>';
+                        echo '<li>
+                         <i class="fa fa-comments bg-green"></i>
 
-                  <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
-                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                            <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                    <div class="timeline-body">
-                      Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                      weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                      jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                      quora plaxo ideeli hulu weebly balihoo...
-                    </div>
-                    <div class="timeline-footer">        
-                    </div>
-                  </div>
-                </li>
-                <!-- END timeline item -->
-                <!-- timeline item -->
-                <li>
-                  <i class="fa fa-user bg-aqua"></i>
+                            <div class="timeline-body">'
+                              .$row['THESIS_COMMENT'].
+                            '</div>';
+                            if($row['USER_ID']==$faculty_data['user_id'])
+                            {
+                              echo '<div class="timeline-footer">
+                                <a class="btn btn-primary btn-xs">Edit</a>
+                                <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                              </div>';
+                            }
+                          echo '</div>
+                        </li>';
+                      }
+                      else
+                      {
+                        echo '<li>
+                         <i class="fa fa-comments bg-green"></i>
 
-                  <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
-                    <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                    </h3>
-                  </div>
-                </li>
-                <!-- END timeline item -->
-                <!-- timeline item -->
-                <li>
-                  <i class="fa fa-comments bg-yellow"></i>
+                            <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                  <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                    <div class="timeline-body">
-                      Take me to your leader!
-                      Switzerland is small and neutral!
-                      We are more like Germany, ambitious and misunderstood!
-                    </div>
-                    <div class="timeline-footer">
-                      <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                    </div>
-                  </div>
-                </li>
-                <!-- END timeline item -->
-                <!-- timeline time label -->
-                <li class="time-label">
-                      <span class="bg-green">
-                        3 Jan. 2014
-                      </span>
-                </li>
-                <!-- /.timeline-label -->
-                <!-- timeline item -->
-                <li>
-                  <i class="fa fa-camera bg-purple"></i>
-
-                  <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                    <div class="timeline-body">
-                      <img src="http://placehold.it/150x100" alt="..." class="margin">
-                      <img src="http://placehold.it/150x100" alt="..." class="margin">
-                      <img src="http://placehold.it/150x100" alt="..." class="margin">
-                      <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    </div>
-                  </div>
-                </li>
-                <!-- END timeline item -->
+                            <div class="timeline-body">'
+                              .$row['THESIS_COMMENT'].
+                            '</div>';
+                            if($row['USER_ID']==$faculty_data['user_id'])
+                            {
+                              echo '<div class="timeline-footer">
+                                <a class="btn btn-primary btn-xs">Edit</a>
+                                <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                              </div>';
+                            }
+                          echo '</div>
+                        </li>';
+                      }
+                    }
+                  }
+                  else
+                  {
+                    echo '
+                      <li>
+                        <div class="timeline-item">
+                          <div class="timeline-body">
+                            No Comment
+                          </div>
+                        </div>
+                      </li>
+                      <!-- END timeline item -->
+                      <!-- timeline item -->';
+                  }
+                  //echo '</form>';
+                ?>
                 <li>
                   <i class="fa fa-clock-o bg-gray"></i>
                 </li>

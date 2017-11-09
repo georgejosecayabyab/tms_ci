@@ -48,130 +48,130 @@
         </div>
 
         <div  id="timeline">
-                <!-- The timeline -->
-                <ul class="timeline timeline-inverse">
+          <!-- The timeline -->
+          <ul class="timeline timeline-inverse">
 
-                  <!-- timeline time label -->
-                  <li class="time-label">
-                        <span class="bg-gray" id="panelComments">
-                            Panel Comments
-                        </span>
-                   <a href="#inputComment"><i id="addComment" class="fa fa-fw fa-plus-circle bg-blue"></i> </a>
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-gray" id="panelComments">
+                      Panel Comments
+                  </span>
+             <a href="#inputComment"><i id="addComment" class="fa fa-fw fa-plus-circle bg-blue"></i> </a>
 
-                  </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                  <?php 
-                    //echo form_open('faculty/delete_comment');
-                    echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
-                    if(sizeof($comment)>0)
-                    {
-                      $date = '';
-                      foreach($comment as $row)
-                      {
-                        if($date != $row['DATE'])
-                        {
-                          $date_new = strtotime($row['DATE']);
-                          $formatted_date_new = date('F d, Y', $date_new);
-                          $date = $row['DATE'];
-                          echo '<li class="time-label">
-                            <span class="bg-green">'
-                              .$formatted_date_new.'
-                            </span>
-                          </li>';
-                          echo '<li>
-                           <i class="fa fa-comments bg-green"></i>
-
-                            <div class="timeline-item">
-                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
-
-                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
-
-                              <div class="timeline-body">'
-                                .$row['THESIS_COMMENT'].
-                              '</div>';
-                              if($row['USER_ID']==$faculty_data['user_id'])
-                              {
-                                echo '<div class="timeline-footer">
-                                  <a class="btn btn-primary btn-xs">Edit</a>
-                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                                </div>';
-                              }
-                            echo '</div>
-                          </li>';
-                        }
-                        else
-                        {
-                          echo '<li>
-                           <i class="fa fa-comments bg-green"></i>
-
-                            <div class="timeline-item">
-                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
-
-                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
-
-                              <div class="timeline-body">'
-                                .$row['THESIS_COMMENT'].
-                              '</div>';
-                              if($row['USER_ID']==$faculty_data['user_id'])
-                              {
-                                echo '<div class="timeline-footer">
-                                  <a class="btn btn-primary btn-xs">Edit</a>
-                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                                </div>';
-                              }
-                            echo '</div>
-                          </li>';
-                        }
-                      }
-                    }
-                    else
-                    {
-                      echo '
-                        <li>
-                          <div class="timeline-item">
-                            <div class="timeline-body">
-                              No Comment
-                            </div>
-                          </div>
-                        </li>
-                        <!-- END timeline item -->
-                        <!-- timeline item -->';
-                    }
-                    //echo '</form>';
-                  ?>
-                
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-
-                  <li class="time-label">
-                      <span class="bg-gray" id="panelComments">
-                          Post a comment
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <?php 
+              //echo form_open('faculty/delete_comment');
+              echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
+              if(sizeof($comment)>0)
+              {
+                $date = '';
+                foreach($comment as $row)
+                {
+                  if($date != $row['DATE'])
+                  {
+                    $date_new = strtotime($row['DATE']);
+                    $formatted_date_new = date('F d, Y', $date_new);
+                    $date = $row['DATE'];
+                    echo '<li class="time-label">
+                      <span class="bg-green">'
+                        .$formatted_date_new.'
                       </span>
-                  </li>
+                    </li>';
+                    echo '<li>
+                     <i class="fa fa-comments bg-green"></i>
 
-                  <li id="inputComment">
-                    <i class="fa  fa-pencil-square-o bg-blue"></i>
+                      <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
+                        <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
+
+                        <div class="timeline-body">'
+                          .$row['THESIS_COMMENT'].
+                        '</div>';
+                        if($row['USER_ID']==$faculty_data['user_id'])
+                        {
+                          echo '<div class="timeline-footer">
+                            <a class="btn btn-primary btn-xs">Edit</a>
+                            <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                          </div>';
+                        }
+                      echo '</div>
+                    </li>';
+                  }
+                  else
+                  {
+                    echo '<li>
+                     <i class="fa fa-comments bg-green"></i>
+
+                      <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
+
+                        <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
+
+                        <div class="timeline-body">'
+                          .$row['THESIS_COMMENT'].
+                        '</div>';
+                        if($row['USER_ID']==$faculty_data['user_id'])
+                        {
+                          echo '<div class="timeline-footer">
+                            <a class="btn btn-primary btn-xs">Edit</a>
+                            <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                          </div>';
+                        }
+                      echo '</div>
+                    </li>';
+                  }
+                }
+              }
+              else
+              {
+                echo '
+                  <li>
                     <div class="timeline-item">
-                     
-                      <h3 class="timeline-header">Post a Comment</h3>
-                      <?php echo form_open('faculty/validate_comment');?>
-                        <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
-                        <div class="timeline-body">
-                          <div class="form-group">
-                            <label></label>
-                            <textarea name="comment" class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
-                          </div>
-                        </div>
-                        <div class="timeline-footer">
-                          <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">
-                        </div>
-                      </form>
+                      <div class="timeline-body">
+                        No Comment
+                      </div>
                     </div>
                   </li>
-                </ul>
+                  <!-- END timeline item -->
+                  <!-- timeline item -->';
+              }
+              //echo '</form>';
+            ?>
+          
+            <!-- END timeline item -->
+            <!-- timeline item -->
+
+            <li class="time-label">
+                <span class="bg-gray" id="panelComments">
+                    Post a comment
+                </span>
+            </li>
+
+            <li id="inputComment">
+              <i class="fa  fa-pencil-square-o bg-blue"></i>
+
+              <div class="timeline-item">
+               
+                <h3 class="timeline-header">Post a Comment</h3>
+                <?php echo form_open('faculty/validate_comment');?>
+                  <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
+                  <div class="timeline-body">
+                    <div class="form-group">
+                      <label></label>
+                      <textarea name="comment" class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
+                    </div>
+                  </div>
+                  <div class="timeline-footer">
+                    <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">
+                  </div>
+                </form>
               </div>
+            </li>
+          </ul>
+        </div>
       
         <!-- /.box-body -->
         <div class="box-footer">
