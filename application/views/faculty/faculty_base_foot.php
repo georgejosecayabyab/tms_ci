@@ -20,7 +20,7 @@
           
           <ul class="control-sidebar-menu">
             <li>
-              <a href="javascript:;">
+              <a href="<?php echo site_url('faculty/view_profile');?>">
                 <i class="menu-icon fa fa-user bg-green"></i>
 
                 <div class="menu-info">
@@ -95,7 +95,12 @@
       success: function(data)
       {
         $('#notification_list').empty();
-        for(i=0; i<10;i++)
+        num = 10;
+        if(data.length < num)
+        {
+          num = data.length
+        }
+        for(i=0; i<num;i++)
         {
           $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
         }
@@ -134,7 +139,8 @@
     });
   }
 
-  $('#notification').on('click',function(){
+  $('#notification').on('click',function()
+  {
     $.ajax({
       type: 'POST',
       url: 'http://[::1]/tms_ci/index.php/faculty/update_notification',          
@@ -148,6 +154,23 @@
       }
     });
   });
+
+  $('#profile_edit_button').on('click',function()
+  {
+    $.ajax({
+      type: 'POST',
+      success: function () {
+        console.log('profiel edit');
+        $('#profile_section').empty();
+        $('#profile_section').append('');
+      },
+      error: function(data, errorThrown)
+      {
+        console.log(errorThrown);
+      }
+    });
+  });
+
 
   setInterval(get_new_notifications, interval);
   setInterval(get_all_notifications, interval);

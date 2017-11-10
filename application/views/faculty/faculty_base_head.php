@@ -125,7 +125,7 @@ desired effect
           <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $faculty_data['first_name'].' '.$faculty_data['last_name'];?></p>
+          <p><?php echo $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME'];?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>

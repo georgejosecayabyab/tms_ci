@@ -8,7 +8,7 @@
         
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>
         
       </ol>
     </section>

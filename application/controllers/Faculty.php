@@ -101,6 +101,20 @@
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_tag'] = $this->faculty_model->get_faculty_specialization($user_id);
+			$data['all_tag'] = $this->faculty_model->
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "",
+				'panels' => "",
+				'archive' => "" 
+			);
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_profile_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data);
 
 		}
 

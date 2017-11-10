@@ -5,7 +5,7 @@
 		//get faculty detail using id
 		public function get_faculty_detail($user_id)
 		{
-			$sql = "SELECT *
+			$sql = "SELECT F.USER_ID, FIRST_NAME, LAST_NAME, EMAIL, R.RANK
 					FROM RANK R JOIN FACULTY F
 								ON R.RANK_CODE=F.RANK
 								JOIN USER U 
@@ -13,6 +13,17 @@
 					WHERE F.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array'); 
+		}
+
+		public function get_faculty_specialization($user_id)
+		{
+			$sql = "SELECT FS.USER_ID, S.SPECIALIZATION 
+					FROM FACULTY_SPECIALIZATION FS
+					JOIN SPECIALIZATION S
+					ON S.SPECIALIZATION_ID=FS.SPECIALIZATION_ID
+					WHERE USER_ID=".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
 		}
 
 		//get advisee groups

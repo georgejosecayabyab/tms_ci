@@ -8,9 +8,9 @@
         <?php echo $group['thesis_title'];?>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="facultyPanelInitial.html">Panels</a></li>
-         <li class="active"><?php echo $group['thesis_title'];?></li>
+        <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="<?php echo site_url('faculty/view_panel_details');?>">Panels</a></li>
+        <li class="active"><?php echo $group['thesis_title'];?></li>
         
       </ol>
     </section>
@@ -90,7 +90,7 @@
                         <div class="timeline-body">'
                           .$row['THESIS_COMMENT'].
                         '</div>';
-                        if($row['USER_ID']==$faculty_data['user_id'])
+                        if($row['USER_ID']==$faculty_data['USER_ID'])
                         {
                           echo '<div class="timeline-footer">
                             <a class="btn btn-primary btn-xs">Edit</a>
@@ -113,7 +113,7 @@
                         <div class="timeline-body">'
                           .$row['THESIS_COMMENT'].
                         '</div>';
-                        if($row['USER_ID']==$faculty_data['user_id'])
+                        if($row['USER_ID']==$faculty_data['USER_ID'])
                         {
                           echo '<div class="timeline-footer">
                             <a class="btn btn-primary btn-xs">Edit</a>
