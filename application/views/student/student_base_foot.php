@@ -79,6 +79,59 @@
 
 <!-- jQuery 3 -->
 <script src="<?php echo base_url();?>js/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<?php echo base_url();?>js/adminlte.min.js"></script>
+
+<script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
+
+<!-- schedule-->
+<script>    
+  $('.schedule').on('selectionmade', function() {
+      console.log("Selection Made");
+  }).on('selectionremoved', function() {
+      console.log("Selection Removed");
+  });
+
+
+  $('#target').weekly_schedule({
+
+    // Days displayed
+    days: ["mon", "tue", "wed", "thu", "fri", "sat"], 
+
+    // Hours displyed
+    hours: "7:30AM-9:00PM", 
+
+    // Font used in the component
+    fontFamily: "Montserrat", 
+
+    // Font colot used in the component
+    fontColor: "black", 
+
+    // Font weight used in the component
+    fontWeight: "10000", 
+
+    // Font size used in the component
+    fontSize: "0.8em", 
+
+    // Background color when hovered
+    hoverColor: "#239023", 
+
+    // Background color when selected
+    selectionColor: "#6fdc6f", 
+
+    // Background color of headers
+    headerBackgroundColor: "transparent"
+    
+  });
+
+
+  $("#submit").click(function() {
+    var test = $('#target').weekly_schedule("getSelectedHour");
+    console.log(test);
+  });
+</script>
 <!--notification refresh-->
 <script>
   var interval = 5000;
@@ -158,17 +211,13 @@
   setInterval(get_new_notifications, interval);
   setInterval(get_all_notifications, interval);
 </script>
-<!-- Bootstrap 3.3.7 -->
-<script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!--data table-->
 <script type="text/javascript">
   $(document).ready(function() {
     $('#table').DataTable();
-} );
-
+  });
 </script>
 
 </body>

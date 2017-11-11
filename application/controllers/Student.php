@@ -19,6 +19,7 @@
 
 		}
 
+		/////view 
 		public function index()
 		{
 			$session = $this->session->userdata();
@@ -128,6 +129,29 @@
 			}
 		}
 
+		public function view_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'group_schedule' => "active",
+				'form' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_schedule_view', $data);
+			$this->load->view('student/student_base_foot', $data); 
+			//$this->load->view('faculty/sample', $data);
+		}
+
+		////download
 		public function download_form($form_name)
 		{
 			if($form_name)
@@ -142,6 +166,8 @@
 			}
 		}
 
+
+		////upload
 		public function upload_file()
 		{
 			$session = $this->session->userdata();
@@ -170,18 +196,8 @@
             }
 		}
 
-		//logout
-		public function logout()
-		{
-			$data = array(
-				'user_id' => '',
-				'user_type' => ''
-			);
-			$this->session->unset_userdata($data);
-			$this->session->sess_destroy();
-			redirect("home/index");
-		}
-
+		
+		/////get
 		public function get_all_notifications()
 		{
 			$session = $this->session->userdata();
@@ -206,6 +222,8 @@
 
 		}
 
+
+		////////update
 		public function update_notification()
 		{
 			$session = $this->session->userdata();
@@ -219,6 +237,18 @@
 					$this->student_model->update_notification($row['notification_id']);
 				}
 			}
+		}
+
+		////logout
+		public function logout()
+		{
+			$data = array(
+				'user_id' => '',
+				'user_type' => ''
+			);
+			$this->session->unset_userdata($data);
+			$this->session->sess_destroy();
+			redirect("home/index");
 		}
 	}
 

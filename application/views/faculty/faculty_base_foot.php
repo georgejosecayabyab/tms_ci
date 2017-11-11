@@ -117,14 +117,10 @@ immediately after the control sidebar -->
   });
 
 
-   $("#submit").click(
-
-    function() {
-
-         var test = $('#target').weekly_schedule("getSelectedHour");
-         console.log(test);
-
-     });
+  $("#submit").click(function() {
+    var test = $('#target').weekly_schedule("getSelectedHour");
+    console.log(test);
+  });
 </script>
 <!--notification refresh-->
 <script>
@@ -147,6 +143,8 @@ immediately after the control sidebar -->
         }
         for(i=0; i<num;i++)
         {
+          console.log(data)
+          console.log('gt');;
           $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
         }
       },
