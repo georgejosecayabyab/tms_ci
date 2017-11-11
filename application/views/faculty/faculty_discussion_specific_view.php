@@ -118,6 +118,7 @@
           <?php echo form_open('faculty/validate_reply');?>
             <input type="hidden" name="group_id" value="<?php echo $topic_data['group_id'];?>">
             <input type="hidden" name="topic_id" value="<?php echo $topic_data['topic_discussion_id'];?>">
+            <input type="hidden" name="topic_name" value="<?php echo $topic_data['topic_name'];?>">
             <div class="timeline-body">
               <div class="form-group">
                 <label></label>

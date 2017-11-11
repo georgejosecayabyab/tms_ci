@@ -201,10 +201,20 @@ class student_model extends CI_Model
 		$sql = "SELECT * 
 				FROM NOTIFICATION
 				WHERE TARGET_USER_ID=".$user_id."
-				ORDER BY NOTIFICATION_ID;";
+				ORDER BY NOTIFICATION_ID DESC;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 		
+	}
+
+	public function update_notification($notification_id)
+	{
+		$data = array(
+           'is_read' => 1 //1 means it has been read
+        );
+
+		$this->db->where('notification_id', $notification_id);
+		$this->db->update('notification', $data); 
 	}
 
 }

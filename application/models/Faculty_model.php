@@ -313,7 +313,7 @@
 			$sql = "SELECT * 
 					FROM NOTIFICATION
 					WHERE TARGET_USER_ID=".$user_id."
-					ORDER BY NOTIFICATION_ID;";
+					ORDER BY NOTIFICATION_ID DESC;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 			

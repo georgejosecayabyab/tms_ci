@@ -205,6 +205,21 @@
 			echo json_encode($result);
 
 		}
+
+		public function update_notification()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$result = $this->student_model->get_new_student_notification($user_id);
+
+			if(sizeof($result)>0)
+			{
+				foreach($result as $row)
+				{
+					$this->student_model->update_notification($row['notification_id']);
+				}
+			}
+		}
 	}
 
 ?>

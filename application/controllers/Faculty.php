@@ -11,6 +11,7 @@
 			$this->load->model('faculty_model');
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
+			$this->load->library('email');
 			//check if session exist
 
 			$session = $this->session->userdata();
@@ -19,7 +20,7 @@
 			if($user_type != 1) exit('Access not allowed');
 		}
 
-		//faculty/home
+		//////views
 		public function index()
 		{	
 			$session = $this->session->userdata();
@@ -42,7 +43,6 @@
 			$this->load->view('faculty/faculty_base_foot', $data);
 		}
 
-		//view advisees
 		public function view_advisee_list()
 		{
 			$session = $this->session->userdata();
@@ -67,7 +67,6 @@
 			$this->load->view('faculty/faculty_base_foot', $data);
 		}
 
-		//view advisee specific group
 		public function view_advisee_specific($group_id)
 		{
 			$session = $this->session->userdata();
@@ -95,7 +94,7 @@
 			$this->load->view('faculty/faculty_base_foot', $data);
 
 		}
-		//view profile
+
 		public function view_profile()
 		{
 			$session = $this->session->userdata();
@@ -118,26 +117,30 @@
 
 		}
 
-		//edit profile
-		public function edit_profile()
+
+		public function view_discussion_specific($topic_id)
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
-		}
 
-		//logout
-		public function logout()
-		{
-			$data = array(
-				'user_id' => '',
-				'user_type' => ''
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['topic_data'] = $this->faculty_model->get_topic($topic_id); 
+			$data['discuss'] = $this->faculty_model->get_topic_discussion($topic_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "active",
+				'panels' => "",
+				'archive' => "" 
 			);
-			$this->session->unset_userdata($data);
-			$this->session->sess_destroy();
-			redirect("home/index");
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_discussion_specific_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
 		}
 
-		//panel general
 		public function view_panel_details()
 		{
 			$session = $this->session->userdata();
@@ -164,7 +167,6 @@
 
 		}
 
-		
 		public function view_panel_specific($group_id)
 		{
 			$session = $this->session->userdata();
@@ -211,6 +213,36 @@
 			$this->load->view('faculty/faculty_base_foot', $data); 
 		}
 
+		public function view_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "active",
+				'advisees' => "",
+				'panels' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_schedule_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+			//$this->load->view('faculty/sample', $data);
+		}
+
+		//////edit
+		public function edit_profile()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+		}
+
+		//////validate
 		public function validate_comment()
 		{
 			$session = $this->session->userdata();
@@ -243,6 +275,13 @@
 					foreach($result as $row)
 					{
 						$this->insert_notification("New Comment from ".$thesis_title, $row['user_id']);
+						// $this->email->from('george_cayabyab@dlsu.edu.ph', $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME']);
+						// $this->email->to('george_cayabyab@dlsu.edu.ph');
+
+						// $this->email->subject('CT Thesis');
+						// $this->email->message("New Reply in discussion: ".$thesis_title);
+
+						// $this->email->send();
 					}
 					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
                   	redirect('faculty/view_panel_specific/'.$group_id);
@@ -251,103 +290,14 @@
 
 		}
 
-		public function insert_notification($notification, $target_user_id)
-		{
-			$session = $this->session->userdata();
-			$user_id = $session['user_id'];
-
-			$group_id = $this->input->post("group_id");
-			date_default_timezone_set('Asia/Manila');
-			$date_time = date("Y-m-d H:i:s");
-			$data = array(
-						'notification_details' =>  $notification,
-						'created_by' => $user_id,
-						'target_user_id' => $target_user_id,
-						'is_read' => 0,
-						'date_created' => $date_time,
-						'group_id' => $group_id
-					);
-			$this->faculty_model->insert_notification($data);
-		}
-
-		public function delete_comment($thesis_comment_id)
-		{
-			//$this->faculty_model->delete_thesis_comment($thesis_comment_id);
-			$result = $this->faculty_model->get_thesis_group_by_thesis_comment_id($thesis_comment_id);
-			$group_id = $result['group_id'];
-			$this->faculty_model->delete_thesis_comment($thesis_comment_id);
-			redirect('faculty/view_panel_specific/'.$group_id);
-			
-		}
-
-		public function get_all_notifications()
-		{
-			$session = $this->session->userdata();
-			$user_id = $session['user_id'];
-
-			
-			$result = $this->faculty_model->get_all_faculty_notification($user_id);
-			header("Content-type: application/json");
-			echo json_encode($result);
-
-		}
-
-		public function get_new_notifications()
-		{
-			$session = $this->session->userdata();
-			$user_id = $session['user_id'];
-
-			
-			$result = $this->faculty_model->get_new_faculty_notification($user_id);
-			header('Content-Type: application/json');
-			echo json_encode($result);
-
-		}
-
-		public function update_notification()
-		{
-			$session = $this->session->userdata();
-			$user_id = $session['user_id'];
-			$result = $this->faculty_model->get_new_faculty_notification($user_id);
-
-			if(sizeof($result)>0)
-			{
-				foreach($result as $row)
-				{
-					$this->faculty_model->update_notification($row['notification_id']);
-				}
-			}
-		}
-
-		public function view_discussion_specific($topic_id)
-		{
-			$session = $this->session->userdata();
-			$user_id = $session['user_id'];
-
-			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
-			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
-			$data['topic_data'] = $this->faculty_model->get_topic($topic_id); 
-			$data['discuss'] = $this->faculty_model->get_topic_discussion($topic_id);
-			$data['active_tab'] = array(
-				'home' => "",
-				'schedule' => "",
-				'advisees' => "active",
-				'panels' => "",
-				'archive' => "" 
-			);
-
-
-			$this->load->view('faculty/faculty_base_head', $data);
-			$this->load->view('faculty/faculty_discussion_specific_view', $data);
-			$this->load->view('faculty/faculty_base_foot', $data); 
-		}
-
 		public function validate_reply()
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 
+			$faculty_data = $this->faculty_model->get_faculty_detail($user_id);
 			$topic_id = $this->input->post("topic_id");
+			$topic_name = $this->input->post("topic_name");
 			$reply = $this->input->post("reply");
 			$group_id = $this->input->post("group_id");
 			date_default_timezone_set('Asia/Manila');
@@ -375,13 +325,79 @@
 					$result = $this->faculty_model->get_all_discussion_target($group_id, $user_id);
 					foreach($result as $row)
 					{
-						$this->insert_notification("New Reply in discussion: ".$thesis_title, $row['user_id']);
+						$this->insert_notification("New Reply in discussion: ".$topic_name, $row['user_id']);
+						// $this->email->from('george_cayabyab@dlsu.edu.ph', $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME']);
+						// $this->email->to('george_cayabyab@dlsu.edu.ph');
+
+						// $this->email->subject('CT Thesis');
+						// $this->email->message("New Reply in discussion: ".$topic_name);
+
+						// $this->email->send();
 					}
 					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
                   	redirect('faculty/view_discussion_specific/'.$topic_id);
 				}
 			}
 
+		}
+
+		////get
+		public function get_all_notifications()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			
+			$result = $this->faculty_model->get_all_faculty_notification($user_id);
+			header("Content-type: application/json");
+			echo json_encode($result);
+
+		}
+
+		public function get_new_notifications()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			
+			$result = $this->faculty_model->get_new_faculty_notification($user_id);
+			header('Content-Type: application/json');
+			echo json_encode($result);
+
+		}
+
+		//////insert 
+
+		public function insert_notification($notification, $target_user_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+			$data = array(
+						'notification_details' =>  $notification,
+						'created_by' => $user_id,
+						'target_user_id' => $target_user_id,
+						'is_read' => 0,
+						'date_created' => $date_time,
+						'group_id' => $group_id
+					);
+			$this->faculty_model->insert_notification($data);
+		}
+
+
+		////// delete
+
+		public function delete_comment($thesis_comment_id)
+		{
+			//$this->faculty_model->delete_thesis_comment($thesis_comment_id);
+			$result = $this->faculty_model->get_thesis_group_by_thesis_comment_id($thesis_comment_id);
+			$group_id = $result['group_id'];
+			$this->faculty_model->delete_thesis_comment($thesis_comment_id);
+			redirect('faculty/view_panel_specific/'.$group_id);
+			
 		}
 
 		public function delete_reply($discussion_id)
@@ -393,6 +409,33 @@
 			
 		}
 		
+		//////update
+		public function update_notification()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$result = $this->faculty_model->get_new_faculty_notification($user_id);
+
+			if(sizeof($result)>0)
+			{
+				foreach($result as $row)
+				{
+					$this->faculty_model->update_notification($row['notification_id']);
+				}
+			}
+		}
+
+		//logout
+		public function logout()
+		{
+			$data = array(
+				'user_id' => '',
+				'user_type' => ''
+			);
+			$this->session->unset_userdata($data);
+			$this->session->sess_destroy();
+			redirect("home/index");
+		}
 	}
 
 ?>
