@@ -117,3 +117,12 @@ th {
 	margin-bottom: 20px;
 }
 
+#delete {
+	font-size: 10px;
+	margin-top: 5px;
+}
+
+#upload {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}

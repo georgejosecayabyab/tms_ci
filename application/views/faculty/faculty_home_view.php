@@ -95,7 +95,7 @@
                       <span >
                         <i class="fa fa-comment-o"></i>
                       </span>
-                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'].'from '.$row['GROUP_NAME'];?></span>
+                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'];?></span> <!-- .'of '.$row['GROUP_NAME'];-->
                       <small class="label label-default"><i class="fa fa-clock-o"></i><?php echo $row['TIME'];?></small>
                     </a>
                   </li>
@@ -138,7 +138,7 @@
                       <span >
                         <i class="fa fa-comment-o"></i>
                       </span>
-                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'].' from '.$row['GROUP_NAME'];?></span>
+                      <span class="text"><?php echo $row['NOTIFICATION_DETAILS'];?></span> <!-- .' from '.$row['GROUP_NAME']-->
                       <small class="label label-default"><i class="fa fa-clock-o"></i><?php echo $row['TIME'];?></small>
                     </a>
                   </li>

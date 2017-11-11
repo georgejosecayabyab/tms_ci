@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 id="Title">
-        <?php echo $group['thesis_title'];?>
+        <?php echo $group['thesis_title'];?> ge
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>
@@ -158,6 +158,7 @@
                 <h3 class="timeline-header">Post a Comment</h3>
                 <?php echo form_open('faculty/validate_comment');?>
                   <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
+                  <input type="hidden" name="thesis_title" value="<?php echo $group['thesis_title'];?>">
                   <div class="timeline-body">
                     <div class="form-group">
                       <label></label>
@@ -165,7 +166,7 @@
                     </div>
                   </div>
                   <div class="timeline-footer">
-                    <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs" href="<?php echo site_url('home');?>">
+                    <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs">
                   </div>
                 </form>
               </div>

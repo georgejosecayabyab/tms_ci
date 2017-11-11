@@ -79,6 +79,85 @@
 
 <!-- jQuery 3 -->
 <script src="<?php echo base_url();?>js/jquery.min.js"></script>
+<script>
+  var interval = 5000;
+  get_new_notifications();
+  get_all_notifications();
+
+  function get_all_notifications()
+  {
+    $.ajax({
+      type:'POST',
+      url:'http://[::1]/tms_ci/index.php/student/get_all_notifications',
+      success: function(data)
+      {
+        $('#notification_list').empty();
+        num = 10;
+        if(data.length < num)
+        {
+          num = data.length
+        }
+        for(i=0; i<num;i++)
+        {
+          $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
+        }
+      },
+      error: function(data)
+      {
+        console.log('wrong!');
+      }
+    });
+  }
+  function get_new_notifications()
+  {
+    $.ajax({
+      type: 'POST',
+      url:'http://[::1]/tms_ci/index.php/student/get_new_notifications',
+      success: function(data)
+      {
+        //$('#notification_list').empty();
+        console.log(data);
+        if(data.length > 0)
+        {
+          $('#new_notification_number').empty();
+          $('#new_notification_number').append(data.length);
+          get_all_notifications();
+        }
+        else
+        {
+          $('#new_notification_number').empty();
+        }
+
+      },
+      error: function(data, errorThrown)
+      {
+        console.log(errorThrown);
+      }
+    });
+  }
+
+  $('#notification').on('click',function()
+  {
+    $.ajax({
+      type: 'POST',
+      url: 'http://[::1]/tms_ci/index.php/faculty/update_notification',          
+      success: function () {
+        console.log('none');
+        get_new_notifications();
+      },
+      error: function(data, errorThrown)
+      {
+        console.log(errorThrown);
+      }
+    });
+  });
+
+  
+
+  setInterval(get_new_notifications, interval);
+  setInterval(get_all_notifications, interval);
+  
+</script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->

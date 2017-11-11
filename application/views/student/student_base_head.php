@@ -63,7 +63,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="studentHome.html" class="logo">
+    <a href="<?php echo site_url('student');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>C</b>TT</span>
       <!-- logo for regular state and mobile devices -->
@@ -83,22 +83,19 @@ desired effect
           <!-- /.messages-menu -->
 
           <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
+          <li id="notification" class="dropdown notifications-menu">
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <span id="new_notification_number" class="label label-warning"></span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 10 notifications</li>
               <li>
                 <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
-                  <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
+                <ul id="notification_list" class="menu">
+                  <!-- start notification -->
+                    
                   <!-- end notification -->
                 </ul>
               </li>
@@ -123,13 +120,8 @@ desired effect
 
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
-        <div class="pull-left image">
-          <img src="<?php echo base_url();?>img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
         <div class="pull-left info">
-          <p><?php echo $student_data['first_name'].' '.$student_data['last_name'];?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          
         </div>
       </div>
 

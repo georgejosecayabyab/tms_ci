@@ -80,7 +80,7 @@
 			$data['tag'] = $this->faculty_model->get_thesis_specialization($group_id);
 			$data['member'] = $this->faculty_model->get_advisee_thesis_group_members($user_id);
 			$data['discussion'] = $this->faculty_model->get_discussion_specific($group_id);
-			$data['reply'] = $this->faculty_model->get_discussion();
+			$data['reply'] = $this->faculty_model->get_discussion_reply_count();
 			$data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
 			$data['active_tab'] = array(
 				'home' => "",
@@ -103,7 +103,7 @@
 
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
 			$data['faculty_tag'] = $this->faculty_model->get_faculty_specialization($user_id);
-			$data['all_tag'] = $this->faculty_model->
+			$data['all_tag'] = $this->faculty_model->get_all_specialization($user_id);
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",
@@ -149,8 +149,6 @@
 			$data['member'] = $this->faculty_model->get_panel_thesis_group_members($user_id);
 			$data['tags'] = $this->faculty_model->get_panel_thesis_group_tags($user_id);
 			$data['comment'] = $this->faculty_model->get_thesis_comment_count();
-			
-			//$data['notification'] = $this->faculty_model->get_notifications
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",
@@ -220,6 +218,7 @@
 
 			$comment = $this->input->post("comment");
 			$group_id = $this->input->post("group_id");
+			$thesis_title = $this->input->post("thesis_title");
 			date_default_timezone_set('Asia/Manila');
 			$date_time = date("Y-m-d H:i:s");
 
@@ -240,11 +239,35 @@
 						'date_time' => $date_time
 					);
 					$this->faculty_model->insert_thesis_comment($data);
+					$result = $this->faculty_model->get_all_thesis_comment_notification_target($group_id, $user_id);
+					foreach($result as $row)
+					{
+						$this->insert_notification("New Comment from ".$thesis_title, $row['user_id']);
+					}
 					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
                   	redirect('faculty/view_panel_specific/'.$group_id);
 				}
 			}
 
+		}
+
+		public function insert_notification($notification, $target_user_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+			$data = array(
+						'notification_details' =>  $notification,
+						'created_by' => $user_id,
+						'target_user_id' => $target_user_id,
+						'is_read' => 0,
+						'date_created' => $date_time,
+						'group_id' => $group_id
+					);
+			$this->faculty_model->insert_notification($data);
 		}
 
 		public function delete_comment($thesis_comment_id)
@@ -294,6 +317,80 @@
 					$this->faculty_model->update_notification($row['notification_id']);
 				}
 			}
+		}
+
+		public function view_discussion_specific($topic_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['topic_data'] = $this->faculty_model->get_topic($topic_id); 
+			$data['discuss'] = $this->faculty_model->get_topic_discussion($topic_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "active",
+				'panels' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_discussion_specific_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+		}
+
+		public function validate_reply()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$topic_id = $this->input->post("topic_id");
+			$reply = $this->input->post("reply");
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+			echo $date_time;
+
+			$this->form_validation->set_rules('reply', 'Reply', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('faculty/view_discussion_specific/'.$group_id);
+			}
+			else
+			{
+				if($this->input->post('submit_reply') == "Submit")
+				{
+					$panel_group_id = $this->faculty_model->get_panel_group_id($user_id, $group_id);
+					$data = array(
+						'topic_discussion_id' =>  $topic_id,
+						'user_id' => $user_id,
+						'discuss' => $reply,
+						'date_time' => $date_time
+					);
+					$this->faculty_model->insert_discussion($data);
+					$result = $this->faculty_model->get_all_discussion_target($group_id, $user_id);
+					foreach($result as $row)
+					{
+						$this->insert_notification("New Reply in discussion: ".$thesis_title, $row['user_id']);
+					}
+					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
+                  	redirect('faculty/view_discussion_specific/'.$topic_id);
+				}
+			}
+
+		}
+
+		public function delete_reply($discussion_id)
+		{
+			//$this->faculty_model->delete_thesis_comment($thesis_comment_id);
+			$topic_id = $this->faculty_model->get_topic_id_by_discussion_id($discussion_id);
+			$this->faculty_model->delete_discussion_reply($discussion_id);
+			redirect('faculty/view_discussion_specific/'.$$topic_id);
+			
 		}
 		
 	}

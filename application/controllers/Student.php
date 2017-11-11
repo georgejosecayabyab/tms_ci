@@ -181,6 +181,30 @@
 			$this->session->sess_destroy();
 			redirect("home/index");
 		}
+
+		public function get_all_notifications()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			
+			$result = $this->student_model->get_all_student_notification($user_id);
+			header("Content-type: application/json");
+			echo json_encode($result);
+
+		}
+
+		public function get_new_notifications()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			
+			$result = $this->student_model->get_new_student_notification($user_id);
+			header('Content-Type: application/json');
+			echo json_encode($result);
+
+		}
 	}
 
 ?>

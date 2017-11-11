@@ -186,6 +186,27 @@ class student_model extends CI_Model
 		return $query->result_array();
 	}
 
+	public function get_new_student_notification($user_id)
+		{
+			$sql = "SELECT * 
+					FROM NOTIFICATION
+					WHERE IS_READ=0
+					AND TARGET_USER_ID=".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+	public function get_all_student_notification($user_id)
+	{
+		$sql = "SELECT * 
+				FROM NOTIFICATION
+				WHERE TARGET_USER_ID=".$user_id."
+				ORDER BY NOTIFICATION_ID;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+		
+	}
+
 }
 
 

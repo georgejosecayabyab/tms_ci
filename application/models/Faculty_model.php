@@ -116,9 +116,21 @@
 			return $query->result_array();
 		}
 
+		//get discussion reply  count
+		public function get_discussion_reply_count()
+		{	
+			$sql = "SELECT TD.TOPIC_DISCUSSION_ID, COUNT(D.DISCUSSION_ID) AS 'COUNT', TD.GROUP_ID
+					FROM TOPIC_DISCUSSION TD
+					JOIN DISCUSSION D 
+					ON D.TOPIC_DISCUSSION_ID=TD.TOPIC_DISCUSSION_ID
+					GROUP BY TD.TOPIC_DISCUSSION_ID;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
 		public function get_discussion_specific($group_id)
 		{	
-			$sql = "SELECT TD.GROUP_ID, TD.TOPIC_NAME, TD.TOPIC_INFO, TD.CREATED_BY, CONCAT(U.FIRST_NAME, ' ',U.LAST_NAME) AS 'NAME', TIME_FORMAT(TD.DATE_TIME, '%h:%i %p') AS 'TIME', DATE(TD.DATE_TIME) AS 'DATE'
+			$sql = "SELECT TD.GROUP_ID, TD.TOPIC_DISCUSSION_ID, TD.TOPIC_NAME, TD.TOPIC_INFO, TD.CREATED_BY, CONCAT(U.FIRST_NAME, ' ',U.LAST_NAME) AS 'NAME', TIME_FORMAT(TD.DATE_TIME, '%h:%i %p') AS 'TIME', DATE(TD.DATE_TIME) AS 'DATE'
 					FROM TOPIC_DISCUSSION TD 
 					JOIN USER U
 					ON U.USER_ID = TD.CREATED_BY
@@ -348,5 +360,92 @@
 			return $query->result_array();
 		}
 
+		public function get_all_specialization($user_id)
+		{
+			$sql = "SELECT *
+					FROM SPECIALIZATION 
+					WHERE SPECIALIZATION_ID NOT IN (SELECT SPECIALIZATION_ID FROM FACULTY_SPECIALIZATION WHERE USER_ID=".$user_id.")";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function insert_notification($data)
+		{
+			//escape every variable
+			$this->db->insert('notification', $data);
+		}
+
+		public function get_all_thesis_comment_notification_target($group_id, $user_id)
+		{
+			$sql = "SELECT * 
+					FROM USER U
+					WHERE USER_ID!=".$user_id."
+					AND USER_ID IN (SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.")
+					OR USER_ID!=".$user_id."
+					AND USER_ID IN (SELECT STUDENT_ID FROM STUDENT_GROUP WHERE GROUP_ID=".$group_id.")
+					OR USER_ID!=".$user_id."
+					AND USER_ID IN (SELECT ADVISER_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.");";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_topic($topic_id)
+		{
+			$sql = "SELECT *
+					FROM TOPIC_DISCUSSION TD 
+					JOIN THESIS_GROUP TG 
+					ON TD.GROUP_ID=TG.GROUP_ID
+					WHERE TD.TOPIC_DISCUSSION_ID=".$topic_id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+		public function get_topic_discussion($topic_id)
+		{
+			$sql = "SELECT TD.TOPIC_DISCUSSION_ID, TD.TOPIC_NAME, TD.TOPIC_INFO, D.DISCUSSION_ID, D.DISCUSS, U.USER_ID, CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS 'NAME', DATE(D.DATE_TIME) AS 'DATE', TIME_FORMAT(TIME(D.DATE_TIME), '%h:%i %p') AS 'TIME' 
+					FROM TOPIC_DISCUSSION TD
+					JOIN DISCUSSION D
+					ON TD.TOPIC_DISCUSSION_ID=D.TOPIC_DISCUSSION_ID
+					JOIN USER U
+					ON U.USER_ID=D.USER_ID
+					WHERE TD.TOPIC_DISCUSSION_ID=".$topic_id."
+					ORDER BY TD.DATE_TIME ASC;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function insert_discussion($data)
+		{
+			//escape every variable
+			$this->db->insert('discussion', $data);
+		}
+
+		public function get_all_discussion_target($group_id, $user_id)
+		{
+			$sql = "SELECT * 
+					FROM USER U
+					WHERE USER_ID !=".$user_id."
+					AND USER_ID IN (SELECT STUDENT_ID FROM STUDENT_GROUP WHERE GROUP_ID=".$group_id.")
+					OR USER_ID !=".$user_id."
+					AND USER_ID IN (SELECT ADVISER_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.");";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_topic_id_by_discussion_id($discussion_id)
+		{
+			$sql = "SELECT * 
+					FROM DISCUSSION
+					WHERE DISCUSSION_ID=".$discussion_id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+		public function delete_discussion_reply($id)
+		{
+			//escape all variable
+			$this->db->where('discussion_id', $id);
+			$this->db->delete('discussion'); 
+		}
 	}
 ?>

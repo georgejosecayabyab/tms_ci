@@ -44,7 +44,6 @@
              
             </ul>
 
-            <a href="#" class="btn btn-success btn-block"><b><i class="fa fa-gears margin-r-5"></i> Edit Group</b> </a>
           </div>
           <!-- /.box-body -->
         </div>
@@ -124,7 +123,7 @@
                   <div class="user-block">
                     <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
                         <span class="username">
-                          <a href="#"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
+                          <a href="<?php echo site_url('faculty/view_discussion_specific/'.$row['TOPIC_DISCUSSION_ID']);?>"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
                         </span>
                     <span class="description"><!-- created by , date, time-->
                     <?php 
@@ -142,12 +141,12 @@
                     
                     </li>
                     <li class="pull-right">
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
+                      <a href="<?php echo site_url('faculty/view_discussion_specific/'.$row['TOPIC_DISCUSSION_ID']);?>" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
                       <?php
                         $num = 0;
                         foreach($reply as $rep)
                         {
-                          if($rep['GROUP_ID']==$row['GROUP_ID'])
+                          if($rep['TOPIC_DISCUSSION_ID']==$row['TOPIC_DISCUSSION_ID'])
                           {
                             $num = $rep['COUNT'];
                           }

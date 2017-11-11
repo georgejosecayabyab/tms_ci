@@ -155,14 +155,23 @@
     });
   });
 
+  
+
+  setInterval(get_new_notifications, interval);
+  setInterval(get_all_notifications, interval);
+  
+</script>
+<!-- view profile-->
+<script type="text/javascript">
   $('#profile_edit_button').on('click',function()
   {
     $.ajax({
       type: 'POST',
-      success: function () {
+      success: function () 
+      {
         console.log('profiel edit');
         $('#profile_section').empty();
-        $('#profile_section').append('');
+        $('#profile_section').append('<div><label for="fname">First Name:</label><input type="text" id="fname" placeholder="first name" value="<?php echo $faculty_data['FIRST_NAME'];?>"></div><div><label for="lname">Last Name:</label><input type="text" id="lname" placeholder="last name" value="<?php echo $faculty_data['LAST_NAME'];?>"></div><div><label for="email">Email:</label><input type="email" id="fname" placeholder="email" value="<?php echo $faculty_data['EMAIL'];?>"></div><div><label for="rank">Rank:</label><input type="text" id="fname" placeholder="email" value="<?php echo $faculty_data['RANK'];?>"></div><div><div class="row"><label for="tag">Specialization:</label><select class="selectpicker" multiple id="tag"><?php foreach($faculty_tag as $row):?><option><?php echo $row['SPECIALIZATION'];?></option><?php endforeach;?></select><button id="add_tag">add</button><button id="remove_tag">remove</button><label for="all_tag">Specialization:</label><select class="selectpicker" multiple id="all_tag"><?php foreach($all_tag as $row):?><option><?php echo $row['specialization'];?></option><?php endforeach;?></select></div></div><button id="profile_submit_button" class="btn btn-primary">Submit</button>');
       },
       error: function(data, errorThrown)
       {
@@ -171,11 +180,30 @@
     });
   });
 
+  $('#profile_section').on('click', '#profile_submit_button', function()
+  {
+    $.ajax({
+      type: 'POST',
+      success: function()
+      {
+        var values = $('#tag').val();
+        console.log(values);
+      }
+    });
+  });
 
-  setInterval(get_new_notifications, interval);
-  setInterval(get_all_notifications, interval);
-  
-</script>
+  $('#profile_section').on('click', '#add_tag', function()
+  {
+    var values = $('#tag').val();
+    console.log(values); 
+  });
+
+  $('#profile_section').on('click', '#remove_tag', function()
+  {
+    var values = $('#all_tag').val();
+    console.log(values); 
+  });
+</script>>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
