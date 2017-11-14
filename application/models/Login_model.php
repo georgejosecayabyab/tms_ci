@@ -59,6 +59,14 @@
 			$sql = "SELECT";
 		}
 
+		public function get_email()
+		{
+			$sql = "select email from user;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+
+		}
+
 	}
 
 ?>

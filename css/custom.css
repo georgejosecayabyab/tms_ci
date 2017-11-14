@@ -111,6 +111,12 @@ th {
 	margin-bottom: 20px;
 }
 
+#submitbtn2 {
+	margin-left: 350px;
+	margin-right: 30px;
+	margin-bottom: 20px;
+}
+
 #newUpload {
 	margin-left: 30px;
 	margin-right: 30px;
@@ -126,3 +132,8 @@ th {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+#abstract {
+	margin-top: 40px;
+}
+

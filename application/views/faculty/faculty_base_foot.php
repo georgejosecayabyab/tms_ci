@@ -31,7 +31,7 @@
     <!-- /.control-sidebar-menu -->
      <ul class="control-sidebar-menu">
       <li>
-        <a href="javascript:;">
+        <a href="<?php echo site_url('faculty/edit_profile');?>">
           <i class="menu-icon fa fa-gears bg-green"></i>
           <div class="menu-info">
             <h4 class="control-sidebar-subheading">Edit Profile</h4>
@@ -144,7 +144,7 @@ immediately after the control sidebar -->
         for(i=0; i<num;i++)
         {
           console.log(data)
-          console.log('gt');;
+          console.log('gt');
           $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
         }
       },

@@ -447,5 +447,14 @@
 			$this->db->where('discussion_id', $id);
 			$this->db->delete('discussion'); 
 		}
+
+		public function get_all_rank($user_id)
+		{
+			$sql = "SELECT RANK_CODE, RANK 
+					FROM RANK 
+					ORDER BY RANK_CODE=(SELECT RANK FROM FACULTY WHERE USER_ID=".$user_id.") DESC, RANK ASC;";
+			$query = $this->db->query($sql);
+			return $query->result_array();	
+		}
 	}
 ?>

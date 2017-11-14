@@ -40,14 +40,13 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item <?php echo $active_tab['home'];?>">
-            <a class="nav-link" href="<?php echo site_url('home/index');?>"">Home
+            <a class="nav-link" href="<?php echo site_url('home/index');?>">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item <?php echo $active_tab['login'];?>">
-            <a class="nav-link" href="<?php echo site_url('login/index');?>">Login</a>
+            <a id="login" class="nav-link" href="<?php echo site_url('login/index');?>">Login</a>
           </li>
-
         </ul>
       </div>
     </div>
