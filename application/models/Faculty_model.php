@@ -17,7 +17,7 @@
 
 		public function get_faculty_specialization($user_id)
 		{
-			$sql = "SELECT FS.USER_ID, S.SPECIALIZATION 
+			$sql = "SELECT FS.USER_ID, S.SPECIALIZATION, S.SPECIALIZATION_ID 
 					FROM FACULTY_SPECIALIZATION FS
 					JOIN SPECIALIZATION S
 					ON S.SPECIALIZATION_ID=FS.SPECIALIZATION_ID
@@ -455,6 +455,13 @@
 					ORDER BY RANK_CODE=(SELECT RANK FROM FACULTY WHERE USER_ID=".$user_id.") DESC, RANK ASC;";
 			$query = $this->db->query($sql);
 			return $query->result_array();	
+		}
+
+		public function insert_faculty_specialization($user_id, $tag_name)
+		{
+			$sql = "INSERT INTO FACULTY_SPECIALIZATION
+					VALUES (".user_id.", (SELECT SPECIALIZATION_ID FROM SPECIALIZATION WHERE SPECIALIZATION='".$tag_name."'));";
+			$this->db->query($sql);
 		}
 	}
 ?>

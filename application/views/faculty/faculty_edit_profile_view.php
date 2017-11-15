@@ -6,13 +6,9 @@
         Edit Faculty Profile
         
         </h1>
-        <ol class="breadcrumb">
-          <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="studentGroup.html"><i class="fa fa-home"></i> Group</a></li>
-          
-        </ol>
       </section>
       <!-- Main content -->
+      
       <section class="content container-fluid">
         
         <div class="row" id="scheduleRow">
@@ -43,98 +39,81 @@
         <div class="row">
           <div class="col-lg-12 col-xs-8">
             <div class="box box-primary">
-              
+              <div class="box-header"></div>
               <!-- /.box-header -->
               <div  class="box-body">
-              </div >
+              
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <form class="form-horizontal">
                 <div class="form-group">
-                  <label for="inputName" class="col-sm-2 control-label">Name</label>
+                  <label for="inputFirstName" class="col-sm-2 control-label">First Name</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="inputName" placeholder="Name">
+                    <input class="form-control" id="inputFirstName" placeholder="Name" value="<?php echo $faculty_data['FIRST_NAME'];?>">
                   </div>
                 </div>
-               
+                <div class="form-group">
+                  <label for="inputLastName" class="col-sm-2 control-label">Last Name</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" id="inputLAstName" placeholder="Name" value="<?php echo $faculty_data['LAST_NAME'];?>">
+                  </div>
+                </div>
                 
                 <div class="form-group ">
                   <label for="inputName" class="col-sm-2 control-label">Rank</label>
+                  <div class="col-sm-8">
+                    <span>
+                      <select class="form-control select2" style="width: 100%;">
+                        <?php foreach($all_rank as $row):?>
+                          <option><?php echo $row['RANK'];?></option>
+                        <?php endforeach;?>
+
+                        
+                      </select>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label for="allSpecialization" class="col-sm-2 control-label">Specialization</label>
                   
                   <div class="col-sm-8">
-                    <select class="form-control select2" data-placeholder="Select a Rank"
+                    <select id="allSpecialization" class="form-control select2" multiple="multiple" data-placeholder="Select an area of specialization"
                       style="width: 100%;">
-                      <?php foreach($all_rank as $row):?>
-                        <option><?php echo $row['RANK'];?></option>
+                      <?php foreach($all_tag as $row):?>
+                        <option id="<?php echo $row['specialization_id'];?>"><?php echo $row['specialization'];?></option>
+                      <?php endforeach;?>
+                      <?php foreach($faculty_tag as $row):?>
+                        <option id="<?php echo $row['SPECIALIZATION_ID'];?>" selected="selected"><?php echo $row['SPECIALIZATION'];?></option>
                       <?php endforeach;?>
                     </select>
                   </div>
                 </div>
-                <div class="form-group ">
-                  <label for="inputName" class="col-sm-2 control-label">Specialization</label>
-                  
-                  <div class="col-sm-8">
-                    <select class="form-control select2" multiple="multiple" data-placeholder="Select an area of specialization"
-                      style="width: 100%;">
-                      <option>Algorithms and Complexity</option>
-                      <option>Architecture and Organization</option>
-                      <option>Computational Science</option>
-                      <option>Digital Signal Processing</option>
-                      <option>Discrete Structure</option>
-                      <option>Embedded and Control System</option>
-                      <option>General Computer Science</option>
-                      <option>Robotics</option>
-                      <option>Software Engineering</option>
-                      <option>Graphics and Visual Computing</option>
-                      <option>Human-Computer Interaction</option>
-                      <option>Information Management</option>
-                      <option>Intelligent Systems</option>
-                      <option>Net-centric computing</option>
-                      <option>Operating Systems</option>
-                      <option>Programming Languages</option>
-                      <option>Social and Professional Issues</option>
-                    </select>
-                  </div>
-                </div>
                 
-                <div class="form-group">
-                  <label for="inputEmail" class="col-sm-2 control-label">Current Specializations</label>
-                  <p>
-                    
-                    <span class="label regularLabel">Web Platform</span>
-                    <span class="label regularLabel">Web Application</span>
-                    <span class="label regularLabel">Information Technology</span>
-                    <span class="label regularLabel">Information Systems</span>
-                    <span class="label regularLabel">Django Framework</span>
-                    
-                  </p>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-lg-4 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-xs-12">
+                      <button id="submitbtn" onclick="location.href='<?php echo site_url('faculty/view_profile');?>'" type="button" class="btn btn-danger">Exit</button>
+                      <button id="submit_edit"  type="button" class="btn btn-primary">Save and Quit</button>
+                    </div>
                   </div>
                 </div>
+              
               </form>
-              <ul class="todo-list">
-                
-              </ul>
             </div>
             <!-- /.box-body -->
             
           </div>
         </div>
-        <div class="col-lg-12 col-xs-8">
-          <div class="box box-primary">
-            
+        <!-- /.modal -->
+        
+              </div>
+              <!-- /.box-body -->
+            </div>
           </div>
-          <!-- /.box-header -->
-          
         </div>
-        <!-- /.box-body -->
-      </div>
+        
+      </section>
+      <!-- /.content -->
     </div>
-  </div>
-  
-</section>
-<!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+    <!-- /.content-wrapper -->

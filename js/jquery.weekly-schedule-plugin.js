@@ -39,7 +39,7 @@
                 output[i] = hoursSelected;
             }
 
-            transformData(output);
+            output = transformData(output);
             return output;
         }
 
@@ -324,20 +324,20 @@
 
 
         function transformData(output){
-            console.log(output);
+     
             let sched = {};
 
             for(const key in output){
                 const time = output[key];
-                console.log('time' + time);
+                
                 sched[key] = [];
                 for(let index1 = 0; index1 < time.length; ++index1){
                     sched[key].push(time[index1].classList['1']);
                 }
             }
 
-            console.log(JSON.stringify(sched));
-            return sched;
+            console.log(sched[0][0]); // RETURNS DATA FROM MONDAY (O) FIRST INDEX
+            return JSON.stringify(sched);
 
         }
 

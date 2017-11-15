@@ -403,6 +403,13 @@
 			$this->faculty_model->insert_notification($data);
 		}
 
+		public function insert_faculty_specialization($specialization)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$this->faculty_model->insert_faculty_specialization($user_id, $specialization);
+		}
+
 
 		////// delete
 
@@ -438,6 +445,16 @@
 				{
 					$this->faculty_model->update_notification($row['notification_id']);
 				}
+			}
+		}
+
+		public function update_faculty_specialization() ////not working
+		{
+			$value = $this->input->post('data'); 
+
+			for($i=0; $i<sizeof($value); $i++)
+			{
+				$this->insert_faculty_specialization($value[$i]);
 			}
 		}
 

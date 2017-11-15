@@ -75,6 +75,9 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
+
+<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
 <!-- AdminLTE for demo purposes -->
 <!-- schedule-->
 <script>    
@@ -143,8 +146,6 @@ immediately after the control sidebar -->
         }
         for(i=0; i<num;i++)
         {
-          console.log(data)
-          console.log('gt');
           $('#notification_list').append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+data[i].notification_details+'</a></li>');
         }
       },
@@ -162,7 +163,6 @@ immediately after the control sidebar -->
       success: function(data)
       {
         //$('#notification_list').empty();
-        console.log(data);
         if(data.length > 0)
         {
           $('#new_notification_number').empty();
@@ -188,7 +188,6 @@ immediately after the control sidebar -->
       type: 'POST',
       url: 'http://[::1]/tms_ci/index.php/faculty/update_notification',          
       success: function () {
-        console.log('none');
         get_new_notifications();
       },
       error: function(data, errorThrown)
@@ -203,47 +202,25 @@ immediately after the control sidebar -->
   setInterval(get_new_notifications, interval);
   setInterval(get_all_notifications, interval);
 </script>
-<!-- view profile-->
+
+<!-- click edit submit-->
 <script>
-  $('#profile_edit_button').on('click',function()
-  {
-    $.ajax({
-      type: 'POST',
-      success: function () 
-      {
-        console.log('profiel edit');
-        $('#profile_section').empty();
-        $('#profile_section').append('<div><label for="fname">First Name:</label><input type="text" id="fname" placeholder="first name" value="<?php echo $faculty_data['FIRST_NAME'];?>"></div><div><label for="lname">Last Name:</label><input type="text" id="lname" placeholder="last name" value="<?php echo $faculty_data['LAST_NAME'];?>"></div><div><label for="email">Email:</label><input type="email" id="fname" placeholder="email" value="<?php echo $faculty_data['EMAIL'];?>"></div><div><label for="rank">Rank:</label><input type="text" id="fname" placeholder="email" value="<?php echo $faculty_data['RANK'];?>"></div><div><div class="row"><label for="tag">Specialization:</label><select class="selectpicker" multiple id="tag"><?php foreach($faculty_tag as $row):?><option><?php echo $row['SPECIALIZATION'];?></option><?php endforeach;?></select><button id="add_tag">add</button><button id="remove_tag">remove</button><label for="all_tag">Specialization:</label><select class="selectpicker" multiple id="all_tag"><?php foreach($all_tag as $row):?><option><?php echo $row['specialization'];?></option><?php endforeach;?></select></div></div><button id="profile_submit_button" class="btn btn-primary">Submit</button>');
-      },
-      error: function(data, errorThrown)
-      {
-        console.log(errorThrown);
-      }
+  var data = $('#allSpecialization').val();
+  $('#submit_edit').click(function()
+    {
+      var data = $('#allSpecialization').val();
+      console.log(data);
+
+      $.post('http://[::1]/tms_ci/index.php/faculty/update_faculty_specialization',{'data':data});  
     });
-  });
+  console.log(data);
+</script>
 
-  $('#profile_section').on('click', '#profile_submit_button', function()
-  {
-    $.ajax({
-      type: 'POST',
-      success: function()
-      {
-        var values = $('#tag').val();
-        console.log(values);
-      }
-    });
-  });
-
-  $('#profile_section').on('click', '#add_tag', function()
-  {
-    var values = $('#tag').val();
-    console.log(values); 
-  });
-
-  $('#profile_section').on('click', '#remove_tag', function()
-  {
-    var values = $('#all_tag').val();
-    console.log(values); 
+<!--select elements-->
+<script>
+  $(function () {
+  //Initialize Select2 Elements
+  $('#allSpecialization option:selected').select2();
   });
 </script>
 
@@ -253,6 +230,49 @@ immediately after the control sidebar -->
   $(document).ready(function() {
     $('#table').DataTable();
   });
+</script>
+
+<script>
+  $(function () {
+  //Initialize Select2 Elements
+    $('.select2').select2();
+  });
+</script>
+<!--date range picker-->
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
 </script>
 </body>
 </html>
