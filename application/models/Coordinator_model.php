@@ -77,6 +77,40 @@
 		return $query->result_array();
 	}	
 
+	//Coordinator Announcement
+
+	public function add_announcement($description, $course_id)
+	{
+		$sql = "INSERT INTO `thesis_related_event` (`event_id`, `event_desc`, `course_id`) 
+				VALUES (NULL, ".$description.", ".$course_id.");";
+
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}	
+
+	//Coordinator Form
+
+	//This function will get the form given the course_id
+	public function get_form($course_id)
+	{
+		$sql = "SELECT *
+				FROM FORM
+				WHERE COURSE_ID = ".$course_id";";
+
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}	
+
+	//This function will add a form in the database
+	public function add_form($form, $course_id)
+	{
+		$sql = "INSERT INTO `form` (`form_id`, `form_name`, `course_id`) 
+				VALUES (NULL, ".$form.", ".$course_id.");";
+
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
 	}
 
 
