@@ -469,5 +469,63 @@
 			//escape every variable
 			$this->db->insert('topic_discussion', $data);
 		}
+
+		public function archive_thesis()
+		{
+			$sql = "select t.thesis_id, t.thesis_title, tg.group_id, t.abstract
+					from thesis t 
+					join thesis_group tg
+					on tg.thesis_id=t.thesis_id
+					where thesis_status='ON-GOING';";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function archive_members()
+		{
+			$sql = "select tg.thesis_id, sg.group_id, concat(u.first_name,' ', u.last_name) as 'name'
+					from student_group sg
+					join student s
+					on s.user_id=sg.student_id
+					join user u
+					on u.user_id=s.user_id
+					join thesis_group tg
+					on tg.group_id=sg.group_id;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+
+		public function archive_specialization()
+		{
+			$sql = "select s.specialization, ts.thesis_id
+					from thesis_specialization ts
+					join specialization s
+					on s.specialization_id=ts.specialization_id; ";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function archive_panels()
+		{
+			$sql = "select tg.thesis_id, pg.group_id, concat(u.first_name,' ', u.last_name) as 'name'
+					from panel_group pg
+					join faculty f
+					on f.user_id=pg.panel_id
+					join user u
+					on u.user_id=f.user_id
+					join thesis_group tg
+					on tg.group_id=pg.group_id;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_thesis_by_thesis_id($thesis_id)
+		{	
+			$sql = "SELECT * FROM THESIS WHERE THESIS_ID=".$thesis_id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+
+		}
 	}
 ?>

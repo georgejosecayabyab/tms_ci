@@ -198,7 +198,10 @@
 
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
 			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
-			// list of finished thesis papers
+			$data['thesis'] = $this->faculty_model->archive_thesis();
+			$data['member'] = $this->faculty_model->archive_members();
+			$data['panel'] = $this->faculty_model->archive_panels();
+			$data['specialization'] = $this->faculty_model->archive_specialization();
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",
@@ -211,6 +214,32 @@
 			$this->load->view('faculty/faculty_base_head', $data);
 			$this->load->view('faculty/faculty_archive_view', $data);
 			$this->load->view('faculty/faculty_base_foot', $data); 
+		}
+
+		public function view_archive_specific($thesis_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['thesis'] = $this->faculty_model->get_thesis_by_thesis_id($thesis_id);
+			$data['member'] = $this->faculty_model->archive_members();
+			$data['panel'] = $this->faculty_model->archive_panels();
+			$data['specialization'] = $this->faculty_model->archive_specialization();
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "",
+				'panels' => "",
+				'archive' => "active" 
+			);
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_archive_specific_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+		
 		}
 
 		public function view_schedule()
@@ -523,6 +552,8 @@
 			$this->session->sess_destroy();
 			redirect("home/index");
 		}
+
+
 	}
 
 ?>
