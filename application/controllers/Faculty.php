@@ -235,6 +235,28 @@
 			//$this->load->view('faculty/sample', $data);
 		}
 
+
+		public function view_new_discussion($group_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['group'] = $this->faculty_model->get_group_details($group_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "active",
+				'panels' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_new_discussion_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+		}
+
 		//////edit
 		public function edit_profile()
 		{
@@ -258,8 +280,9 @@
 			$this->load->view('faculty/faculty_base_foot', $data);
 		}
 
+
 		//////validate
-		public function validate_comment()
+		public function validate_comment() 
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
@@ -318,13 +341,12 @@
 			$group_id = $this->input->post("group_id");
 			date_default_timezone_set('Asia/Manila');
 			$date_time = date("Y-m-d H:i:s");
-			echo $date_time;
 
 			$this->form_validation->set_rules('reply', 'Reply', 'required|trim');
 
 			if($this->form_validation->run() == FALSE)
 			{
-				redirect('faculty/view_discussion_specific/'.$group_id);
+				redirect('faculty/view_discussion_specific/'.$topic_id);
 			}
 			else
 			{
@@ -337,7 +359,7 @@
 						'discuss' => $reply,
 						'date_time' => $date_time
 					);
-					$this->faculty_model->insert_discussion($data);
+					$this->faculty_model->insert_discussion_reply($data);
 					$result = $this->faculty_model->get_all_discussion_target($group_id, $user_id);
 					foreach($result as $row)
 					{
@@ -357,6 +379,38 @@
 
 		}
 
+		public function validate_discussion()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$topic_name = $this->input->post("discussion_title");
+			$discussion = $this->input->post("editor1");
+			$result = $this->faculty_model->get_faculty_detail($user_id);
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+
+			$this->form_validation->set_rules('discussion_title', 'Title', 'required|trim');
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('faculty/view_new_discussion/'.$group_id);
+			}
+			else
+			{
+				$data =	array(
+						'topic_name' =>  $topic_name,
+						'topic_info' => $discussion,
+						'created_by' => $user_id,
+						'group_id'	=> $group_id['group_id'],
+						'date_time' => $date_time
+					);
+				$this->faculty_model->insert_new_discussion($data);
+              	redirect('faculty/view_advisee_specific/'.$group_id);
+			}
+		}
 		////get
 		public function get_all_notifications()
 		{

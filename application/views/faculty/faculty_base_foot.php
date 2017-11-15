@@ -69,6 +69,9 @@ immediately after the control sidebar -->
 
 <!-- jQuery 3 -->
 <script src="<?php echo base_url();?>js/jquery.min.js"></script>
+
+<script src="<?php echo base_url();?>js/ckeditor/ckeditor.js"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
@@ -231,7 +234,7 @@ immediately after the control sidebar -->
     $('#table').DataTable();
   });
 </script>
-
+<!--faculty view profile-->
 <script>
   $(function () {
   //Initialize Select2 Elements
@@ -273,6 +276,52 @@ immediately after the control sidebar -->
         $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
       }
     )
+</script>
+
+<!--editor-->
+<script>
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor1')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+</script>
+<!---editor content-->
+<script>
+  var editor = CKEDITOR.replace('editor1');
+  $('#save_discussion').click(function() {
+    var topic_info = editor.getData();
+    var topic_name = $('#discussion_title').val();
+    $('#discussion_title').val(topic_name);
+    $('#editor1').val(topic_info);
+    // $.ajax({
+    //     type:'POST',
+    //     url:'http://[::1]/tms_ci/index.php/student/validate_discussion',
+    //     data:{'topic_info':topic_info, 'topic_name':topic_name},
+    //     success:function(){
+    //       console.log(topic_info);
+    //       console.log(topic_name);
+    //     },
+    //     error: function(XMLHttpRequest, textStatus, errorThrown)
+    //     {
+    //       console.log(textStatus);
+    //       console.log(errorThrown);
+    //     }
+    // });
+  });
+
+  function fill_in()
+  {
+    var topic_info = editor.getData();
+    var topic_name = $('#discussion_title').val();
+    $('#discussion_title').val(topic_name);
+    $('#editor1').val(topic_info);
+    console.log('succe');
+    console.log($('#editor1').val());
+    console.log($('#discussion_title').val());
+  }
 </script>
 </body>
 </html>

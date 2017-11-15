@@ -11,6 +11,9 @@
 			$this->load->model('student_model');
 
 			$this->load->helper('download');
+			$this->load->helper(array('form', 'url'));
+			$this->load->library('form_validation');
+			$this->load->library('email');
 
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
@@ -29,6 +32,7 @@
 			$data['group_id'] = $this->student_model->get_group($user_id);
 			$data['defense'] = $this->student_model->get_defense_date($user_id);
 			$data['meeting'] = $this->student_model->get_meetings($user_id);
+			$data['announcement'] = $this->student_model->get_thesis_related_event($user_id);
 			$data['active_tab'] = array(
 				'home' => "active",
 				'group' => "",
@@ -71,6 +75,10 @@
 
 			$data['student_data'] = $this->student_model->get_user_information($user_id);
 			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['thesis'] = $this->student_model->archive_thesis();
+			$data['member'] = $this->student_model->archive_members();
+			$data['panel'] = $this->student_model->archive_panels();
+			$data['specialization'] = $this->student_model->archive_specialization();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -81,6 +89,30 @@
 
 			$this->load->view('student/student_base_head', $data);
 			$this->load->view('student/student_archive_view', $data);
+			$this->load->view('student/student_base_foot', $data);
+		}
+
+		public function view_archive_specific($thesis_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			
+			$data['thesis'] = $this->student_model->get_thesis($thesis_id);
+			$data['member'] = $this->student_model->archive_members();
+			$data['panel'] = $this->student_model->archive_panels();
+			$data['specialization'] = $this->student_model->archive_specialization();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'group_schedule' => "",
+				'form' => "",
+				'archive' => "active" 
+			);
+
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_archive_specific_view', $data);
 			$this->load->view('student/student_base_foot', $data);
 		}
 
@@ -98,7 +130,7 @@
 				$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
 				$data['member'] = $this->student_model->get_thesis_group_members($user_id);
 				$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
-				$data['reply'] = $this->student_model->get_discussion();
+				$data['reply'] = $this->student_model->get_discussion_reply_count();
 				$data['active_tab'] = array(
 					'home' => "",
 					'group' => "active",
@@ -149,6 +181,51 @@
 			$this->load->view('student/student_schedule_view', $data);
 			$this->load->view('student/student_base_foot', $data); 
 			//$this->load->view('faculty/sample', $data);
+		}
+
+		public function view_new_discussion()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "active",
+				'group_schedule' => "",
+				'form' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_new_discussion_view', $data);
+			$this->load->view('student/student_base_foot', $data); 
+		}
+
+		public function view_discussion_specific($topic_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['faculty_notification'] =$this->student_model->get_new_student_notification($user_id);
+			$data['topic_data'] = $this->student_model->get_topic($topic_id); 
+			$data['discuss'] = $this->student_model->get_topic_discussion($topic_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "active",
+				'group_schedule' => "",
+				'form' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_discussion_specific_view', $data);
+			$this->load->view('student/student_base_foot', $data);  
 		}
 
 		////download
@@ -237,6 +314,122 @@
 					$this->student_model->update_notification($row['notification_id']);
 				}
 			}
+		}
+
+		/////validate
+		public function validate_discussion()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$topic_name = $this->input->post("discussion_title");
+			$discussion = $this->input->post("editor1");
+			$result = $this->student_model->get_user_information($user_id);
+			$group_id = $this->student_model->get_group($user_id);
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+
+			$this->form_validation->set_rules('discussion_title', 'Title', 'required|trim');
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('student/view_new_discussion/');
+			}
+			else
+			{
+				$data =	array(
+						'topic_name' =>  $topic_name,
+						'topic_info' => $discussion,
+						'created_by' => $user_id,
+						'group_id'	=> $group_id['group_id'],
+						'date_time' => $date_time
+					);
+				$this->student_model->insert_new_discussion($data);
+              	redirect('student/view_group/'.$group_id['group_id']);
+			}
+		}
+
+		public function validate_reply()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$student_data = $this->student_model->get_user_information($user_id);
+			$topic_id = $this->input->post("topic_id");
+			$topic_name = $this->input->post("topic_name");
+			$reply = $this->input->post("reply");
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('reply', 'Reply', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('student/view_discussion_specific/'.$topic_id);
+			}
+			else
+			{
+				if($this->input->post('submit_reply') == "Submit")
+				{
+					$panel_group_id = $this->student_model->get_panel_group_id($user_id, $group_id);
+					$data = array(
+						'topic_discussion_id' =>  $topic_id,
+						'user_id' => $user_id,
+						'discuss' => $reply,
+						'date_time' => $date_time
+					);
+					$this->student_model->insert_discussion_reply($data);
+					$result = $this->student_model->get_all_discussion_target($group_id, $user_id);
+					foreach($result as $row)
+					{
+						$this->insert_notification("New Reply in discussion: ".$topic_name, $row['user_id']);
+						// $this->email->from('george_cayabyab@dlsu.edu.ph', $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME']);
+						// $this->email->to('george_cayabyab@dlsu.edu.ph');
+
+						// $this->email->subject('CT Thesis');
+						// $this->email->message("New Reply in discussion: ".$topic_name);
+
+						// $this->email->send();
+					}
+					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Successful comment</div>');
+                  	redirect('student/view_discussion_specific/'.$topic_id);
+				}
+			}
+		}
+
+		/////insert
+		public function insert_event($discussion, $course_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->input->post("group_id");
+			$data = array(
+						'event_desc' =>  $discussion,
+						'course_id' => $course_id
+					);
+			$this->student_model->insert_event($data);
+		}
+
+		public function insert_notification($notification, $target_user_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->input->post("group_id");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+			$data = array(
+						'notification_details' =>  $notification,
+						'created_by' => $user_id,
+						'target_user_id' => $target_user_id,
+						'is_read' => 0,
+						'date_created' => $date_time,
+						'group_id' => $group_id
+					);
+			$this->student_model->insert_notification($data);
 		}
 
 		////logout

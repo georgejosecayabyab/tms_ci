@@ -121,7 +121,7 @@
 		{	
 			$sql = "SELECT TD.TOPIC_DISCUSSION_ID, COUNT(D.DISCUSSION_ID) AS 'COUNT', TD.GROUP_ID
 					FROM TOPIC_DISCUSSION TD
-					JOIN DISCUSSION D 
+					LEFT JOIN DISCUSSION D 
 					ON D.TOPIC_DISCUSSION_ID=TD.TOPIC_DISCUSSION_ID
 					GROUP BY TD.TOPIC_DISCUSSION_ID;";
 			$query = $this->db->query($sql);
@@ -414,7 +414,7 @@
 			return $query->result_array();
 		}
 
-		public function insert_discussion($data)
+		public function insert_discussion_reply($data)
 		{
 			//escape every variable
 			$this->db->insert('discussion', $data);
@@ -462,6 +462,12 @@
 			$sql = "INSERT INTO FACULTY_SPECIALIZATION
 					VALUES (".user_id.", (SELECT SPECIALIZATION_ID FROM SPECIALIZATION WHERE SPECIALIZATION='".$tag_name."'));";
 			$this->db->query($sql);
+		}
+
+		public function insert_new_discussion($data)
+		{
+			//escape every variable
+			$this->db->insert('topic_discussion', $data);
 		}
 	}
 ?>

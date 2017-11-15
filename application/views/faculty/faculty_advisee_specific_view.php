@@ -112,7 +112,7 @@
             <div class="active tab-pane" id="activity"><!-- DISCUSSION -->
               <div class="row">
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-block btn-success" onclick="location.href='studentNewDiscussion.html';" id="discussion">Create New Discussion </button>
+                  <button type="button" class="btn btn-block btn-success" onclick="location.href='<?php echo site_url('faculty/view_new_discussion/'.$group['group_id']);?>';" id="discussion">Create New Discussion </button>
                 </div>
               </div>
               <!-- DISCUSSION START -->

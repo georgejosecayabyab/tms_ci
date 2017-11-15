@@ -124,7 +124,7 @@
                 <!-- discussion button-->
                 <div class="row">
                   <div class="col-md-3">
-                    <button type="button" class="btn btn-block btn-success" onclick="location.href='studentNewDiscussion.html';" id="discussion">Create New Discussion </button>
+                    <button type="button" class="btn btn-block btn-success" onclick="location.href='<?php echo site_url('student/view_new_discussion');?>';" id="discussion">Create New Discussion </button>
                   </div>
                 </div>
                 <!-- end of discussion button-->
@@ -136,7 +136,7 @@
                   <div class="user-block">
                     <img class="img-circle img-bordered-sm" src="<?php echo base_url();?>img/003-user.png" alt="user image">
                         <span class="username">
-                          <a href="#"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
+                          <a href="<?php echo site_url('student/view_discussion_specific/'.$row['TOPIC_DISCUSSION_ID']);?>"><?php echo $row['TOPIC_NAME'];?></a><!-- topic -->
                         </span>
                     <span class="description"><!-- created by , date, time-->
                     <?php 
@@ -154,12 +154,12 @@
                     
                     </li>
                     <li class="pull-right">
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
+                      <a href="<?php echo site_url('student/view_discussion_specific/'.$row['TOPIC_DISCUSSION_ID']);?>" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>Replies
                       <?php
                         $num = 0;
                         foreach($reply as $rep)
                         {
-                          if($rep['GROUP_ID']==$row['GROUP_ID'])
+                          if($rep['TOPIC_DISCUSSION_ID']==$row['TOPIC_DISCUSSION_ID'])
                           {
                             $num = $rep['COUNT'];
                           }

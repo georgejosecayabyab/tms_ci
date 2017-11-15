@@ -66,27 +66,16 @@
             
             <!-- /.box-header -->
             <div  class="box-body">
-            <h1>Important Dates for THS-1</h1></div >
+            <h1>Important Dates for <?php echo $student_data['course_code']?></h1></div >
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
+                  <?php foreach($announcement as $row):?>
                   <li>
-                  
-                      
-                  <div class="box-header with-border">
-            <h3 class="box-title">Oct 14, Wednesday - Submit initial draft</h3>
-          </div>
-                  
-                 </a>
-                </li>
-                  <li>
-                    
-                       
-            
-                  <div class="box-header with-border">
-            <h3 class="box-title">Oct 15, Thursday - Release of in case of change form</h3>
-          </div>
-                 </a>
-                </li>
+                    <div class="box-header with-border">
+                      <h3 class="box-title"><?php echo $row['event_desc'];?></h3>
+                    </div>
+                  </li>
+                <?php endforeach;?>
               </ul>
             </div>
             <!-- /.box-body -->
