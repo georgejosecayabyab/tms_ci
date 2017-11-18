@@ -220,7 +220,10 @@
 
 		public function view_archive()
 		{
-			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['thesis'] = $this->coordinator_model->archive_thesis();
+			$data['member'] = $this->coordinator_model->archive_members();
+			$data['panel'] = $this->coordinator_model->archive_panels();
+			$data['specialization'] = $this->coordinator_model->archive_specialization();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -235,7 +238,31 @@
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
-			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_archive_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_archive_specific($thesis_id)
+		{
+			$data['thesis'] = $this->coordinator_model->get_thesis_by_thesis_id($thesis_id);
+			$data['member'] = $this->coordinator_model->archive_members();
+			$data['panel'] = $this->coordinator_model->archive_panels();
+			$data['specialization'] = $this->coordinator_model->archive_specialization();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "active_tab",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_archive_specific_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
