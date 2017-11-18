@@ -22,7 +22,221 @@
 
 		public function index()
 		{
-			$this->sample_common_free_time();
+			//$this->sample_common_free_time();
+
+			$data['defense'] = $this->coordinator_model->get_all_open_meetings();
+			$data['active_tab'] = array(
+				'home' => "active",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_home_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+
+		public function view_group()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "active",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_faculty()
+		{
+			$data['faculty_detail'] = $this->coordinator_model->get_faculty_info();
+			$data['panel'] = $this->coordinator_model->get_no_of_panels();
+			$data['group'] = $this->coordinator_model->get_no_of_groups();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "active",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_faculty_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_student()
+		{
+			$data['student'] = $this->coordinator_model->get_student_info();
+			$data['course'] = $this->coordinator_model->get_all_course_details();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "active",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_student_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+
+		}
+
+		public function view_announcement()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_home_announcement()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "active",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_specific_announcement()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "active",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_form()
+		{
+			$data['form'] = $this->coordinator_model->get_form();
+			$data['course_details'] = $this->coordinator_model->get_all_course_details();
+			$data['course'] = $this->coordinator_model->get_all_course();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "active",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_form_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_monitoring_report()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "active",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_archive()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "active_tab",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
 		public function sample_common_free_time()
