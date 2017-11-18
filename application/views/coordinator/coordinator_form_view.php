@@ -25,9 +25,8 @@
                   <div class="box-body">
                     <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
                     <ul class="todo-list">
-                      <?php foreach():?>
+                      <?php foreach($form as $frow):?>
                         <div class="col-lg-2 col-xs-2">
-
                           <button id="delete" type="button" class="btn btn-block btn-danger">Delete</button>
                         </div>
                         <li>
@@ -35,7 +34,16 @@
                             <span >
                               <i class="ion ion-clipboard"></i>
                             </span>
-                            <span class="text"> Form1.docx </span>
+                            <span class="text">
+                              <?php 
+                                echo $frow['form_name'];
+                                if($frow['course_code']=$row['coruse_code'])
+                                {
+                                  
+                                }
+                              ?>
+                                
+                            </span>
                             
                           </a>
                         </li>
