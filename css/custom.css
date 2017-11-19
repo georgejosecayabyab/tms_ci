@@ -44,6 +44,13 @@
 	font-size: 50px;
 }
 	
+td {  
+	
+
+}	
+th {
+	
+}
 
 #tableSection {
 	
@@ -99,8 +106,9 @@
 }
 
 #submitbtn {
-	margin-top: 20px;
+
 	margin-bottom: 20px;
+	margin-top: 20px;
 }
 
 #submitbtn2 {
@@ -134,9 +142,6 @@
 	margin-bottom: 20px;
 }
 
-#abstract {
-	margin-top: 40px;
-}
 
 #remove {
 
@@ -209,7 +214,89 @@
   	
   }
 
- #abstract {
- 	margin-bottom: 300px;
- 	size: 5999px;
- }
+  #newAnnouncement {
+  	margin-top: 30px;
+  	margin-bottom: 10px;
+  }
+
+
+.successCircle{
+
+	color: green;
+}
+
+.successBtn{
+
+	background-color: green;
+	color: #FFF;
+}
+
+.conditionalCircle{
+
+	color: #3c8dbc;
+}
+
+.noVerdictCircle{
+	color: #f39c12 ;
+}
+
+.failCircle{
+
+	color: #dd4b39;
+}
+
+.redefenseCircle{
+
+	color: #00c0ef;
+}
+
+.conditionalBtn{
+	background-color: #3c8dbc;
+	color: #FFF;
+}
+
+.failBtn{
+	background-color: #dd4b39;
+	color: #FFF;
+}
+
+.noVerdictBtn{
+	background-color: #f39c12;
+	color: #FFF;
+}
+
+.redefenseBtn{
+	background-color: #00c0ef;
+	color: #FFF;
+	}
+
+#manualSched{
+	 display: none;
+     visibility: hidden;
+}
+
+.median{
+
+	width: 64.5px;
+	margin-left: -20px;
+	border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+
+}
+

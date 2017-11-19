@@ -47,6 +47,7 @@
 		public function view_group()
 		{
 			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['panel'] = $this->coordinator_model->archive_panels();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "active",
@@ -273,6 +274,14 @@
 
 			$this->load->view('coordinator/sample_schedule_view', $data);
 
+		}
+
+		public function update_group_verdict()
+		{
+			$group_id = $this->input->post("group_id");
+			$verdict = $this->input->post("verdict");
+
+			$this->coordinator_model->update_initial_verdict($group_id, $verdict);
 		}
 	}
 ?>

@@ -136,16 +136,7 @@ immediately after the control sidebar -->
           $.ajax({
             type:'POST',
             url:'/tms_ci/index.php/faculty/insert_schedule',
-            data: {'data': test[i2], 'day': day},
-            success: function(data)
-            {
-              console.log('succes');
-              console.log('length is '+ JSON.stringify(data));
-            },
-            error: function(err)
-            {
-              console.log(err);
-            }
+            data: {'data': test[i2], 'day': day}
 
           }); 
         }

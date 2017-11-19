@@ -67,7 +67,7 @@ class coordinator_model extends CI_Model
 	//This functions gets the group information
 	public function get_group_info()
 	{
-		$sql = "SELECT *
+		$sql = "SELECT TG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_ID, TG.INITIAL_VERDICT, TG.FINAL_VERDICT, TG.IS_ACTIVE, DD.DEFENSE_DATE_ID, DD.DEFENSE_DATE, DD.START_TIME, DD.END_TIME, DD.VENUE, CD.COURSE_CODE, CD.SECTION
 				FROM THESIS_GROUP TG	LEFT JOIN DEFENSE_DATE DD
 										ON TG.GROUP_ID = DD.GROUP_ID
                         				LEFT JOIN COURSE_DETAILS CD 
@@ -223,6 +223,16 @@ class coordinator_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->first_row('array');
 
+	}
+
+	public function update_initial_verdict($group_id, $verdict)
+	{
+
+		$data = array(
+			'initial_verdict' => $verdict
+		);
+		$this->db->where('group_id', $group_id);
+		$this->db->update('thesis_group', $data); 
 	}
 }
 
