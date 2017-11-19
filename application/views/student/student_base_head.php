@@ -52,10 +52,23 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-green sidebar-mini">
+    <?php if($this->session->flashdata('fail')): ?>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i><?php echo $this->session->flashdata('fail'); ?></h4>
+      </div>  
+    <?php endif; ?>
+    <?php if($this->session->flashdata('success')): ?>
+      <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i><?php echo $this->session->flashdata('success'); ?></h4>
+      </div>  
+    <?php endif; ?>
 <div class="wrapper">
 
   <!-- Main Header -->
   <header class="main-header">
+
 
     <!-- Logo -->
     <a href="<?php echo site_url('student');?>" class="logo">

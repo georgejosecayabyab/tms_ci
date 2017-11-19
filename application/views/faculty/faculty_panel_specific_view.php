@@ -39,8 +39,13 @@
 
 
         <div id="pdf">
-        <iframe src = "<?php echo base_url();?>ViewerJS/demodoc.pdf" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document. check if exists -->
-      </div>
+          <?php if(sizeof($submit)>0):?>
+            <iframe src = "<?php echo base_url();?>uploaded_thesis/<?php echo $submit['upload_name'];?>" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document. check if exists -->
+          <?php else:?>
+            No Document
+          <?php endif;?>
+          
+        </div>
         <div id="pdf" >
 
         

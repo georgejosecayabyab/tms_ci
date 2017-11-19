@@ -140,6 +140,8 @@ immediately after the control sidebar -->
 
           }); 
         }
+
+        alert('Schedule has been uploaded!');
       },
       error: function(err)
       {
@@ -369,6 +371,7 @@ immediately after the control sidebar -->
     });
   });
 </script>
+<!--edit reply-->
 <script type="text/javascript">
   $('#submit_edit').click(function(){
     console.log('joke');

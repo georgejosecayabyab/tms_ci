@@ -1,3 +1,4 @@
+
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -197,8 +198,17 @@
               <div class="tab-pane" id="timeline">
                 <div class="form-group">
                   <label for="exampleInputFile"><font size="+1">Current Document:</label>
-                    <a href="#">Submission1</font></a> 
-                  <p class="help-block"><font size="-1">Last upload was on: upload date</font></p>
+                    <a href="#"><?php
+                      if(sizeof($submit) > 0){
+                        echo $submit['upload_name'];
+                      }
+                      else
+                      {
+                        echo 'No document submitted';
+                      }
+                     ?>
+                    </font></a> 
+                  <p class="help-block"><font size="-1">Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
 
                 </div>
 
@@ -207,96 +217,88 @@
                 <!-- The timeline -->
                 <ul class="timeline timeline-inverse">
                   <!-- timeline time label -->
-                  
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                   <li class="time-label">
-                        <span class="bg-green">
-                          25 Oct. 2017
-                        </span>
-                  </li>
+                  <?php 
+                    //echo form_open('faculty/delete_comment');
+                    echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
+                    if(sizeof($comment)>0)
+                    {
+                      $date = '';
+                      foreach($comment as $row)
+                      {
+                        if($date != $row['DATE'])
+                        {
+                          $date_new = strtotime($row['DATE']);
+                          $formatted_date_new = date('F d, Y', $date_new);
+                          $date = $row['DATE'];
+                          echo '<li class="time-label">
+                            <span class="bg-green">'
+                              .$formatted_date_new.'
+                            </span>
+                          </li>';
+                          echo '<li>
+                           <i class="fa fa-comments bg-green"></i>
 
-                  <li>
-                    <i class="fa fa-check bg-green"></i>
+                            <div class="timeline-item">
+                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                      <h3 class="timeline-header"><a href="#">Geanne Franco</a> approved your document</h3>
+                              <div class="timeline-body">'
+                                .$row['THESIS_COMMENT'].
+                              '</div>';
+                              if($row['USER_ID']==$student_data['user_id'])
+                              {
+                                echo '<div class="timeline-footer">
+                                  <a class="btn btn-primary btn-xs">Edit</a>
+                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                                </div>';
+                              }
+                            echo '</div>
+                          </li>';
+                        }
+                        else
+                        {
+                          echo '<li>
+                           <i class="fa fa-comments bg-green"></i>
 
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">        
-                      </div>
-                    </div>
-                  </li>
-                 
+                            <div class="timeline-item">
+                              <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
 
+                              <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
 
-                   <li class="time-label">
-                        <span class="bg-green">
-                          20 Oct. 2017
-                        </span>
-                  </li>
-
-                  <li>
-                    <i class="fa fa-comment bg-blue"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="#">Geanne Franco</a> sent your group a comment</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">        
-                      </div>
-                    </div>
-                  </li>
-
-
-
-                    <li class="time-label">
-                        <span class="bg-green">
-                          10 Oct. 2017
-                        </span>
-                  </li>
-
-                <li>
-                    <i class="fa fa-comment bg-blue"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="#">Jocelyn Cu</a> sent your group a comment</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">        
-                      </div>
-                    </div>
-                  </li>
-
-
-
-
+                              <div class="timeline-body">'
+                                .$row['THESIS_COMMENT'].
+                              '</div>';
+                              if($row['USER_ID']==$student_data['user_id'])
+                              {
+                                echo '<div class="timeline-footer">
+                                  <a class="btn btn-primary btn-xs">Edit</a>
+                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
+                                </div>';
+                              }
+                            echo '</div>
+                          </li>';
+                        }
+                      }
+                    }
+                    else
+                    {
+                      echo '
+                        <li>
+                          <div class="timeline-item">
+                            <div class="timeline-body">
+                              No Comment
+                            </div>
+                          </div>
+                        </li>
+                        <!-- END timeline item -->
+                        <!-- timeline item -->';
+                    }
+                    //echo '</form>';
+                  ?>
                   <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                   </li>
-
-
                   
                 </ul>
               </div>

@@ -180,8 +180,17 @@
             <div class="tab-pane" id="timeline"><!-- VERDICT-->
               <div class="form-group">
                 <label for="exampleInputFile"><font size="+1">Current Document:</label>
-                  <a href="#">Submission1</font></a> 
-                <p class="help-block"><font size="-1">Last upload was on: upload date</font></p>
+                  <a href="#"><?php
+                      if(sizeof($submit) > 0){
+                        echo $submit['upload_name'];
+                      }
+                      else
+                      {
+                        echo 'No document submitted';
+                      }
+                     ?>
+                    </font></a>
+                <p class="help-block"><font size="-1">Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
               </div>
               <!-- The timeline -->
               <!-- VERDICT START-->

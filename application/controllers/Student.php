@@ -130,6 +130,8 @@
 				$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
 				$data['member'] = $this->student_model->get_thesis_group_members($user_id);
 				$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
+				$data['submit'] = $this->student_model->latest_uploaded($group_id);
+				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
 				$data['reply'] = $this->student_model->get_discussion_reply_count();
 				$data['active_tab'] = array(
 					'home' => "",
@@ -251,9 +253,9 @@
 			$user_id = $session['user_id'];
 			$group = $this->student_model->get_group($user_id);
 			
-			$config['upload_path']          = './uploads/';
-            $config['allowed_types']        = 'gif|jpg|png|pdf|xlsx|docx';
-            $config['max_size']             = 500;
+			$config['upload_path']          = './uploaded_thesis/';
+            $config['allowed_types']        = 'pdf';
+            $config['max_size']             = 2000;
             $config['max_width']            = 4096;
             $config['max_height']           = 2048;
 
@@ -261,13 +263,25 @@
 
             if ( ! $this->upload->do_upload('userfile'))
             {
-                $error = array('error' => $this->upload->display_errors());
+                //$error = array('error' => $this->upload->display_errors());
                 //$this->load->view('upload_form', $error);
+                $this->session->set_flashdata('fail', 'Document upload failed!');
+	            redirect('student/view_group/'.$group['group_id']);
             }
             else
             {
 	            $data = array('upload_data' => $this->upload->data());
+	            $rest = $this->upload->data();
 	            //$this->load->view('upload_success', $data);
+	            date_default_timezone_set('Asia/Manila');
+				$date_time = date("Y-m-d H:i:s");
+				$content = array(
+					'upload_date_time' => $date_time,
+					'upload_name' => $rest['file_name'],
+					'group_id' => $group['group_id']
+				);
+	            $this->student_model->insert_upload($content);
+	            $this->session->set_flashdata('success', 'Document has been uploaded!');
 	            redirect('student/view_group/'.$group['group_id']);
 
             }

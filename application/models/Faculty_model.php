@@ -561,5 +561,15 @@
 			$this->db->where('user_id', $user_id);
 			$this->db->delete('schedule'); 
 		}
+
+		public function latest_uploaded($group_id)
+		{
+			$sql = "SELECT * 
+					FROM UPLOAD 
+					WHERE GROUP_ID=".$group_id."
+					ORDER BY UPLOAD_DATE_TIME DESC;";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
 	}
 ?>

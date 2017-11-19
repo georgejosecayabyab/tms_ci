@@ -80,6 +80,7 @@
 			$data['member'] = $this->faculty_model->get_advisee_thesis_group_members($user_id);
 			$data['discussion'] = $this->faculty_model->get_discussion_specific($group_id);
 			$data['reply'] = $this->faculty_model->get_discussion_reply_count();
+			$data['submit'] = $this->faculty_model->latest_uploaded($group_id);
 			$data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
 			$data['active_tab'] = array(
 				'home' => "",
@@ -175,6 +176,7 @@
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
 			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
 			$data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
+			$data['submit'] = $this->faculty_model->latest_uploaded($group_id);
 			//$data['thesis'] = details about thesis document, paths and file
 			$data['group'] = $this->faculty_model->get_group_details($group_id);
 			$data['active_tab'] = array(
@@ -616,7 +618,6 @@
 				$retime = date("G:i", strtotime((string)$time));
 				$this->faculty_model->insert_schedule($user_id, $retime, $day);
 			}
-
 			header("Content-type: application/json");
 			echo json_encode($sched_per_day);
 		}

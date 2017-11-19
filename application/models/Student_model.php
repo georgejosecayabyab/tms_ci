@@ -405,6 +405,46 @@
 			$this->db->delete('schedule'); 
 		}
 
+		public function insert_upload($data)
+		{
+			//escape every variable
+			$this->db->insert('upload', $data);
+		}
+
+		public function delete_upload()
+		{
+			//escape all variable
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('upload'); 
+		}
+
+		public function latest_uploaded($group_id)
+		{
+			$sql = "SELECT * 
+					FROM UPLOAD 
+					WHERE GROUP_ID=".$group_id."
+					ORDER BY UPLOAD_DATE_TIME DESC;";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+		public function get_thesis_comment($group_id)
+		{
+			$sql = "SELECT TC.THESIS_COMMENT_ID, TC.THESIS_COMMENT, PG.PANEL_GROUP_ID, PG.GROUP_ID, TG.GROUP_NAME, U.USER_ID, CONCAT(U.FIRST_NAME,' ', U.LAST_NAME) AS 'COMMENTED BY', DATE(TC.DATE_TIME) AS 'DATE', TIME_FORMAT(TIME(TC.DATE_TIME), '%h:%i %p') AS 'TIME'
+					FROM THESIS_COMMENT TC 
+					JOIN PANEL_GROUP PG
+					ON PG.PANEL_GROUP_ID=TC.PANEL_GROUP_ID
+					JOIN USER U
+					ON U.USER_ID=PG.PANEL_ID
+					JOIN THESIS_GROUP TG
+					ON TG.GROUP_ID=PG.GROUP_ID
+					WHERE PG.GROUP_ID=".$group_id."
+					ORDER BY DATE, TIME ASC;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+
+		}
+
 	}
 
 
