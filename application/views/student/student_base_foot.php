@@ -134,8 +134,41 @@
   $("#submit").click(function() {
     var test = $('#target').weekly_schedule("getSelectedHour");
     console.log(test);
+    $.ajax({
+      type:'POST',
+      url: '/tms_ci/index.php/student/delete_schedule',
+      success: function()
+      {
+        for(var i = 0; i<=5; i++){
+          var i2 = i+"";
+          var day = i;
+          $.ajax({
+            type:'POST',
+            url:'/tms_ci/index.php/student/insert_schedule',
+            data: {'data': test[i2], 'day': day},
+            success: function(data)
+            {
+              console.log('succes');
+              console.log('length is '+ JSON.stringify(data));
+            },
+            error: function(err)
+            {
+              console.log(err);
+            }
+
+          }); 
+        }
+      },
+      error: function(err)
+      {
+        console.log(err);
+      }
+    });
+
+    
   });
 </script>
+
 <!--notification refresh-->
 <script>
   var interval = 5000;
@@ -215,6 +248,7 @@
   setInterval(get_new_notifications, interval);
   setInterval(get_all_notifications, interval);
 </script>
+
 <!--editor-->
 <script>
   $(function () {
@@ -225,6 +259,7 @@
     $('.textarea').wysihtml5()
   })
 </script>
+
 <!---editor content-->
 <script>
   var editor = CKEDITOR.replace('editor1');
@@ -233,20 +268,6 @@
     var topic_name = $('#discussion_title').val();
     $('#discussion_title').val(topic_name);
     $('#editor1').val(topic_info);
-    // $.ajax({
-    //     type:'POST',
-    //     url:'http://[::1]/tms_ci/index.php/student/validate_discussion',
-    //     data:{'topic_info':topic_info, 'topic_name':topic_name},
-    //     success:function(){
-    //       console.log(topic_info);
-    //       console.log(topic_name);
-    //     },
-    //     error: function(XMLHttpRequest, textStatus, errorThrown)
-    //     {
-    //       console.log(textStatus);
-    //       console.log(errorThrown);
-    //     }
-    // });
   });
 
   function fill_in()
@@ -262,6 +283,7 @@
 </script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
 <!--data table-->
 <script type="text/javascript">
   $(document).ready(function() {

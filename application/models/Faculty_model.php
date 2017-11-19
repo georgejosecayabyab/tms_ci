@@ -543,23 +543,23 @@
 
 		}
 
-		public function insert_some($data)
-		{
-			$this->db->insert('time', $data);
-		}
+		// public function insert_some($data)
+		// {
+		// 	$this->db->insert('time', $data);
+		// }
 
-		public function insert_sched($user_id, $time, $day)
+		public function insert_schedule($user_id, $time, $day)
 		{
 			$sql = "INSERT INTO SCHEDULE (user_id, time_id, day)
 					VALUES (".$user_id.", (select time_id from time where start_time='".$time."'), '".$day."');";
 			$this->db->query($sql);
 		}
 
-		public function compare_some($time)
+		public function delete_schedule($user_id)
 		{
-			$sql = "select * from time where start_time=".$time.";";
-			$query = $this->db->query($sql);
-			return $query->first_row('array');
+			//escape all variable
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('schedule'); 
 		}
 	}
 ?>

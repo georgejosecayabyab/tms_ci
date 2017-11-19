@@ -99,7 +99,7 @@
 					JOIN COURSE C
 					ON C.COURSE_CODE=CD.COURSE_CODE
 					JOIN FORM F 
-					ON F.COURSE_ID = CD.COURSE_ID
+					ON F.COURSE_CODE = CD.COURSE_CODE
 					WHERE S.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->result_array();
@@ -388,6 +388,21 @@
 		{
 			//escape every variable
 			$this->db->insert('topic_discussion', $data);
+		}
+
+
+		public function insert_schedule($user_id, $time, $day)
+		{
+			$sql = "INSERT INTO SCHEDULE (user_id, time_id, day)
+					VALUES (".$user_id.", (select time_id from time where start_time='".$time."'), '".$day."');";
+			$this->db->query($sql);
+		}
+
+		public function delete_schedule($user_id)
+		{
+			//escape all variable
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('schedule'); 
 		}
 
 	}

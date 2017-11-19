@@ -81,7 +81,6 @@ immediately after the control sidebar -->
 
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
 
-<!-- AdminLTE for demo purposes -->
 <!-- schedule-->
 <script>    
   $('.schedule').on('selectionmade', function() {
@@ -125,40 +124,42 @@ immediately after the control sidebar -->
 
   $("#submit").click(function() {
     var test = $('#target').weekly_schedule("getSelectedHour");
-    //console.log(test);
-    //console.log(test["0"]["1"]);
-    console.log('das');
     console.log(test);
-    for(var i = 0; i<=5; i++){
-      var i2 = i+"";
-      var day = i;
-      $.ajax({
-        type:'POST',
-        url:'/tms_ci/index.php/faculty/try',
-        data: {'data': test[i2], 'day': day},
-        success: function(data)
-        {
-          console.log('succes');
-          console.log('length is '+ JSON.stringify(data));
-        },
-        error: function(err)
-        {
-          console.log(err);
-        }
+    $.ajax({
+      type:'POST',
+      url: '/tms_ci/index.php/faculty/delete_schedule',
+      success: function()
+      {
+        for(var i = 0; i<=5; i++){
+          var i2 = i+"";
+          var day = i;
+          $.ajax({
+            type:'POST',
+            url:'/tms_ci/index.php/faculty/insert_schedule',
+            data: {'data': test[i2], 'day': day},
+            success: function(data)
+            {
+              console.log('succes');
+              console.log('length is '+ JSON.stringify(data));
+            },
+            error: function(err)
+            {
+              console.log(err);
+            }
 
-      }); 
-    }
-    
-    for(let h = 0; h<=5; h++){
-      var h2 = h+"";
-      console.log(test[h2]);
-      for(let i = 0; i<test[h2].length; i++){
-        var i2 = i+"";
-        console.log(test[h2][i2]);
+          }); 
+        }
+      },
+      error: function(err)
+      {
+        console.log(err);
       }
-    }
+    });
+
+    
   });
 </script>
+
 <!--notification refresh-->
 <script>
   var interval = 5000;
@@ -265,6 +266,7 @@ immediately after the control sidebar -->
     $('#table').DataTable();
   });
 </script>
+
 <!--faculty view profile-->
 <script>
   $(function () {
@@ -272,6 +274,7 @@ immediately after the control sidebar -->
     $('.select2').select2();
   });
 </script>
+
 <!--date range picker-->
 <script type="text/javascript">
   $(function () {
@@ -307,6 +310,7 @@ immediately after the control sidebar -->
         $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
       }
     )
+  });
 </script>
 
 <!--editor-->
@@ -319,6 +323,7 @@ immediately after the control sidebar -->
     $('.textarea').wysihtml5()
   })
 </script>
+
 <!---editor content-->
 <script>
   var editor = CKEDITOR.replace('editor1');
@@ -340,6 +345,7 @@ immediately after the control sidebar -->
     console.log($('#discussion_title').val());
   }
 </script>
+
 <!--edit reply in discussion-->
 <script type="text/javascript">
   $('#edit_reply').click(function(){

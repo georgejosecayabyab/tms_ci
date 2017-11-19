@@ -98,7 +98,7 @@
 			$user_id = $session['user_id'];
 
 			$data['student_data'] = $this->student_model->get_user_information($user_id);
-			
+			$data['group_id'] = $this->student_model->get_group($user_id);
 			$data['thesis'] = $this->student_model->get_thesis($thesis_id);
 			$data['member'] = $this->student_model->archive_members();
 			$data['panel'] = $this->student_model->archive_panels();
@@ -442,6 +442,58 @@
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();
 			redirect("home/index");
+		}
+
+		/////schedule
+		public function insert_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$sched_per_day = array();
+			$sched = $this->input->post("data");
+			$day = $this->input->post("day");
+
+			if($day == 0)
+			{
+				$day = 'MO';
+			}
+			elseif ($day == 1) {
+				$day = 'TU';
+			}
+			elseif ($day == 2) {
+				$day = 'WE';
+			}
+			elseif ($day == 3) {
+				$day = 'TH';
+			}
+			elseif ($day == 4) {
+				$day = 'FR';
+			}
+			elseif ($day == 5) {
+				$day = 'SA';
+			}
+
+			for($b = 0; $b < sizeof($sched); $b++)
+			{
+				//return to js to check if it works
+				$time = $sched[(string)$b];
+				array_push($sched_per_day, $time);
+				///inser to db
+				$retime = date("G:i", strtotime((string)$time));
+				$this->student_model->insert_schedule($user_id, $retime, $day);
+			}
+
+			header("Content-type: application/json");
+			echo json_encode($sched_per_day);
+		}
+
+		public function delete_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$this->student_model->delete_schedule($user_id);
 		}
 	}
 
