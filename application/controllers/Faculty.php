@@ -310,6 +310,7 @@
 		}
 
 
+
 		//////validate
 		public function validate_comment() 
 		{
@@ -440,6 +441,7 @@
               	redirect('faculty/view_advisee_specific/'.$group_id);
 			}
 		}
+
 		////get
 		public function get_all_notifications()
 		{
@@ -463,6 +465,17 @@
 			header('Content-Type: application/json');
 			echo json_encode($result);
 
+		}
+
+		public function get_discussion_reply($id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			
+			$result = $this->faculty_model->get_discussion_reply($id);
+			header('Content-Type: application/json');
+			echo json_encode($result);
 		}
 
 		//////insert 
@@ -541,6 +554,16 @@
 			}
 		}
 
+
+		public function update_reply($discussion_id)
+		{
+			$topic_id = $this->faculty_model->get_topic_id_by_discussion_id($discussion_id);
+			$this->faculty_model->delete_discussion_reply($discussion_id);
+			redirect('faculty/view_discussion_specific/'.$$topic_id);
+			$value = $this->input->post('data'); 
+			$this->faculty_model->update_discussion_reply($discussion_id, $data);
+		}
+
 		//logout
 		public function logout()
 		{
@@ -553,6 +576,61 @@
 			redirect("home/index");
 		}
 
+		///sample
+		public function try()
+		{
+			$agile = array();
+			$sched = $this->input->post("data");
+			$day = $this->input->post("day");
+			if($day == 0)
+			{
+				$day = 'MO';
+			}
+			elseif ($day == 1) {
+				$day = 'TU';
+			}
+			elseif ($day == 2) {
+				$day = 'WE';
+			}
+			elseif ($day == 3) {
+				$day = 'TH';
+			}
+			elseif ($day == 4) {
+				$day = 'FR';
+			}
+			elseif ($day == 5) {
+				$day = 'SA';
+			}
+
+			$x = 0;
+
+			$k = (string)$x;
+			$l = (string)1;
+
+			$fl = sizeof($sched);
+			$sank = $sched[$k][$l];
+			$sank3 = $sched[(string)0];
+
+			for($b = 0; $b < sizeof($sched); $b++)
+			{
+				$time = $sched[(string)$b];
+				array_push($agile, $time);
+				$rest = array(
+					'start_time' => $sched[(string)$b],
+					'end_time' => $sched[(string)$b]
+				);
+				$retime = date("G:i", strtotime((string)$time));
+				//$this->faculty_model->insert_some($rest);
+				$this->faculty_model->insert_sched($retime, $day);
+			}
+
+			array_push($agile, $sank);
+
+			header("Content-type: application/json");
+			echo json_encode($agile);
+
+
+		}
 
 	}
 

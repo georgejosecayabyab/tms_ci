@@ -337,7 +337,7 @@
             }
 
             console.log(sched[0][0]); // RETURNS DATA FROM MONDAY (O) FIRST INDEX
-            return JSON.stringify(sched);
+            return sched;
 
         }
 

@@ -125,7 +125,38 @@ immediately after the control sidebar -->
 
   $("#submit").click(function() {
     var test = $('#target').weekly_schedule("getSelectedHour");
+    //console.log(test);
+    //console.log(test["0"]["1"]);
+    console.log('das');
     console.log(test);
+    for(var i = 0; i<=5; i++){
+      var i2 = i+"";
+      var day = i;
+      $.ajax({
+        type:'POST',
+        url:'/tms_ci/index.php/faculty/try',
+        data: {'data': test[i2], 'day': day},
+        success: function(data)
+        {
+          console.log('succes');
+          console.log('length is '+ JSON.stringify(data));
+        },
+        error: function(err)
+        {
+          console.log(err);
+        }
+
+      }); 
+    }
+    
+    for(let h = 0; h<=5; h++){
+      var h2 = h+"";
+      console.log(test[h2]);
+      for(let i = 0; i<test[h2].length; i++){
+        var i2 = i+"";
+        console.log(test[h2][i2]);
+      }
+    }
   });
 </script>
 <!--notification refresh-->
@@ -296,20 +327,6 @@ immediately after the control sidebar -->
     var topic_name = $('#discussion_title').val();
     $('#discussion_title').val(topic_name);
     $('#editor1').val(topic_info);
-    // $.ajax({
-    //     type:'POST',
-    //     url:'http://[::1]/tms_ci/index.php/student/validate_discussion',
-    //     data:{'topic_info':topic_info, 'topic_name':topic_name},
-    //     success:function(){
-    //       console.log(topic_info);
-    //       console.log(topic_name);
-    //     },
-    //     error: function(XMLHttpRequest, textStatus, errorThrown)
-    //     {
-    //       console.log(textStatus);
-    //       console.log(errorThrown);
-    //     }
-    // });
   });
 
   function fill_in()
@@ -322,6 +339,43 @@ immediately after the control sidebar -->
     console.log($('#editor1').val());
     console.log($('#discussion_title').val());
   }
+</script>
+<!--edit reply in discussion-->
+<script type="text/javascript">
+  $('#edit_reply').click(function(){
+    console.log($("#edit_reply").attr("value"));
+    var id = $("#edit_reply").attr("value");
+    $('#'+id).empty();
+    $.ajax({
+      type: 'POST',
+      url:'http://[::1]/tms_ci/index.php/faculty/get_discussion_reply/'+id,
+      success: function(data)
+      {
+        $('#'+id+'_foot').empty();
+        $('#'+id).empty();
+        $('#'+id).append('<div class="form-group"><label></label><textarea name="reply_"'+id+' class="form-control" rows="3" placeholder="Post a reply about the discussion."></textarea></div></div><div class="timeline-footer"><input type="button" name="submit_edit" value="Submit" class="btn btn-primary btn-xs"></div></form>');
+
+
+        //$('#notification_list').empty();
+        if(data.length > 0)
+        {
+          $('#new_notification_number').empty();
+          $('#new_notification_number').append(data.length);
+          get_all_notifications();
+        }
+        else
+        {
+          $('#new_notification_number').empty();
+        }
+
+      }
+    });
+  });
+</script>
+<script type="text/javascript">
+  $('#submit_edit').click(function(){
+    console.log('joke');
+  });
 </script>
 </body>
 </html>

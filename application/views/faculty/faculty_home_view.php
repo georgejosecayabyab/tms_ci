@@ -50,7 +50,7 @@
                   echo $formatted_date_new;
                 }
                 ?></h3>
-                <p> <b> Time: </b><?php echo $row['START'].'-'.$row['END'];?></p>
+                <p> <b> Time: </b><?php echo $row['START'].'-'.$row['END'];?></p>;
                 <p> <b> Venue: </b><?php echo $row['VENUE'];?></p>
                 <p> <b> Topic: </b><?php echo $row['GROUP_NAME']?></p>
               </div>

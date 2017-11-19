@@ -402,6 +402,13 @@
 			return $query->first_row('array');
 		}
 
+		public function get_discussion_reply($id)
+		{
+			$sql = "SELECT * FROM DISCUSSION WHERE DISCUSSION_ID=".$id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
 		public function get_topic_discussion($topic_id)
 		{
 			$sql = "SELECT TD.TOPIC_DISCUSSION_ID, TD.TOPIC_NAME, TD.TOPIC_INFO, D.DISCUSSION_ID, D.DISCUSS, U.USER_ID, CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS 'NAME', DATE(D.DATE_TIME) AS 'DATE', TIME_FORMAT(TIME(D.DATE_TIME), '%h:%i %p') AS 'TIME' 
@@ -448,6 +455,12 @@
 			//escape all variable
 			$this->db->where('discussion_id', $id);
 			$this->db->delete('discussion'); 
+		}
+
+		public function update_discussion_reply($id, $data)
+		{
+			$this->db->where('discussion_id', $id);
+			$this->db->update('discussion', $data); 
 		}
 
 		public function get_all_rank($user_id)
@@ -528,6 +541,25 @@
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
 
+		}
+
+		public function insert_some($data)
+		{
+			$this->db->insert('time', $data);
+		}
+
+		public function insert_sched($user_id, $time, $day)
+		{
+			$sql = "INSERT INTO SCHEDULE (user_id, time_id, day)
+					VALUES (".$user_id.", (select time_id from time where start_time='".$time."'), '".$day."');";
+			$this->db->query($sql);
+		}
+
+		public function compare_some($time)
+		{
+			$sql = "select * from time where start_time=".$time.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
 		}
 	}
 ?>
