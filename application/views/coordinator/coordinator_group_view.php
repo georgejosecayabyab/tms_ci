@@ -40,19 +40,28 @@
                     <td>
                       <?php
                         $panels = 'None -';
+                        $panels2 = '';
                         foreach($panel as $prow)
                         {
                           if($row['GROUP_ID']==$prow['group_id'])
                           {
                             $panels.=$prow['name'].', ';
+                            $panels2.=$prow['name'].', ';
                           }
                         }
-                        echo substr(trim($panels), 0, -1);
+                        if($panels=='None -'){
+                          echo substr(trim($panels), 0, -1);
+                        }
+                        else
+                        {
+                          echo substr(trim($panels2), 0, -1);
+                        }
+                        
                       ?>
                     </td>
                     <td>
                       <?php if($row['DEFENSE_DATE']==null):?>
-                        <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                        <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
                         Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
                         </button>
                       <?php else:?>
@@ -64,7 +73,7 @@
                           $formatted_time_new = date('g:i A', $time_new);
                           $date_time = $formatted_date_new.' - '.$formatted_time_new;
                         ?>
-                        <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                        <button value="<?php echo $row['GROUP_ID'];?>" id="<?php echo $formatted_date_new;?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
                         <?php echo $date_time;?> <i class="fa fa-fw fa-calendar-check-o"> </i>
                         </button>
                       <?php endif;?>
@@ -332,7 +341,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-  <button type="button" class="btn btn-primary pull-left">Save changes</button>
+  <a  href="<?php echo site_url('coordinator/view_group');?>"><button id="modal-defense-button" type="button" class="btn btn-primary pull-left">Save changes</button></a>
 </div>
 </div>
 <!-- /.modal-content -->

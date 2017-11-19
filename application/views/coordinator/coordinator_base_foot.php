@@ -109,114 +109,208 @@ immediately after the control sidebar -->
   } );
 </script>
 
-<script src="js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
+<!--datepicker-->
 <script type="text/javascript">
-  $(document).ready(function() {
-
-
-    $('#manual').click( function () {
-
-
-      $('#manualSched').css({
-        display: "inline",
-        visibility: "visible"
-      });
-
-
-      $("#suggestionSched").css({
-        display: "none",
-        visibility: "hidden"
-      });
-
-    });
-
-
-
-    $('#suggested').click( function () {
-
-
-      $("#suggestionSched").css({
-        display: "inline",
-        visibility: "visible"
-      });
-
-      $("#manualSched").css({
-        display: "none",
-        visibility: "hidden"
-      });
-
-
-    });
-
-
-    $("#startHour,#startMinute,#endHour,#endMinute,#startMedDynamic,#endMedDynamic").change(function () {
-
-
-      var firstHour =  $('#startHour').val();
-      var firstMinute =  $('#startMinute').val();
-      var firstMeridian = $('#startMedDynamic').val();
-      var secondHour =  $('#endHour').val();
-      var secondMinute =  $('#endMinute').val();
-      var secondMeridian = $('#endMedDynamic').val();
-
-
-      $("#timePickedSuggested").html("<h4>" + firstHour + ":" + firstMinute + " " + firstMeridian + " - " + secondHour + ":" + secondMinute + " " + secondMeridian + "</h4>");
-
-    });
-
-
-
-    $("#startHourMan,#startMinuteMan,#endHourMan,#endMinuteMan,#startMedManual,#endMedManual").change(function () {
-
-
-      var firstHour =  $('#startHourMan').val();
-      var firstMinute =  $('#startMinuteMan').val();
-      var firstMeridian = $('#startMedManual').val();
-      var secondHour =  $('#endHourMan').val();
-      var secondMinute =  $('#endMinuteMan').val();
-      var secondMeridian = $('#endMedManual').val();
-
-      $("#timePickedManual").html("<h4>" + firstHour + ":" + firstMinute + " " + firstMeridian + " - " + secondHour + ":" + secondMinute + " " + secondMeridian + "</h4>");
-
-    });
     
 
-    $("#datepicker").change(function () {
+  $(document).ready(function() {
+    var group_id = "";
+    var trigger = "";
+    var sample_date = "";
+    $('.modal').on('shown.bs.modal', function (e) {
+      trigger = $(e.relatedTarget);
+      group_id = trigger.attr("value");
+      sample_date = trigger.attr("id");
+      console.log('group_id: ' + group_id);
 
-      var dateVal =  $('#datepicker').val();
+      $('#manual').click( function () {
+
+
+        $('#manualSched').css({
+          display: "inline",
+          visibility: "visible"
+        });
+
+
+        $("#suggestionSched").css({
+          display: "none",
+          visibility: "hidden"
+        });
+        
+      });
+
+      $('#suggested').click( function () {
+
+
+        $("#suggestionSched").css({
+          display: "inline",
+          visibility: "visible"
+        });
+
+        $("#manualSched").css({
+          display: "none",
+          visibility: "hidden"
+        });
+
+
+      });
+
+
+      $("#startHour,#startMinute,#endHour,#endMinute,#startMedDynamic,#endMedDynamic").change(function () {
+
+
+        var firstHour =  $('#startHour').val();
+        var firstMinute =  $('#startMinute').val();
+        var firstMeridian = $('#startMedDynamic').val();
+        var secondHour =  $('#endHour').val();
+        var secondMinute =  $('#endMinute').val();
+        var secondMeridian = $('#endMedDynamic').val();
+
+
+        $("#timePickedSuggested").html("<h4>" + firstHour + ":" + firstMinute + " " + firstMeridian + " - " + secondHour + ":" + secondMinute + " " + secondMeridian + "</h4>");
+
+      });
+
+
+
+      $("#startHourMan,#startMinuteMan,#endHourMan,#endMinuteMan,#startMedManual,#endMedManual").change(function () {
+
+
+        var firstHour =  $('#startHourMan').val();
+        var firstMinute =  $('#startMinuteMan').val();
+        var firstMeridian = $('#startMedManual').val();
+        var secondHour =  $('#endHourMan').val();
+        var secondMinute =  $('#endMinuteMan').val();
+        var secondMeridian = $('#endMedManual').val();
+
+        $("#timePickedManual").html("<h4>" + firstHour + ":" + firstMinute + " " + firstMeridian + " - " + secondHour + ":" + secondMinute + " " + secondMeridian + "</h4>");
+
+      });
       
 
-      // $("#suggestion").html("The free schedule for " + test + " is");
+      $("#datepicker").change(function () {
+       
+        var dateVal =  $('#datepicker').val();
+        var weekday = ["SU","MO","TU","WE","TH","F","S"];
+        var new_day = new Date(dateVal);
+        var day = weekday[new_day.getDay()];
 
-      $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
-        <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
-        <h5> <span> 8:00 AM - 12:00 PM | 2:00 PM - 4:00 PM | 6:00 PM - 9:00 PM </span>\
-        </h5> \
-        </div>');
+        var formattedDate = new Date(dateVal);
+        var d = formattedDate.getDate();
+        var m =  formattedDate.getMonth();
+        m += 1;  // JavaScript months are 0-11
+        var y = formattedDate.getFullYear();
+        var new_date = y + "-" + m + "-" + d;
+
+        $.ajax({
+          type:'POST',
+          url: '/tms_ci/index.php/coordinator/get_panel_defense_date',
+          data: {'group_id': group_id, 'date': new_date, 'day':day},
+          success: function(data)
+          {
+            var conflict = "";
+            console.log(data['panel_defense']);
+            console.log('this is free: ' + data['free']);
+            if(data['panel_defense'].length > 0 )
+            {
+              for(var x = 0; x<data['panel_defense'].length; x++)
+              {
+                console.log(data['panel_defense'][x]['NAME']);
+                conflict = conflict + '<span> <b> '+data['panel_defense'][x]['NAME']+' </b> has a thesis defense at <b> '+data['panel_defense'][x]['START']+' - ' +data['panel_defense'][x]['END'] +' </b> </span> <br>';
+              }
+              $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+                <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
+                <h5> <span>'+data['free']+'</span>\
+                </h5> \
+                </div>');
+
+              $("#conflict").html('<div class="alert alert-danger alert-dismissible">\
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+                <h4><i class="icon fa fa-ban"></i> Conflict Defense for ' +  dateVal + ' </h4>\
+                ' + conflict + '</div>');
+            }
+            else
+            {
+              $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+                <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
+                <h5> <span>'+data['free']+'</span>\
+                </h5> \
+                </div>');
+              $("#conflict").html('<div class="alert alert-success alert-dismissible">\
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+                <h4><i class="icon fa fa-ban"></i> No Conflict Defense for ' +  dateVal + ' </h4>\
+                </div>');
+            }
+            
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+
+      })
 
 
+      $('#table').DataTable();
 
+      $('#datepicker,#datepicker2').datepicker({
+        autoclose: true
+      });
 
-      $("#conflict").html('<div class="alert alert-danger alert-dismissible">\
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
-        <h4><i class="icon fa fa-ban"></i> Conflict Schedule for ' +  dateVal + ' </h4>\
-        <span> Confict for the schedule of <b> Marivic Tangkeko </b> due to thesis defense at <b> 10:00 AM </b> </span> <br>\
-        <span> Confict for the schedule of <b> Oli Malabanan </b> due to thesis defense at <b> 12:00 AM </b>   </span> \
-        </div>');
+      
+      $('#modal-defense-button').click(function(){
+        
+        var dateVal =  $('#datepicker').val();
+        var formattedDate = new Date(dateVal);
+        var d = formattedDate.getDate();
+        var m =  formattedDate.getMonth();
+        m += 1;  // JavaScript months are 0-11
+        var y = formattedDate.getFullYear();
+        var new_date = y + "-" + m + "-" + d;
 
+        var start = $('#startHour').val()+':'+$('#startMinute').val()+$('#startMedDynamic').val();
+        var end = $('#endHour').val()+':'+$('#endMinute').val()+$('#endMedDynamic').val();
+        console.log(start+'-'+end);
+
+        // $.ajax({
+        //   type: 'POST',
+        //   url: '/tms_ci/index.php/coordinator/set_defense_date',
+        //   data: {'group_id': group_id, 'date': new_date, 'start': start, 'end':end},
+        //   success: function()
+        //   {
+        //     console.log('succ defendse');
+        //   },
+        //   error: function(err)
+        //   {
+        //     console.log(err);
+        //   }
+        // });
+
+      });
 
     })
-
-
-    $('#table').DataTable();
-
-    $('#datepicker,#datepicker2').datepicker({
-      autoclose: true
-    });
-
-
+  
+    function set_defense_date()
+    {
+      $.ajax({
+        type: 'POST',
+        url: '/tms_ci/index.php/coordinator/set_defense_date',
+        data: {'group_id': group_id, 'verdict': new_date},
+        success: function()
+        {
+          console.log('succ defendse');
+        },
+        error: function(err)
+        {
+          console.log(err);
+        }
+      })
+    }
   });
 </script>
 
@@ -291,6 +385,14 @@ immediately after the control sidebar -->
   }
 </script>
 
+<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+<!--select-->
+<script>
+  $(function () {
+  //Initialize Select2 Elements
+  $('.select2').select2()
+  });
+</script>
 
 </body>
 </html>

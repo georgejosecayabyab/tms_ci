@@ -6,7 +6,7 @@ class coordinator_model extends CI_Model
 
 	public function get_group_common_free_time_by_day($group_id, $day)
 	{
-		$sql = "SELECT T.TIME_ID, T.START_TIME, T.END_TIME
+		$sql = "SELECT T.TIME_ID, T.START_TIME, T.END_TIME 
 				FROM TIME T
 				WHERE T.TIME_ID NOT IN
 				(SELECT TIME_ID FROM SCHEDULE WHERE USER_ID IN 
@@ -14,7 +14,9 @@ class coordinator_model extends CI_Model
 						OR USER_ID IN 
 						(SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.")
 					AND DAY='".$day."'
-					GROUP BY TIME_ID);";
+					GROUP BY TIME_ID)
+				AND T.TIME_ID >= 5
+                AND T.TIME_ID <= 60;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 
@@ -233,6 +235,89 @@ class coordinator_model extends CI_Model
 		);
 		$this->db->where('group_id', $group_id);
 		$this->db->update('thesis_group', $data); 
+	}
+
+	////returns time of defenses the panels needed to attend on that day 
+	public function get_panel_defense_date($group_id, $date)
+	{
+		$sql = "SELECT CONCAT(U.FIRST_NAME,' ', U.LAST_NAME) AS 'NAME',DEFENSE_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS 'START', TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS 'END'
+				FROM DEFENSE_DATE DD
+				JOIN THESIS_GROUP TG
+				ON TG.GROUP_ID=DD.GROUP_ID
+				JOIN PANEL_GROUP PG
+				ON PG.GROUP_ID=TG.GROUP_ID
+				JOIN FACULTY F
+				ON F.USER_ID=PG.PANEL_ID
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID
+				WHERE PG.PANEL_ID IN (SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.")
+				AND DD.DEFENSE_DATE = '".$date."'
+				AND DD.GROUP_ID!=".$group_id.";";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function check_defense_date($group_id){
+		$sql = "SELECT * FROM DEFENSE_DATE WHERE GROUP_ID=".$group_id.";";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function update_thesis_defense_date($group_id, $data)
+	{
+
+		$this->db->where('group_id', $group_id);
+		$this->db->update('defense_date', $data); 
+	}
+
+	public function insert_thesis_defense_date($data)
+	{
+		//escape every variable
+		$this->db->insert('defense_date', $data);
+	}
+
+	public function insert_defense_convert($defense_date_id, $start_time)
+	{
+		//escape every variable
+		$sql = "INSERT INTO 'defense_convert' (defense_date_id, time_id) 
+				VALUES (".$defense_date_id.", (select time_id from time where start_time=".$start_time."));";
+		$query = $this->db->query($sql);
+	}
+
+	public function delete_defense_convert($defense_date_id)
+	{
+		//escape all variable
+		$this->db->where('defense_date_id', $defense_date_id);
+		$this->db->delete('defense_convert');
+	}
+
+	public function get_term()
+	{
+		$sql = "select * 
+				from course_details cd
+				join school_year sy
+				on sy.school_year_id=cd.school_year
+				where curdate() between sy.start_date and sy.end_date
+				group by cd.term, sy.school_year_code;";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function insert_form($form_name, $course_code)
+	{
+		//escape every variable
+		$data = array(
+			'form_name' => $form_name,
+			'course_code' => $course_code
+		);
+		$this->db->insert('form', $data);
+	}
+
+	public function delete_form($form_id)
+	{
+		//escape all variable
+		$this->db->where('form_id', $form_id);
+		$this->db->delete('form');
 	}
 }
 

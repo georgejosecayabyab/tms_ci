@@ -112,7 +112,7 @@
               <li class="active"><a href="#activity" data-toggle="tab">Discussions</a></li>
               <li><a href="#timeline" data-toggle="tab">Current Upload</a></li>
               <li><a href="#newUpload" data-toggle="tab">New Upload</a></li>
-               <li><a href="#setMeeting" data-toggle="tab">Set Meeting</a></li>
+              <li><a href="#setMeeting" data-toggle="tab">Set Meeting</a></li>
               <li><a href="#settings" data-toggle="tab">Edit Group</a></li>
              
             </ul>

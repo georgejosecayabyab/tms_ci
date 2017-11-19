@@ -64,6 +64,8 @@
 			$this->load->view('coordinator/coordinator_base_head', $data);
 			$this->load->view('coordinator/coordinator_group_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
+
+
 		}
 
 		public function view_faculty()
@@ -267,6 +269,27 @@
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
+		public function view_set_term()
+		{
+			$data['term'] = $this->coordinator_model->get_term();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "active_tab",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_set_term_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);	
+		}
+
 		public function sample_common_free_time()
 		{
 			$data['time_mo'] = $this->coordinator_model->get_group_common_free_time_by_day(5, 'MO');
@@ -283,5 +306,165 @@
 
 			$this->coordinator_model->update_initial_verdict($group_id, $verdict);
 		}
+
+		public function get_panel_defense_date()
+		{
+			$group_id = $this->input->post('group_id');
+			$date = $this->input->post('date');
+			$day = $this->input->post('day');
+
+			$panel_defense = $this->coordinator_model->get_panel_defense_date($group_id, $date);
+			$free_common_time = $this->coordinator_model->get_group_common_free_time_by_day($group_id, $day);
+
+			$common_time = "";
+			$start = $free_common_time[0]['START_TIME'];
+			$end = '';
+			for($i=0; $i<sizeof($free_common_time);$i++)
+			{	
+				if($i+1 < sizeof($free_common_time))
+				{
+					if($free_common_time[$i+1]['TIME_ID'] - $free_common_time[$i]['TIME_ID'] != 1)
+					{
+						$end = $free_common_time[$i]['END_TIME'];
+						date('h:i:s a m/d/Y', strtotime($date));
+						$common_time.=date('h:i:s a', strtotime($start)).' - '.date('h:i:s a', strtotime($end)).' | ';
+						$start = $free_common_time[$i+1]['START_TIME'];
+					}
+				}
+				if($i+1 == sizeof($free_common_time))
+				{
+					$end = $free_common_time[$i]['END_TIME'];
+					$common_time.=date('h:i:s a', strtotime($start)).' - '.date('h:i:s a', strtotime($end)).' | ';
+				}
+			}
+
+			// $common_hour = array();
+			// $start = $free_common_time[0]['START_TIME'];
+			// $end = '';
+			// for($i=0; $i<sizeof($free_common_time);$i++)
+			// {	
+			// 	if($i+1 < sizeof($free_common_time))
+			// 	{
+			// 		if($free_common_time[$i+1]['TIME_ID'] - $free_common_time[$i]['TIME_ID'] != 1)
+			// 		{
+			// 			$end = $free_common_time[$i]['END_TIME'];
+			// 			date('h:i:s a m/d/Y', strtotime($date));
+			// 			$common_hour.=date('h', strtotime($start)).' - '.date('h', strtotime($end)).' | ';
+			// 			$start = $free_common_time[$i+1]['START_TIME'];
+			// 		}
+			// 		array_push($common_hour, )
+			// 	}
+			// 	if($i+1 == sizeof($free_common_time))
+			// 	{
+			// 		$end = $free_common_time[$i]['END_TIME'];
+			// 		$common_hour.=date('h:i:s a', strtotime($start)).' - '.date('h:i:s a', strtotime($end)).' | ';
+			// 	}
+			// }
+
+			$data = array(
+				'free' => $common_time,
+				'panel_defense' => $panel_defense
+			);
+			header('Content-Type: application/json');
+			echo json_encode($data);
+		}
+
+		public function set_defense_date()
+		{
+			$group_id = $this->input->post('group_id');
+			$date = $this->input->post('date');
+			$start = $this->input->post('start');
+			$end = $this->input->post('end');
+			$start = date("G:i", strtotime($start));
+			$end = date("G:i", strtotime($end));
+			$result = $this->coordinator_model->check_defense_date($group_id);
+			if(sizeof($result) > 0)
+			{
+				////update
+				$data = array(
+					'defense_date' => $date,
+					'start_time' => $start,
+					'end_time' => $end
+				);
+
+				$this->coordinator_model->update_thesis_defense_date($group_id, $data);
+			}
+			else
+			{
+				////create
+				$data = array(
+					'group_id' => $group_id,
+					'defense_date' => $date,
+					'start_time' => $start,
+					'end_time' => $end,
+					'venue' => ' ',
+					'status' => 0,
+					'is_featured' => 0
+				);
+
+				$this->coordinator_model->insert_thesis_defense_date($data);
+
+
+			}
+		}
+
+		public function insert_defense_conversion($defense_date_id, $start, $end)////halt progress due to unknow defense_date_id in evry new insert
+		{
+			$this->coordinator_model->delete_defense_convert($defense_date_id);
+
+			$array_of_time = array ();
+			$start_time    = strtotime ($start);
+			$end_time      = strtotime ($end);
+
+			$fifteen_mins  = 15 * 60;
+
+			while ($start_time < $end_time)
+			{
+			   $array_of_time[] = date ("H:i:s", $start_time);
+			   $start_time += $fifteen_mins;
+			}
+
+			//print_r ($array_of_time);
+			foreach($array_of_time as $row)
+			{
+				$this->coordinator_model->insert_defense_convert($defense_date_id, $row);
+			}
+		}
+
+		public function upload_form($course_code)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$config['upload_path']          = './forms/';
+            $config['allowed_types']        = 'pdf|docx';
+            $config['max_size']             = 2000;
+            $config['max_width']            = 4096;
+            $config['max_height']           = 2048;
+
+            $this->load->library('upload', $config);
+
+            if ( ! $this->upload->do_upload('userfile'))
+            {
+                $error = array('error' => $this->upload->display_errors());
+                //$this->load->view('upload_form', $error);
+            }
+            else
+            {
+	            $data = array('upload_data' => $this->upload->data());
+	            $rest = $this->upload->data();
+	            //$this->load->view('upload_success', $data);
+	            $this->coordinator_model->insert_form($rest['file_name'], $course_code);
+	            redirect('coordinator/view_form');
+
+            }
+		}
+
+		public function delete_form($form_id)
+		{
+			$this->coordinator_model->delete_form($form_id);
+			redirect('coordinator/view_form');
+		}
+
 	}
 ?>

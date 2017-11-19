@@ -28,7 +28,7 @@
                       <?php foreach($form as $frow):?>
                         <?php if($frow['course_code']==$row['course_code']):?>
                           <div class="col-lg-2 col-xs-2">
-                            <button id="delete" type="button" class="btn btn-block btn-danger">Delete</button>
+                            <a href="<?php echo site_url('coordinator/delete_form/'.$frow['form_id']);?>"><button id="delete_form" type="button" class="btn btn-block btn-danger">Delete</button></a>
                           </div>
                           <li>
                             <a href="#">
@@ -47,8 +47,13 @@
                       <?php endforeach;?>
                     </ul>
                     <div id="upload" class="form-group">
-                      <label for="exampleInputFile">Upload new form for <?php echo $row['course_code'];?></label>
-                      <input type="file" id="exampleInputFile"> 
+                      <form action="<?php echo site_url('coordinator/upload_form/'.$row['course_code']);?>" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                        <div class="form-group">
+                          <label for="exampleInputFile"><font size="+1">Upload New Form for <?php echo $row['course_code'];?></font></label>
+                          <input id="submission" type="file" name="userfile" size="20">
+                          <input type="submit" value="upload">
+                        </div>
+                      </form>
                     </div>
                   </div>
                   <!-- /.box-body -->

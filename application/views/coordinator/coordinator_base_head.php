@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title> CTP - Coordinator | Home </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    
+
     <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap.min.css">
     
     <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet">
@@ -26,6 +26,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?php echo base_url();?>css/custom.css">
 
     <link rel="stylesheet" href="<?php echo base_url();?>css/datepicker/bootstrap-datepicker.min.css">
+
+    <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
+    
     <!-- Google Font -->
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -144,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="<?php echo $active_tab['form'];?>"><a href="<?php echo site_url('coordinator/view_form');?>"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
           <li class="<?php echo $active_tab['report'];?>"><a href="<?php echo site_url('coordinator/view_report');?>"><i class="fa fa-bar-chart"></i> <span>Monitoring Report</span></a></li>
           <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('coordinator/view_archive');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
-          <li class="<?php echo $active_tab['term'];?>"><a href="<?php echo site_url('coordinator/view_term');?>"><i class="fa fa-calendar"></i> <span>Set Current Term <br> Current: 11/10/17 to 12/24/17</span></a></li>
+          <li class="<?php echo $active_tab['term'];?>"><a href="<?php echo site_url('coordinator/view_set_term');?>"><i class="fa fa-calendar"></i> <span>Set Current Term <br> Current: 11/10/17 to 12/24/17</span></a></li>
           
         </ul>
         <!-- /.sidebar-menu -->
