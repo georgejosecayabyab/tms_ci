@@ -67,6 +67,14 @@
 
 		}
 
+		public function change_password($user_id, $newpass)
+		{
+			$sql = "UPDATE `tms_ci`.`user` SET `password`=".$newpass." WHERE `user_id`= ".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+
+		}
+
 	}
 
 ?>
