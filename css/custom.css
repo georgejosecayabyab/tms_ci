@@ -300,3 +300,13 @@ th {
 
 }
 
+.post{
+
+	color: #000;
+}
+
+#manualPanel{
+	 top: 3000px;
+	 display: none;
+     visibility: hidden;
+}
