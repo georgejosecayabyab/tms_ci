@@ -144,6 +144,8 @@
 				$this->load->view('student/student_base_head', $data);
 				$this->load->view('student/student_group_view', $data);
 				$this->load->view('student/student_base_foot', $data);
+
+				
 			}
 			else
 			{
@@ -263,9 +265,9 @@
 
             if ( ! $this->upload->do_upload('userfile'))
             {
-                //$error = array('error' => $this->upload->display_errors());
+                $error = array('error' => $this->upload->display_errors());
                 //$this->load->view('upload_form', $error);
-                $this->session->set_flashdata('fail', 'Document upload failed!');
+                $this->session->set_flashdata('fail', $error['error']);
 	            redirect('student/view_group/'.$group['group_id']);
             }
             else

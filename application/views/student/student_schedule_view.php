@@ -62,16 +62,16 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
                   <li>
-                  
-                      
-                  <div class="box-header with-border">
-            <h3 class="box-title">  <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #bfbfbf">
-              </canvas> - Free Schedule</h3> <br>
-             <h3 class="box-title"> <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #6fdc6f">
-              </canvas> - Occupied Schedule</h3> </h3>
-          </div>
-                  
-                 </a>
+                    <div class="box-header with-border">
+                      <h3 class="box-title">  Note: Current Occupied Schedules are from Groupmates</h3> <br>
+                      <br>
+                      <h3 class="box-title">  Each Block represents 15 Minutes</h3> <br><br>
+
+                      <h3 class="box-title">  <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #bfbfbf">
+                      </canvas> - Free Schedule</h3> <br>
+                      <h3 class="box-title"> <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #6fdc6f">
+                      </canvas> - Occupied Schedule</h3> </h3>
+                    </div>
                 </li>
              
               </ul>
@@ -82,7 +82,8 @@
 
         <div class="col-xs-5">
            
-            <button id="submit"> Submit </button>
+            <button id="submit" type="button" class="btn btn-success">Save and Quit</button>
+            <button id="submitbtn2" onclick="location.href='studentHome.html';" type="button" class="btn btn-danger">Exit</button>
 
         </div>
    

@@ -88,7 +88,24 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
+<script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo base_url();?>js/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+  $('#datepicker').datepicker({
+    autoclose: true
+  })
+</script>
+
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
+
+<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  });
+</script>
 
 <!-- schedule-->
 <script>    
@@ -158,6 +175,8 @@
 
           }); 
         }
+
+        alert('Schedule has been uploaded!');
       },
       error: function(err)
       {

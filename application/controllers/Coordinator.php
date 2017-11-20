@@ -305,6 +305,7 @@
 			$verdict = $this->input->post("verdict");
 
 			$this->coordinator_model->update_initial_verdict($group_id, $verdict);
+			$this->session->set_flashdata('success', 'Verdict has been updated!');
 		}
 
 		public function get_panel_defense_date()
@@ -403,9 +404,9 @@
 				);
 
 				$this->coordinator_model->insert_thesis_defense_date($data);
-
-
 			}
+
+			$this->session->set_flashdata('success', 'Defense date hase been set!');
 		}
 
 		public function insert_defense_conversion($defense_date_id, $start, $end)////halt progress due to unknow defense_date_id in evry new insert
@@ -447,7 +448,10 @@
             if ( ! $this->upload->do_upload('userfile'))
             {
                 $error = array('error' => $this->upload->display_errors());
+                $this->session->set_flashdata('fail', $error['error']);
                 //$this->load->view('upload_form', $error);
+
+	            redirect('coordinator/view_form');
             }
             else
             {
@@ -455,6 +459,7 @@
 	            $rest = $this->upload->data();
 	            //$this->load->view('upload_success', $data);
 	            $this->coordinator_model->insert_form($rest['file_name'], $course_code);
+	            $this->session->set_flashdata('success', 'Document has been uploaded!');
 	            redirect('coordinator/view_form');
 
             }

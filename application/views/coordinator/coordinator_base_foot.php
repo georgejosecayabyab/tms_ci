@@ -277,19 +277,19 @@ immediately after the control sidebar -->
         var end = $('#endHour').val()+':'+$('#endMinute').val()+$('#endMedDynamic').val();
         console.log(start+'-'+end);
 
-        // $.ajax({
-        //   type: 'POST',
-        //   url: '/tms_ci/index.php/coordinator/set_defense_date',
-        //   data: {'group_id': group_id, 'date': new_date, 'start': start, 'end':end},
-        //   success: function()
-        //   {
-        //     console.log('succ defendse');
-        //   },
-        //   error: function(err)
-        //   {
-        //     console.log(err);
-        //   }
-        // });
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/set_defense_date',
+          data: {'group_id': group_id, 'date': new_date, 'start': start, 'end':end},
+          success: function()
+          {
+            console.log('succ defendse');
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
 
       });
 
