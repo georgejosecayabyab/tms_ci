@@ -319,6 +319,58 @@ class coordinator_model extends CI_Model
 		$this->db->where('form_id', $form_id);
 		$this->db->delete('form');
 	}
+
+	public function get_group_tags($group_id)
+	{
+		$sql = "SELECT * 
+				FROM SPECIALIZATION
+				WHERE SPECIALIZATION_ID IN 
+					(SELECT SPECIALIZATION_ID FROM THESIS_SPECIALIZATION WHERE THESIS_ID IN 
+						(SELECT THESIS_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id."));";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_common_tag($group_id)
+	{
+		$sql = "SELECT * 
+				FROM FACULTY F
+				JOIN FACULTY_SPECIALIZATION FS
+				ON FS.USER_ID=F.USER_ID
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID
+				WHERE FS.SPECIALIZATION_ID IN (SELECT SPECIALIZATION_ID FROM THESIS_SPECIALIZATION WHERE THESIS_ID IN 
+										(SELECT THESIS_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id."));";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_common_tag_count($group_id)
+	{
+		$sql = "SELECT FS.USER_ID, CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS 'NAME', COUNT(FS.USER_ID) AS 'COUNT'
+				FROM FACULTY F
+				JOIN FACULTY_SPECIALIZATION FS
+				ON FS.USER_ID=F.USER_ID
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID
+				WHERE FS.SPECIALIZATION_ID IN (SELECT SPECIALIZATION_ID FROM THESIS_SPECIALIZATION WHERE THESIS_ID IN 
+										(SELECT THESIS_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id."))
+				GROUP BY FS.USER_ID
+				ORDER BY COUNT DESC
+				LIMIT 3;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_common_panel_specialization()
+	{
+		$sql = "SELECT * 
+				FROM FACULTY_SPECIALIZATION FS
+				JOIN SPECIALIZATION S
+				ON S.SPECIALIZATION_ID=FS.SPECIALIZATION_ID";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
 
 

@@ -440,6 +440,19 @@
 						'date_time' => $date_time
 					);
 				$this->faculty_model->insert_new_discussion($data);
+				////
+				$result = $this->faculty_model->get_all_discussion_target($group_id, $user_id);
+				foreach($result as $row)
+				{
+					$this->insert_notification("New Discussion: ".$topic_name, $row['user_id']);
+					// $this->email->from('george_cayabyab@dlsu.edu.ph', $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME']);
+					// $this->email->to('george_cayabyab@dlsu.edu.ph');
+
+					// $this->email->subject('CT Thesis');
+					// $this->email->message("New Reply in discussion: ".$topic_name);
+
+					// $this->email->send();
+				}
               	redirect('faculty/view_advisee_specific/'.$group_id);
 			}
 		}

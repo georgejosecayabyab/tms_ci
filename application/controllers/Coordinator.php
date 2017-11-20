@@ -471,5 +471,18 @@
 			redirect('coordinator/view_form');
 		}
 
+		public function get_group_tags($group_id)
+		{
+
+			$data['tags'] = $this->coordinator_model->get_group_tags($group_id);
+			$data['tag_count'] = $this->coordinator_model->get_common_tag_count($group_id);
+			$data['tag_common'] = $this->coordinator_model->get_common_tag($group_id);
+			$data['panel_tag'] = $this->coordinator_model->get_common_panel_specialization();
+
+
+			header('Content-Type: application/json');
+			echo json_encode($data);
+		}
+
 	}
 ?>

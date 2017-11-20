@@ -15,7 +15,8 @@
 									ON M.GROUP_ID = TG.GROUP_ID
 	                				JOIN STUDENT_GROUP SG
 	                				ON TG.GROUP_ID = SG.GROUP_ID
-					WHERE SG.STUDENT_ID = ".$user_id.";";
+					WHERE SG.STUDENT_ID = ".$user_id."
+					ORDER BY M.DATE DESC;";
 
 			$query = $this->db->query($sql);
 
@@ -73,7 +74,8 @@
 			$sql = "SELECT MEETING_ID, GROUP_ID, VENUE, DATE(DATE) AS 'CALENDAR', TIME_FORMAT(START_TIME, '%h:%i %p') AS START, TIME_FORMAT(END_TIME, '%h:%i %p') AS END, DATEDIFF(DATE, CURDATE()) AS DIFF, CURDATE() AS 'NOW'
 					FROM MEETING 
 					WHERE GROUP_ID IN (SELECT GROUP_ID FROM STUDENT_GROUP WHERE STUDENT_ID=".$user_id." AND STATUS=1)
-					AND DATEDIFF(DATE, CURDATE()) >= 0;;";
+					AND DATEDIFF(DATE, CURDATE()) >= 0
+					ORDER BY DATE ASC;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}

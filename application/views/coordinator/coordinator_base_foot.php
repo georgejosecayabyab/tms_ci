@@ -111,19 +111,286 @@ immediately after the control sidebar -->
 
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
-<!--datepicker-->
+<!--modal-panel-->
 <script type="text/javascript">
-    
-
   $(document).ready(function() {
     var group_id = "";
     var trigger = "";
     var sample_date = "";
+
     $('.modal').on('shown.bs.modal', function (e) {
       trigger = $(e.relatedTarget);
       group_id = trigger.attr("value");
       sample_date = trigger.attr("id");
       console.log('group_id: ' + group_id);
+
+      
+      fill_group_tags();
+
+      $("#firstPanelist").change( function (){
+
+        var firstPan = $('#firstPanelist').val();
+        
+        $('#firstPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+          border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+          <div class="box-body"><div> <p>\
+                Specialization (3): <br>\
+                <span></span>\
+                <span class="label regularLabel">Web Platform</span>\
+                <span class="label regularLabel">Web Application</span>\
+                <span class="label regularLabel">Information Technology</span>\
+                </p>\
+              </div>\
+            </div>\
+          </div>\
+        </div>\
+          ');
+
+
+      });
+
+
+      $("#secondPanelist").change( function (){
+          
+        var secondPan = $('#secondPanelist').val();
+        
+        $('#secondPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+          border"> <h3 class="box-title">' + secondPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+          <div class="box-body"><div> <p>\
+                Specialization (3): <br>\
+                <span></span>\
+                <span class="label regularLabel">Web Platform</span>\
+                <span class="label regularLabel">Web Application</span>\
+                <span class="label regularLabel">Information Technology</span>\
+                </p>\
+              </div>\
+            </div>\
+          </div>\
+        </div>\
+          ');
+
+
+      });
+
+      $("#thirdPanelist").change( function (){
+
+       
+        var thirdPan = $('#thirdPanelist').val();
+
+        $('#thirdPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+          border"> <h3 class="box-title">' + thirdPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+          <div class="box-body"><div> <p>\
+                Specialization (3): <br>\
+                <span></span>\
+                <span class="label regularLabel">Web Platform</span>\
+                <span class="label regularLabel">Web Application</span>\
+                <span class="label regularLabel">Information Technology</span>\
+                </p>\
+              </div>\
+            </div>\
+          </div>\
+        </div>\
+          ');
+
+
+      });
+
+      $('#manualPanelButton').click(function (){
+
+        $('#manualPanel').css({
+          display: "inline",
+          visibility: "visible"
+        });
+
+
+        $('#dynamicPanel').css({
+          display: "none",
+          visibility: "hidden"
+        });
+
+      });
+
+      $('#dynamicPanelButton').click(function (){
+
+        $('#dynamicPanel').css({
+          display: "inline",
+          visibility: "visible"
+        });
+
+
+        $('#manualPanel').css({
+          display: "none",
+          visibility: "hidden"
+        });
+
+      });
+    
+
+      function fill_group_tags()
+      {
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/get_group_tags/'+group_id,
+          success: function(data)
+          {
+            console.log('got tags');
+            var label = "";
+            if(data['tags'].length>0)
+            {
+              for(var i = 0; i <data['tags'].length; i++)
+              {
+                label = label + '<span class="label regularLabel">'+data['tags'][i]['specialization']+'</span>';
+              }
+            }
+            else
+            {
+              label = "No Specialization";
+            }
+            $('#group_tags').empty();
+            $('#group_tags').append('<h4> <label>  Group Tags: </label> </h4>'+label);
+            //$('#suggestionOne').empty();
+            console.log(data['tag_common']);
+            console.log(data['tag_count']);
+            $('#suggestionOne').empty();
+            $('#suggestionTwo').empty();
+            $('#suggestionThree').empty();
+            
+            if(data['tag_count'].length >= 1)
+            {
+              var tags = "";
+              var common = "";
+              //panel specializations
+              for(var y = 0; y<data['panel_tag'].length; y++)
+              {
+                if(data['panel_tag'][y]['user_id']==data['tag_count'][0]['USER_ID'])
+                {
+                  tags = tags + '<span class="label regularLabel">'+data['panel_tag'][y]['specialization']+'</span><br>';
+                }
+              }
+              for(var x = 0; x<data['tag_common'].length)
+              {
+                if(data['tag_common'][x]['user_id']==data['tag_count'][0]['USER_ID'])
+                {
+                  common = common + '<span class="label regularLabel">'+data['tag_common'][x]['specialization']+'</span><br>';
+                }
+              }
+
+              $('#suggestionOne').append('\
+                <div class="alert alert-success alert-dismissible">\
+                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][0]['NAME']+'</h4>\
+                  <h5> Assistant Professor </h5>\
+                  <div> \
+                    <p>\
+                    <b> Specialization: </b> <br>\
+                    <span></span>'
+                    + tags +
+                    '</p>\
+                  </div>\
+                  <div> \
+                    <p>\
+                    <b> Common ('+data['tag_count'][0]['COUNT']+'): </b> <br>\
+                    <span></span>'
+                    +common+
+                    '</p>\
+                  </div>\
+                </div>');
+            }
+            if(data['tag_count'].length >= 2)
+            {
+              var tags = "";
+              //panel specializations
+              for(var y = 0; y<data['panel_tag'].length; y++)
+              {
+                if(data['panel_tag'][y]['user_id']==data['tag_count'][1]['USER_ID'])
+                {
+                  tags = tags + '<span class="label regularLabel">'+data['panel_tag'][y]['specialization']+'</span><br>';
+                }
+              }
+
+              $('#suggestionTwo').append('\
+                <div class="alert alert-success alert-dismissible">\
+                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][1]['NAME']+'</h4>\
+                  <h5> Assistant Professor </h5>\
+                  <div> \
+                    <p>\
+                    <b> Specialization: </b> <br>\
+                    <span></span>'
+                    + tags +
+                    '</p>\
+                  </div>\
+                  <div> \
+                    <p>\
+                    <b> Common (2): </b> <br>\
+                    <span></span>\
+                    <span class="label regularLabel">Web Platform</span>\
+                    <span class="label regularLabel">Information Technology</span>\
+                    </p>\
+                  </div>\
+                </div>');
+            }
+            if(data['tag_count'].length >= 3)
+            {
+              var tags = "";
+              //panel specializations
+              for(var y = 0; y<data['panel_tag'].length; y++)
+              {
+                if(data['panel_tag'][y]['user_id']==data['tag_count'][2]['USER_ID'])
+                {
+                  tags = tags + '<span class="label regularLabel">'+data['panel_tag'][y]['specialization']+'</span><br>';
+                }
+              }
+
+              $('#suggestionThree').append('\
+                <div class="alert alert-success alert-dismissible">\
+                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][2]['NAME']+'</h4>\
+                  <h5> Assistant Professor </h5>\
+                  <div> \
+                    <p>\
+                    <b> Specialization: </b> <br>\
+                    <span></span>'
+                    + tags +
+                    '</p>\
+                  </div>\
+                  <div> \
+                    <p>\
+                    <b> Common (2): </b> <br>\
+                    <span></span>\
+                    <span class="label regularLabel">Web Platform</span>\
+                    <span class="label regularLabel">Information Technology</span>\
+                    </p>\
+                  </div>\
+                </div>');
+            }
+            if(data['tag_count'].length == 0)
+            {
+              console.log('No panel with common specialization');
+              $('#suggestionOne').empty();$('#suggestionTwo').empty();$('#suggestionThree').empty();
+            }
+
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+      }
+      
+    });
+  });
+</script>
+
+<!--modal-defense-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    var group_id = "";
+    var trigger = "";
+    var sample_date = "";
+
+    $('.modal').on('shown.bs.modal', function (e) {
+      trigger = $(e.relatedTarget);
+      group_id = trigger.attr("value");
+      sample_date = trigger.attr("id");
+      console.log('group group_id: ' + group_id);
 
       $('#manual').click( function () {
 
