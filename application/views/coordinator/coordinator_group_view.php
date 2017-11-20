@@ -557,7 +557,7 @@
 
              <div class="row">
 
-            <div class="col-xs-4">
+              <div class="col-xs-4">
                <div class="form-group">
                   <label>First Panelist</label>
                   <select class="form-control" id="firstPanelist">
@@ -571,8 +571,8 @@
               </div>
 
                
-                <div class="col-xs-4">
-               <div class="form-group">
+              <div class="col-xs-4">
+                <div class="form-group">
                   <label>Second Panelist</label>
                   <select class="form-control" id="secondPanelist">
                     <option>Oliver Malabanan</option>
@@ -586,8 +586,8 @@
 
                 
 
-                <div class="col-xs-4">
-               <div class="form-group">
+              <div class="col-xs-4">
+                <div class="form-group">
                   <label>Third Panelist</label>
                   <select class="form-control" id="thirdPanelist">
                     <option>Oliver Malabanan</option>
@@ -910,7 +910,7 @@
 
         <div class="modal-footer">
 
-          <button type="button" class="btn btn-primary pull-left">Save changes</button> 
+          <button id="modal_panel_button" type="button" class="btn btn-primary pull-left">Save changes</button> 
         </div>
       </div>
       <!-- /.modal-content -->

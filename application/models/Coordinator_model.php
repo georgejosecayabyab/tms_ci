@@ -373,6 +373,25 @@ class coordinator_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_possible_panelist($group_id)
+	{
+		$sql = "SELECT * 
+				FROM FACULTY F
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID
+				WHERE F.USER_ID NOT IN (SELECT ADVISER_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.");";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+		
+	}
+
+	public function get_group_panel($group_id)
+	{
+		$sql = "SELECT * FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.";";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
 
 

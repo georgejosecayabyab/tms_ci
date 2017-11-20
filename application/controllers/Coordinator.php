@@ -484,5 +484,23 @@
 			echo json_encode($data);
 		}
 
+		public function get_possible_panel($group_id)
+		{
+			$data['possible'] = $this->coordinator_model->get_possible_panelist($group_id);
+			$data['panel'] = $this->coordinator_model->get_group_panel($group_id);
+
+			header('Content-Type: application/json');
+			echo json_encode($data);
+		}
+
+		public function get_group_panel($group_id)
+		{
+			$result = $this->coordinator_model->get_group_panel($group_id);
+
+			header('Content-Type: application/json');
+			echo json_encode($result);
+		}
+
+
 	}
 ?>

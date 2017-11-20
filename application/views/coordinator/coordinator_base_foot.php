@@ -136,6 +136,9 @@ immediately after the control sidebar -->
     var group_id = "";
     var trigger = "";
     var sample_date = "";
+    var first_id = "";
+    var second_id = "";
+    var third_id = "";
 
     $('.modal').on('shown.bs.modal', function (e) {
       trigger = $(e.relatedTarget);
@@ -143,12 +146,37 @@ immediately after the control sidebar -->
       sample_date = trigger.attr("id");
       console.log('group_id: ' + group_id);
 
-      
+      $('#modal_panel_button').click(function(){
+        var fid = $('#firstPanelist').children(":selected").attr("id");
+        var sid = $('#secondPanelist').children(":selected").attr("id");
+        var tid = $('#thirdPanelist').children(":selected").attr("id");
+        console.log('f:'+fid+'  s:'+sid+' t:'+ tid);
+      });
+
       fill_group_tags();
+
+      fill_first_panel_selection();
+      fill_second_panel_selection();
+      fill_third_panel_selection();
 
       $("#firstPanelist").change( function (){
 
         var firstPan = $('#firstPanelist').val();
+        var id = $('#firstPanelist').children(":selected").attr("id");
+        console.log(id);
+
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/get_panel_tags/'+firstPan,
+          success: function()
+          {
+
+          },
+          error: function()
+          {
+
+          }
+        });
         
         $('#firstPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
           border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
@@ -386,6 +414,145 @@ immediately after the control sidebar -->
               $('#suggestionOne').empty();$('#suggestionTwo').empty();$('#suggestionThree').empty();
             }
 
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+      }
+
+      function fill_first_panel_selection()
+      {
+        $.ajax({
+          type:'POST',
+          url: '/tms_ci/index.php/coordinator/get_possible_panel/'+ group_id, 
+          success: function(data)
+          {
+            console.log('frist:' + data);
+            $('#firstPanelist').empty();
+            var option = "";
+            for(var x = 0; x<data['possible'].length; x++)
+            {
+              if(data['panel'].length == 0)
+              {
+                if(x==0)
+                {
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+              else
+              {
+                if(data['possible'][x]['user_id']==data['panel'][0]['user_id'])
+                {
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+            }
+            $('#firstPanelist').append(option);
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+      }
+      function fill_second_panel_selection()
+      {
+        $.ajax({
+          type:'POST',
+          url: '/tms_ci/index.php/coordinator/get_possible_panel/'+ group_id, 
+          success: function(data)
+          {
+            console.log('this:' + data);
+            $('#secondPanelist').empty();
+            var option = "";
+            for(var x = 0; x<data['possible'].length; x++)
+            {
+              if(data['panel'].length == 0)
+              {
+                if(x==1)
+                {
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+              else
+              {
+                if(data['possible'][x]['user_id']==data['panel'][1]['user_id'])
+                {
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+              
+            }
+            $('#secondPanelist').append(option);
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+      }
+      function fill_third_panel_selection()
+      {
+        $.ajax({
+          type:'POST',
+          url: '/tms_ci/index.php/coordinator/get_possible_panel/'+ group_id, 
+          success: function(data)
+          {
+            console.log('this:' + data);
+            $('#thirdPanelist').empty();
+            var option = "";
+            for(var x = 0; x<data['possible'].length; x++)
+            {
+              if(data['panel'].length == 0)
+              {
+                if(x==2)
+                {
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+              else
+              {
+                if(data['possible'][x]['user_id']==data['panel'][2]['user_id'])
+                {
+                  console.log('g ' + data['panel'][2]['user_id']);
+                  option = option + '<option selected id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+
+                }
+                else
+                {
+                  option = option + '<option id="'+ data['possible'][x]['user_id']+'">'+ data['possible'][x]['last_name']+', '+ data['possible'][x]['first_name']+'</option>';
+                }
+              }
+              
+            }
+            $('#thirdPanelist').append(option);
           },
           error: function(err)
           {
