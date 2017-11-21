@@ -17,6 +17,21 @@
 
 
         <section id="tableSection" class="content container-fluid">
+
+        <?php if($this->session->flashdata('fail')): ?>s
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-info"></i> Alert!</h4>
+                <?php echo $this->session->flashdata('fail'); ?>
+              </div>
+          <?php endif; ?>
+          <?php if($this->session->flashdata('success')): ?>
+            <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa fa-info"></i> Alert!</h4>
+              <?php echo $this->session->flashdata('success'); ?>
+            </div>
+          <?php endif; ?> 
           <div class="row" id="scheduleRow">
             <table id="table" class="display" cellspacing="0" width="100%">
               <thead>
