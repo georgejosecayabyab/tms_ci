@@ -388,7 +388,13 @@ class coordinator_model extends CI_Model
 
 	public function get_group_panel($group_id)
 	{
-		$sql = "SELECT * FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.";";
+		$sql = "SELECT * 
+				FROM PANEL_GROUP PG
+				JOIN FACULTY F
+                ON F.USER_ID=PG.PANEL_ID
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID 
+				WHERE PG.GROUP_ID=".$group_id.";";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
