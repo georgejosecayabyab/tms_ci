@@ -14,6 +14,22 @@
   </section>
   <!-- Main content -->
   <section class="content">
+    <?php if($this->session->flashdata('fail')): ?>
+        
+                <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-info"></i> Alert!</h4>
+                <?php echo $this->session->flashdata('fail'); ?>
+          </div>
+      <?php endif; ?>
+      <?php if($this->session->flashdata('success')): ?>
+        <?php echo $this->session->flashdata('success'); ?>
+        <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-info"></i> Alert!</h4>
+                <?php echo $this->session->flashdata('success'); ?>
+        </div>
+      <?php endif; ?>
     <div class="row">
       <div class="col-md-12">
         <div class="box box-info">

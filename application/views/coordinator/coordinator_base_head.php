@@ -56,18 +56,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     |---------------------------------------------------------|
     -->
     <body class="hold-transition skin-green sidebar-mini">
-      <?php if($this->session->flashdata('fail')): ?>
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          <h4><center><i class="icon fa fa-info"></i><?php echo $this->session->flashdata('fail'); ?><center></h4>
-        </div>  
-      <?php endif; ?>
-      <?php if($this->session->flashdata('success')): ?>
-        <div class="alert alert-info alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          <h4><center><i class="icon fa fa-check"></i><?php echo $this->session->flashdata('success'); ?></center></h4>
-        </div>  
-      <?php endif; ?>
+      
       <div class="wrapper">
         <!-- Main Header -->
         <header class="main-header">
