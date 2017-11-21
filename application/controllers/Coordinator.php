@@ -152,7 +152,28 @@
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
-			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_home_announcement_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_new_home_announcement()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "active",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_new_announcement_specific_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
@@ -173,7 +194,28 @@
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
-			$this->load->view('coordinator/coordinator_group_view', $data);
+			$this->load->view('coordinator/coordinator_specific_announcement_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);
+		}
+
+		public function view_new_specific_announcement()
+		{
+			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "active",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_new_announcement_specific_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
@@ -406,7 +448,7 @@
 				$this->coordinator_model->insert_thesis_defense_date($data);
 			}
 
-			$this->session->set_flashdata('success', 'Defense date hase been set!');
+			$this->session->set_flashdata('success', 'Defense date has been set!');
 		}
 
 		public function insert_defense_conversion($defense_date_id, $start, $end)////halt progress due to unknow defense_date_id in evry new insert
@@ -487,7 +529,7 @@
 		public function get_possible_panel($group_id)
 		{
 			$data['possible'] = $this->coordinator_model->get_possible_panelist($group_id);
-			$data['panel'] = $this->coordinator_model->get_group_panel($group_id);
+			$data['panel'] = $this->coordinator_model->get_active_group_panel($group_id);
 
 			header('Content-Type: application/json');
 			echo json_encode($data);
@@ -495,7 +537,7 @@
 
 		public function get_group_panel($group_id)
 		{
-			$result = $this->coordinator_model->get_group_panel($group_id);
+			$result = $this->coordinator_model->get_active_group_panel($group_id);
 
 			header('Content-Type: application/json');
 			echo json_encode($result);
@@ -508,6 +550,77 @@
 
 			header('Content-Type: application/json');
 			echo json_encode($result);
+		}
+
+		public function update_group_panelist()
+		{
+			$group_id = $this->input->post('group_id');
+			$fid = $this->input->post('fid');
+			$sid = $this->input->post('sid');
+			$tid = $this->input->post('tid');
+			$id_array = array($fid, $sid, $tid);
+			$result = $this->coordinator_model->get_active_group_panel($group_id);
+			$inactive = $this->coordinator_model->get_inactive_group_panel($group_id);
+			$updated_active_panels = array();
+			$inactive_panels = array();
+			if(sizeof($result) > 0) ///if panelist exists already///updates panels in common
+			{
+				///update only
+				foreach($result as $row)
+				{
+					if (in_array($row['panel_id'], $id_array) == FALSE) {
+					    $this->coordinator_model->update_group_panelist($row['panel_group_id'], 0);
+					}
+				}
+
+				$result1 = $this->coordinator_model->get_active_group_panel($group_id);
+
+				foreach($result1 as $row)
+				{
+					array_push($updated_active_panels, $row['panel_id']);
+				}
+
+				foreach($inactive as $row)
+				{
+					array_push($inactive_panels, $row['panel_id']);
+				}
+
+				
+				foreach($id_array as $row)
+				{
+					if(in_array($row, $updated_active_panels) == FALSE) {
+						if(in_array($row, $inactive_panels) == FALSE)
+						{
+							$data = array(
+								'group_id' => $group_id,
+								'panel_id' => $row, ///cant solve problem with identifying hte unequal panel id in id_array
+								'status' => 1
+							);
+							$this->coordinator_model->insert_group_panelist($data);
+						}
+					    else
+					    {
+					    	$this->coordinator_model->update_previous_group_panelist($row, $group_id, 1);
+					    }
+					    
+					}
+				}
+			}
+			else ////if there are no panelist
+			{
+				///insert
+				foreach($id_array as $row_id)
+				{
+					$data = array(
+						'group_id' => $group_id,
+						'panel_id' => $row_id,
+						'status' => 1,
+					);
+					$this->coordinator_model->insert_group_panelist($data);
+				}
+			}
+
+			$this->session->set_flashdata('success', 'Panelists has been set!');
 		}
 
 

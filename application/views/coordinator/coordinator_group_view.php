@@ -910,7 +910,7 @@
 
         <div class="modal-footer">
 
-          <button id="modal_panel_button" type="button" class="btn btn-primary pull-left">Save changes</button> 
+          <a href="<?php echo site_url('coordinator/view_group');?>"><button id="modal_panel_button" type="button" class="btn btn-primary pull-left">Save changes</button> </a>
         </div>
       </div>
       <!-- /.modal-content -->

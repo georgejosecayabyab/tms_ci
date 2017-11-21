@@ -12,7 +12,7 @@ class coordinator_model extends CI_Model
 				(SELECT TIME_ID FROM SCHEDULE WHERE USER_ID IN 
 						(SELECT STUDENT_ID FROM STUDENT_GROUP WHERE GROUP_ID=".$group_id.") 
 						OR USER_ID IN 
-						(SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.")
+						(SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id." AND STATUS=1)
 					AND DAY='".$day."'
 					GROUP BY TIME_ID)
 				AND T.TIME_ID >= 5
@@ -42,8 +42,9 @@ class coordinator_model extends CI_Model
 		$sql = "SELECT COUNT(PG.PANEL_ID) AS 'PANEL', U.USER_ID
 				FROM FACULTY F 	LEFT JOIN USER U 
 								ON F.USER_ID = U.USER_ID
-                				LEFT JOIN panel_group PG
+                				LEFT JOIN PANEL_GROUP PG
                 				ON F.USER_ID = PG.PANEL_ID
+                WHERE PG.STATUS=1
 				GROUP BY F.USER_ID;";
 
 		$query = $this->db->query($sql);
@@ -214,7 +215,8 @@ class coordinator_model extends CI_Model
 				join user u
 				on u.user_id=f.user_id
 				join thesis_group tg
-				on tg.group_id=pg.group_id;";
+				on tg.group_id=pg.group_id
+				where pg.status=1;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -250,7 +252,7 @@ class coordinator_model extends CI_Model
 				ON F.USER_ID=PG.PANEL_ID
 				JOIN USER U
 				ON U.USER_ID=F.USER_ID
-				WHERE PG.PANEL_ID IN (SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id.")
+				WHERE PG.PANEL_ID IN (SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id." AND STATUS=1)
 				AND DD.DEFENSE_DATE = '".$date."'
 				AND DD.GROUP_ID!=".$group_id.";";
 		$query = $this->db->query($sql);
@@ -386,7 +388,7 @@ class coordinator_model extends CI_Model
 		
 	}
 
-	public function get_group_panel($group_id)
+	public function get_active_group_panel($group_id)
 	{
 		$sql = "SELECT * 
 				FROM PANEL_GROUP PG
@@ -394,7 +396,22 @@ class coordinator_model extends CI_Model
                 ON F.USER_ID=PG.PANEL_ID
 				JOIN USER U
 				ON U.USER_ID=F.USER_ID 
-				WHERE PG.GROUP_ID=".$group_id.";";
+				WHERE PG.GROUP_ID=".$group_id."
+				AND PG.STATUS=1;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_inactive_group_panel($group_id)
+	{
+		$sql = "SELECT * 
+				FROM PANEL_GROUP PG
+				JOIN FACULTY F
+                ON F.USER_ID=PG.PANEL_ID
+				JOIN USER U
+				ON U.USER_ID=F.USER_ID 
+				WHERE PG.GROUP_ID=".$group_id."
+				AND PG.STATUS=0;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -408,6 +425,38 @@ class coordinator_model extends CI_Model
 				WHERE FS.USER_ID=".$panel.";";
 		$query = $this->db->query($sql);
 		return $query->result_array();
+	}
+
+	public function update_group_panelist($panel_group_id, $status)
+	{
+		$data = array(
+			'status' => $status
+		);
+		$this->db->where('panel_group_id', $panel_group_id);
+		$this->db->update('panel_group', $data); 
+	}
+
+	public function update_previous_group_panelist($panel_id, $group_id, $status)
+	{
+		$data = array(
+			'status' => $status
+		);
+		$this->db->where('panel_id', $panel_id);
+		$this->db->where('group_id', $group_id);
+		$this->db->update('panel_group', $data); 
+	}
+
+	public function insert_group_panelist($data)
+	{
+		//escape every variable
+		$this->db->insert('panel_group', $data);
+	}
+
+	public function delete_group_panelist($group_id)
+	{
+		//escape all variable
+		$this->db->where('group_id', $group_id);
+		$this->db->delete('panel_group');
 	}
 }
 

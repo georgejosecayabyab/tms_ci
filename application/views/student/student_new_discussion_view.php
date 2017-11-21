@@ -19,7 +19,7 @@
         <div class="box box-info">
           <form action="<?php echo site_url('student/validate_discussion');?>" method="POST">
             <div class="box-header">
-            
+              <input type="hidden" value="<?php echo $group_id['group_id'];?>" name="group_id">
               <div class="form-group">
                 <label for="discussion_title" class="col-sm-2 control-label">Discussion Title</label>
                 <div class="col-sm-6">

@@ -153,7 +153,23 @@ immediately after the control sidebar -->
         var fid = $('#firstPanelist').children(":selected").attr("id");
         var sid = $('#secondPanelist').children(":selected").attr("id");
         var tid = $('#thirdPanelist').children(":selected").attr("id");
-        console.log('f:'+fid+'  s:'+sid+' t:'+ tid);
+        console.log('f:'+fid+'  s:'+sid+' t:'+ tid + ' group_id ' + group_id);
+
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/update_group_panelist',
+          data: {'fid': fid, 'sid': sid, 'tid': tid, 'group_id': group_id},
+          success: function(data)
+          {
+            console.log('defense panelis has been changed!');
+            console.log(data);
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
+
       });
 
       fill_group_tags();
@@ -1119,6 +1135,29 @@ immediately after the control sidebar -->
 </script>
 
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
+<!---editor content-->
+<script>
+  var editor = CKEDITOR.replace('editor1');
+  $('#save_discussion').click(function() {
+    var topic_info = editor.getData();
+    var topic_name = $('#discussion_title').val();
+    $('#discussion_title').val(topic_name);
+    $('#editor1').val(topic_info);
+  });
+
+  function fill_in()
+  {
+    var topic_info = editor.getData();
+    var topic_name = $('#discussion_title').val();
+    $('#discussion_title').val(topic_name);
+    $('#editor1').val(topic_info);
+    console.log('succe');
+    console.log($('#editor1').val());
+    console.log($('#discussion_title').val());
+  }
+</script>
+
 <!--select-->
 <script>
   $(function () {

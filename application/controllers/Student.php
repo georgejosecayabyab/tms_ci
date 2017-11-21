@@ -363,10 +363,10 @@
 					);
 				$this->student_model->insert_new_discussion($data);
 				///
-				$result = $this->student_model->get_all_discussion_target($group_id, $user_id);
+				$result = $this->student_model->get_all_discussion_target($group_id['group_id'], $user_id);
 				foreach($result as $row)
 				{
-					$this->insert_notification("New Reply in discussion: ".$topic_name, $row['user_id']);
+					$this->insert_notification("New Discussion: ".$topic_name, $row['user_id']);
 					// $this->email->from('george_cayabyab@dlsu.edu.ph', $faculty_data['FIRST_NAME'].' '.$faculty_data['LAST_NAME']);
 					// $this->email->to('george_cayabyab@dlsu.edu.ph');
 

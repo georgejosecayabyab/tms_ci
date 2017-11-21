@@ -18,7 +18,6 @@
       <div class="col-md-12">
         <div class="box box-info">
           <form action="<?php echo site_url('faculty/validate_discussion');?>" method="POST">
-            <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
             <div class="box-header">
             
               <div class="form-group">
@@ -27,6 +26,13 @@
                   <input class="form-control" id="discussion_title" name="discussion_title" placeholder="Title">
                 </div>
               </div>
+              <span>
+                <select class="form-control select2" style="width: 50%;">
+                  <option>Term 1</option>
+                  <option>Term 2</option>
+                  <option>Term 3</option>
+                </select>
+              </span>
               <!-- tools box -->
               <div class="pull-right box-tools">
                 
@@ -43,8 +49,8 @@
                   </div>
                   <div class="col-lg-3 col-xs-12">
                     <span></span>
-                    <input onclick="fill_in()" id="save_discussion" name="save" type="submit" class="btn btn-success" onclick="fill_in()" value="Save and Quit">
-                    <a href="<?php echo site_url('faculty/view_advisee_specific/'.$group['group_id']);?>"><input id="exit" name="exit" type="button" class="btn btn-danger" value="Exit"></a>
+                    <input onclick="fill_in()" id="save_discussion" name="save" type="submit" class="btn btn-success" value="Save and Quit">
+                    <a href="<?php echo site_url('faculty/view_announcement_specific/');?>"><input id="exit" name="exit" type="button" class="btn btn-danger" value="Exit"></a>
                   </div>
                 </div>
               </div>
