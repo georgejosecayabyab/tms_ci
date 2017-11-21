@@ -645,9 +645,36 @@
 			}
 			else
 			{
-				$this->session->set_flashdata('success', 'User has been created!');
 				$this->create_faculty($email, $first_name, $last_name, $date_time, $rank);
+				$this->session->set_flashdata('success', 'Faculty has been created!');
 				redirect('coordinator/view_faculty');
+			}
+		}
+
+		public function validate_student()
+		{
+			$email = $this->input->post("email");
+			$first_name = $this->input->post("first_name");
+			$last_name = $this->input->post("last_name");
+			$course = $this->input->post("course");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha_numeric');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				//// set flash data
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('coordinator/view_student');
+			}
+			else
+			{	
+				$this->create_student($email, $first_name, $last_name, $date_time, $course);
+				$this->session->set_flashdata('success', 'Student has been created!');
+				redirect('coordinator/view_student');
 			}
 		}
 
@@ -668,6 +695,24 @@
 
 			$this->coordinator_model->insert_faculty($first_name, $last_name, $email, $rank);
 
+		}
+
+		public function create_student($email, $first_name, $last_name, $date_time, $course)
+		{
+			$user = array(
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'password' => 1234,
+				'email' => $email,
+				'is_active' => 1,
+				'date_joined' => $date_time,
+				'profile_pic' => NULL,
+				'user_type' => 0,
+
+			);
+			$this->coordinator_model->insert_user($user);
+
+			$this->coordinator_model->insert_student($first_name, $last_name, $email, $course);
 		}
 
 

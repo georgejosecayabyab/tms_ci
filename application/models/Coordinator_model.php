@@ -474,19 +474,19 @@ class coordinator_model extends CI_Model
 		$this->db->insert('user', $data);
 	}
 
-	public function insert_student($first_name, $last_name, $email)
+	public function insert_student($first_name, $last_name, $email, $course)
 	{
 
-		$sql = "INSERT INTO faculty (user_id, is_coordinator, rank) 
-				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=1),0, (select rank_code from rank where rank='".$rank."'));";
+		$sql = "INSERT INTO STUDENT (USER_ID, DEGREE, COURSE_ID) 
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=0), 'BSIT', 1);";
 
 		$query = $this->db->query($sql);
 	}
 
 	public function insert_faculty($first_name, $last_name, $email, $rank)
 	{
-		$sql = "INSERT INTO faculty (user_id, is_coordinator, rank) 
-				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=1),0, (select rank_code from rank where rank='".$rank."'));";
+		$sql = "INSERT INTO FACULTY (USER_ID, IS_COORDINATOR, RANK)
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=1),0, (SELECT RANK_CODE FROM RANK WHERE RANK='".$rank."'));";
 
 		$query = $this->db->query($sql);
 	}
