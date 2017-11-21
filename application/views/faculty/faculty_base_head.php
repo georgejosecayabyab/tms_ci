@@ -28,15 +28,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.min.css">
+      <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.css">
+
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
 
-  <script src="<?php echo base_url();?>../../bower_components/select2/dist/js/select2.full.min.js"></script>
-  <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
-  <link rel="stylesheet" href="<?php echo base_url();?>../../bower_components/select2/dist/css/select2.min.css">
 </head>
 <!--
 BODY TAG OPTIONS:

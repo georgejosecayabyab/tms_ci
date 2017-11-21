@@ -36,13 +36,32 @@
                 <li class="list-group-item">
                   <b>Defense Date</b> <a class="pull-right">
                     <?php 
-                    $date_new = strtotime($defense['DEF_DATE']);
-                    $formatted_date_new = date('F d, Y', $date_new);
-                    echo $formatted_date_new;?>
+                      if(sizeof($defense)>0)
+                      {
+                        $date_new = strtotime($defense['DEF_DATE']);
+                        $formatted_date_new = date('F d, Y', $date_new);
+                        echo $formatted_date_new;
+                      } 
+                      else
+                      {
+                        echo 'None';
+                      }
+                      
+                    ?>
                   </a>
                 </li>
                 <li class="list-group-item">
-                  <b>Defense Venue</b> <a class="pull-right"><?php echo $defense['VENUE'];?></a>
+                  <b>Defense Venue</b> <a class="pull-right">
+                    <?php
+                      if(sizeof($defense)>0)
+                      {
+                        echo $defense['VENUE'];
+                      } 
+                      else
+                      {
+                        echo 'None';
+                      }
+                    ?></a>
                 </li>
                
               </ul>
@@ -65,14 +84,21 @@
               <p>
                <?php
                 $list = "";
-                foreach($member as $member_row)
+                if(sizeof($member)>0)
                 {
-                  if($member_row['group_id']==$group['group_id'])
+                  foreach($member as $member_row)
                   {
-                    $list .= $member_row['first_name'].' '.$member_row['last_name'].', ';
+                    if($member_row['group_id']==$group['group_id'])
+                    {
+                      $list .= $member_row['first_name'].' '.$member_row['last_name'].', ';
+                    }
                   }
+                  echo substr(trim($list), 0, -1);
                 }
-                echo substr(trim($list), 0, -1);
+                else
+                {
+                  echo 'None';
+                }
               ?>
               </p>
 
@@ -199,15 +225,12 @@
               <div class="tab-pane" id="timeline"><!--current upload tab-->
                 <div class="form-group">
                   <label for="exampleInputFile"><font size="+1">Current Document:</label>
-                    <a href="#"><?php
-                      if(sizeof($submit) > 0){
-                        echo $submit['upload_name'];
-                      }
-                      else
-                      {
-                        echo 'No document submitted';
-                      }
-                     ?>
+                    <a href="#">
+                      <?php if(sizeof($submit) > 0):?>
+                          <h3 class="box-title"><a href="<?php echo site_url('student/download_file/'.$submit['upload_name']);?>"><?php echo $submit['upload_name'];?></a></h3>
+                      <?php else:?>
+                        No document submitted
+                      <?php endif;?>
                     </font></a> 
                   <p class="help-block"><font size="-1">Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
 
@@ -370,7 +393,7 @@
                  <div class="form-group">
                   <label for="exampleInputFile"><font size="+1">Upload New Document Submission</font></label>
                   <input id="submission" type="file" name="userfile" size="20" />
-                  <input type="submit" value="upload" />
+                  <input id="upload1" type="submit" class="btn btn-success" value="upload" />
                   <p class="help-block"><font size="-1"> Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
                 </div>
                 </form>
@@ -378,18 +401,19 @@
 
               <!-- /.tab-pane -->
               <div class="tab-pane" id="abstract"><!--abstract tab-->
-                <form action="/action_page.php" method="get">
+                <form action="<?php echo site_url('student/validate_abstract');?>" method="post">
+                  <input type="hidden" name="thesis_id" value="<?php echo $group['thesis_id'];?>">
+                  <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
                   <div class="row">
                     <div class="tab-content">
                       <div id="abstract" class="col-lg-9 col-xs-4">
-                        
                         <div class="box-body">
                           <h3>Abstract</h3>
-                          <textarea rows="10" cols="110"></textarea>
+                          <textarea name="abstract_text" rows="10" cols="110"><?php echo $group['abstract'];?></textarea>
                           <div class="col-lg-1">
                           </div>
-                          <button id="submitbtn" onclick="location.href='studentGroup.html';" type="button" class="btn btn-success">Save and Quit</button>
-                          <button id="submitbtn2" onclick="location.href='studentGroup.html';" type="button" class="btn btn-danger">Exit</button>
+                          <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
+                          <a href=""><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
                         </div>
                       </div>
                     </div>

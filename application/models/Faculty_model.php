@@ -397,6 +397,8 @@
 					FROM TOPIC_DISCUSSION TD 
 					JOIN THESIS_GROUP TG 
 					ON TD.GROUP_ID=TG.GROUP_ID
+					JOIN USER U
+					ON U.USER_ID=TD.CREATED_BY
 					WHERE TD.TOPIC_DISCUSSION_ID=".$topic_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array');

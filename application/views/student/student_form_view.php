@@ -52,9 +52,9 @@
         
         <div class="form-group">
           <?php foreach($form as $row):?>
-          <div class="box-header with-border">
-            <h3 class="box-title"><a href="<?php echo site_url('student/download_form/'.$row['form_name']);?>"><?php echo $row['form_name'];?></a>
-          </div>
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo site_url('student/download_form/'.$row['form_name']);?>"><?php echo $row['form_name'];?></a>
+            </div>
           <?php endforeach;?>
         </div>
 

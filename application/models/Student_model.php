@@ -154,9 +154,9 @@
 		{
 			$sql = "SELECT *
 					FROM STUDENT_GROUP SG 
-					JOIN USER U
+					LEFT JOIN USER U
 					ON U.USER_ID=SG.STUDENT_ID
-					JOIN THESIS_GROUP TG
+					LEFT JOIN THESIS_GROUP TG
 					ON TG.GROUP_ID = SG.GROUP_ID
 					WHERE SG.STATUS=1
 					AND TG.GROUP_ID=".$group_id.";";
@@ -322,6 +322,8 @@
 					FROM TOPIC_DISCUSSION TD 
 					JOIN THESIS_GROUP TG 
 					ON TD.GROUP_ID=TG.GROUP_ID
+					JOIN USER U
+					ON U.USER_ID=TD.CREATED_BY
 					WHERE TD.TOPIC_DISCUSSION_ID=".$topic_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
@@ -444,6 +446,39 @@
 					ORDER BY DATE, TIME ASC;";
 			$query = $this->db->query($sql);
 			return $query->result_array();
+
+		}
+
+		public function update_abstract($data, $thesis_id)
+		{
+			//escape every variable
+			$this->db->where('thesis_id', $thesis_id);
+			$this->db->update('thesis', $data); 
+		}
+
+
+		public function get_schedule($user_id)
+		{
+			$sql = "SELECT * 
+					FROM SCHEDULE S
+					JOIN TIME T
+					ON T.TIME_ID=S.TIME_ID
+					WHERE USER_ID =".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_schedule_by_day($user_id, $day)
+		{
+			$sql = "SELECT T.TIME_ID, T.START_TIME, T.END_TIME 
+					FROM TIME T
+					WHERE T.TIME_ID IN
+						(SELECT TIME_ID FROM SCHEDULE WHERE USER_ID=".$user_id." AND DAY='".$day."')
+					AND T.TIME_ID >= 5
+	                AND T.TIME_ID <= 60;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+
 
 		}
 

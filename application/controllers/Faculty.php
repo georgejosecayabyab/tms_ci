@@ -9,6 +9,8 @@
 			parent::__construct();
 			$this->load->database();
 			$this->load->model('faculty_model');
+			
+			$this->load->helper('download');
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
 			$this->load->library('email');
@@ -577,6 +579,21 @@
 			redirect('faculty/view_discussion_specific/'.$$topic_id);
 			$value = $this->input->post('data'); 
 			$this->faculty_model->update_discussion_reply($discussion_id, $data);
+		}
+
+		////download 
+		public function download_file($file_name)
+		{
+			if($file_name)
+			{
+				$file = realpath("uploaded_thesis")."\\".$file_name;
+				if(file_exists($file))
+				{
+					$data = file_get_contents($file);
+
+					force_download($file_name, $data);
+				}	
+			}
 		}
 
 		//logout

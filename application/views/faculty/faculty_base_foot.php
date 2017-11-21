@@ -10,7 +10,7 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><?php echo $faculty_data['last_name'].','.$faculty_data['first_name'];?><i class="fa fa-home"></i></a></li>
+      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><?php echo $faculty_data['LAST_NAME'].','.$faculty_data['FIRST_NAME'];?><i class="fa fa-home"></i></a></li>
 
     </ul>
     <!-- Tab panes -->
@@ -80,6 +80,16 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
 
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
+<script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo base_url();?>datepicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+  $('#datepicker,#datepicker2').datepicker({
+    autoclose: true
+  })
+</script>
+
+
 
 <!-- schedule-->
 <script>    

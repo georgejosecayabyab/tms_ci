@@ -27,9 +27,11 @@ class coordinator_model extends CI_Model
 	//This function gets the user information of the faculty (NAME, USER_ID, IS_ACTIVE)
 	public function get_faculty_info()
 	{
-		$sql = "SELECT CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS 'NAME', U.IS_ACTIVE, U.USER_ID
+		$sql = "SELECT CONCAT(U.LAST_NAME,', ',U.FIRST_NAME) AS 'NAME', U.IS_ACTIVE, U.USER_ID, U.EMAIL, R.RANK
 				FROM FACULTY F 	LEFT JOIN USER U
-								ON F.USER_ID = U.USER_ID;";
+								ON F.USER_ID = U.USER_ID
+								JOIN RANK R
+								ON R.RANK_CODE=F.RANK;";
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
@@ -457,6 +459,36 @@ class coordinator_model extends CI_Model
 		//escape all variable
 		$this->db->where('group_id', $group_id);
 		$this->db->delete('panel_group');
+	}
+
+	public function get_all_rank()
+	{
+		$sql = "SELECT * FROM RANK";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function insert_user($data)
+	{
+		//escape every variable
+		$this->db->insert('user', $data);
+	}
+
+	public function insert_student($first_name, $last_name, $email)
+	{
+
+		$sql = "INSERT INTO faculty (user_id, is_coordinator, rank) 
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=1),0, (select rank_code from rank where rank='".$rank."'));";
+
+		$query = $this->db->query($sql);
+	}
+
+	public function insert_faculty($first_name, $last_name, $email, $rank)
+	{
+		$sql = "INSERT INTO faculty (user_id, is_coordinator, rank) 
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=1),0, (select rank_code from rank where rank='".$rank."'));";
+
+		$query = $this->db->query($sql);
 	}
 }
 

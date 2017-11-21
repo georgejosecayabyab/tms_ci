@@ -1166,5 +1166,18 @@ immediately after the control sidebar -->
   });
 </script>
 
+<script>
+  function create_faculty()
+  {
+    var email = $('#faculty_email').val();
+    var first_name = $('#faculty_first_name').val();
+    var last_name = $('#faculty_last_name').val();
+    var rank = $('#faculty_rank').val();
+
+    console.log(email+first_name+last_name+rank);
+    
+  }
+</script>
+
 </body>
 </html>

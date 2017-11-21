@@ -10,11 +10,19 @@
     <h1 id="Title">
       <?php echo $topic_data['topic_name'];?>
     </h1>
-    <h5><?php echo $topic_data['topic_info'];?></h5>
   </section>
   <div  id="timeline">
     <!-- The timeline -->
     <ul class="timeline timeline-inverse">
+      <div class="col-lg-12 col-xs-8">
+        <div class ="box box-primary">
+          <div class="box-header"><h3 class="timeline-header"><?php echo $topic_data['first_name'].' '.$topic_data['last_name'];?><a href="#"></a> posted</h3></div>
+            <!-- /.box-header -->
+          <div class="box-body">
+            <p><?php echo $topic_data['topic_info'];?></p>
+          </div>
+        </div>
+      </div>
 
       <!-- timeline time label -->
 
@@ -25,7 +33,7 @@
         //echo form_open('student/delete_comment');
         if(sizeof($discuss)>0)
         {
-          $date = '';
+          $date = ''; 
           foreach($discuss as $row)
           {
             if($date != $row['DATE'])

@@ -63,9 +63,8 @@
               <ul class="todo-list">
                   <li>
                     <div class="box-header with-border">
-                      <h3 class="box-title">  Note: Current Occupied Schedules are from Groupmates</h3> <br>
                       <br>
-                      <h3 class="box-title">  Each Block represents 15 Minutes</h3> <br><br>
+                      <h3 class="box-title">  Each Block represents 15 Minutes</h3> <br><br><h3 class="box-title">  Drag to highlight multiple</h3> <br><br>
 
                       <h3 class="box-title">  <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #bfbfbf">
                       </canvas> - Free Schedule</h3> <br>
@@ -83,10 +82,15 @@
         <div class="col-xs-5">
            
             <button id="submit" type="button" class="btn btn-success">Save and Quit</button>
-            <button id="submitbtn2" onclick="location.href='studentHome.html';" type="button" class="btn btn-danger">Exit</button>
-
+            <a href="<?php echo site_url('student');?>" ><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
+            <!--current sched-->
+            <div class="row">
+              <div clas="col-xs-5">
+                hok
+              </div>
+            </div>
         </div>
-   
+          
 
         </div>
 

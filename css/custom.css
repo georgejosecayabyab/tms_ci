@@ -310,3 +310,8 @@ th {
 	 display: none;
      visibility: hidden;
 }
+
+#upload1{
+	margin-left: 30px;
+	margin-top: 25px;
+}

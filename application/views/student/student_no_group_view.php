@@ -18,10 +18,10 @@
 
 
           <div class="alert alert-info alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h4><i class="icon fa fa-info"></i> Alert!</h4>
-                Your group has not created a group page yet! Fill out the basic information below.
-              </div>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-info"></i> Alert!</h4>
+            Your group has not created a group page yet! Fill out the basic information below.
+          </div>
 
 
       <div class="row" id="scheduleRow">

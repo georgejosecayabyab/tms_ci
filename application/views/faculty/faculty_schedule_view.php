@@ -65,11 +65,12 @@
                   
                       
                   <div class="box-header with-border">
-            <h3 class="box-title">  <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #bfbfbf">
-              </canvas> - Free Schedule</h3> <br>
-             <h3 class="box-title"> <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #6fdc6f">
-              </canvas> - Occupied Schedule</h3> </h3>
-          </div>
+                    <h3 class="box-title">  Each Block represents 15 Minutes</h3> <br><br><h3 class="box-title">  Drag to highlight multiple</h3> <br><br>
+                    <h3 class="box-title">  <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #bfbfbf">
+                    </canvas> - Free Schedule</h3> <br>
+                    <h3 class="box-title"> <canvas id="myCanvas" width="50" height="10" style="border:1px solid #000000; background: #6fdc6f">
+                    </canvas> - Occupied Schedule</h3> </h3>
+                  </div>
                   
                  </a>
                 </li>

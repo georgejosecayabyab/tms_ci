@@ -73,6 +73,7 @@
 			$data['faculty_detail'] = $this->coordinator_model->get_faculty_info();
 			$data['panel'] = $this->coordinator_model->get_no_of_panels();
 			$data['group'] = $this->coordinator_model->get_no_of_groups();
+			$data['all_rank'] = $this->coordinator_model->get_all_rank();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -369,15 +370,15 @@
 					if($free_common_time[$i+1]['TIME_ID'] - $free_common_time[$i]['TIME_ID'] != 1)
 					{
 						$end = $free_common_time[$i]['END_TIME'];
-						date('h:i:s a m/d/Y', strtotime($date));
-						$common_time.=date('h:i:s a', strtotime($start)).' - '.date('h:i:s a', strtotime($end)).' | ';
+						date('h:i a m/d/Y', strtotime($date));
+						$common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
 						$start = $free_common_time[$i+1]['START_TIME'];
 					}
 				}
 				if($i+1 == sizeof($free_common_time))
 				{
 					$end = $free_common_time[$i]['END_TIME'];
-					$common_time.=date('h:i:s a', strtotime($start)).' - '.date('h:i:s a', strtotime($end)).' | ';
+					$common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
 				}
 			}
 
@@ -621,6 +622,52 @@
 			}
 
 			$this->session->set_flashdata('success', 'Panelists has been set!');
+		}
+
+		public function validate_faculty()
+		{
+			$email = $this->input->post("email");
+			$first_name = $this->input->post("first_name");
+			$last_name = $this->input->post("last_name");
+			$rank = $this->input->post("rank");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha_numeric');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				//// set flash data
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('coordinator/view_faculty');
+			}
+			else
+			{
+				$this->session->set_flashdata('success', 'User has been created!');
+				$this->create_faculty($email, $first_name, $last_name, $date_time, $rank);
+				redirect('coordinator/view_faculty');
+			}
+		}
+
+		public function create_faculty($email, $first_name, $last_name, $date_time, $rank)
+		{
+			$user = array(
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'password' => 1234,
+				'email' => $email,
+				'is_active' => 1,
+				'date_joined' => $date_time,
+				'profile_pic' => NULL,
+				'user_type' => 1,
+
+			);
+			$this->coordinator_model->insert_user($user);
+
+			$this->coordinator_model->insert_faculty($first_name, $last_name, $email, $rank);
+
 		}
 
 

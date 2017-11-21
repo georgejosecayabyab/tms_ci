@@ -63,28 +63,6 @@
 
       </div>
 
-      <div class="row">
-        <div class="col-lg-12 col-xs-8">
-          <div class="box box-primary">
-            <!-- /.box-header -->
-            <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-            <ul class="todo-list">
-              <li>
-                See dist/js/pages/dashboard.js to activate the todoList plugin
-              </li>
-              <li>
-                See dist/js/pages/dashboard.js to activate the todoList plugin
-              </li>
-            </ul>
-          </div>
-        <!-- /.box-body -->
-        </div>
-      </div>
-      <div class="col-lg-12 col-xs-8">
-        <div class="box box-primary">
-        </div>
-        <!-- /.box-header -->
-      </div>
       <!-- /.box-body -->
     </section>
     <!-- /.content -->

@@ -128,7 +128,7 @@
 				$data['group'] = $this->student_model->get_group_details($group_id);
 				$data['defense'] = $this->student_model->get_defense($group_id);
 				$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
-				$data['member'] = $this->student_model->get_thesis_group_members($user_id);
+				$data['member'] = $this->student_model->get_thesis_group_members($group_id);
 				$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
 				$data['submit'] = $this->student_model->latest_uploaded($group_id);
 				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
@@ -144,6 +144,8 @@
 				$this->load->view('student/student_base_head', $data);
 				$this->load->view('student/student_group_view', $data);
 				$this->load->view('student/student_base_foot', $data);
+
+
 
 				
 			}
@@ -247,6 +249,20 @@
 			}
 		}
 
+		public function download_file($file_name)
+		{
+			if($file_name)
+			{
+				$file = realpath("uploaded_thesis")."\\".$file_name;
+				if(file_exists($file))
+				{
+					$data = file_get_contents($file);
+
+					force_download($file_name, $data);
+				}	
+			}
+		}
+
 
 		////upload
 		public function upload_file()
@@ -313,6 +329,44 @@
 			header('Content-Type: application/json');
 			echo json_encode($result);
 
+		}
+
+		public function get_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$result = $this->student_model->get_schedule($user_id);
+			$monday = $this->student_model->get_schedule_by_day($user_id, 'MO');
+			$tuesday = $this->student_model->get_schedule_by_day($user_id, 'TU');
+			$wednesday = $this->student_model->get_schedule_by_day($user_id, 'WE');
+			$thursday = $this->student_model->get_schedule_by_day($user_id, 'TH');
+			$friday = $this->student_model->get_schedule_by_day($user_id, 'FR');
+			$saturday = $this->student_model->get_schedule_by_day($user_id, 'SA');
+
+
+			$mo_common_time = "";
+			$start = $monday[0]['START_TIME'];
+			$end = '';
+			for($i=0; $i<sizeof($monday);$i++)
+			{	
+				if($i+1 < sizeof($monday))
+				{
+					if($monday[$i+1]['TIME_ID'] - $monday[$i]['TIME_ID'] != 1)
+					{
+						$end = $monday[$i]['END_TIME'];
+						$mo_common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
+						$start = $monday[$i+1]['START_TIME'];
+					}
+				}
+				if($i+1 == sizeof($monday))
+				{
+					$end = $monday[$i]['END_TIME'];
+					$mo_common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
+				}
+			}
+
+			echo $mo_common_time;
 		}
 
 
@@ -428,6 +482,32 @@
 			}
 		}
 
+
+		public function validate_abstract()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$thesis_id = $this->input->post("thesis_id");
+			$group_id = $this->input->post("group_id");
+			$abstract_text = $this->input->post("abstract_text");
+
+			$this->form_validation->set_rules('abstract_text', 'Abstract', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('student/view_group/'.$group_id);
+			}
+			else
+			{
+				$data = array(
+					'abstract' => $abstract_text
+				);
+				$this->student_model->update_abstract($data, $thesis_id);
+				redirect('student/view_group/'.$group_id);
+			}
+		}
+
 		/////insert
 		public function insert_event($discussion, $course_id)
 		{
@@ -524,6 +604,7 @@
 
 			$this->student_model->delete_schedule($user_id);
 		}
+
 	}
 
 ?>
