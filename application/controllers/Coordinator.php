@@ -501,7 +501,14 @@
 			echo json_encode($result);
 		}
 
-		
+		public function get_panel_tags($panel_id)
+		{
+			
+			$result = $this->coordinator_model->get_panel_tags($panel_id);
+
+			header('Content-Type: application/json');
+			echo json_encode($result);
+		}
 
 
 	}

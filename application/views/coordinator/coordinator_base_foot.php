@@ -139,6 +139,9 @@ immediately after the control sidebar -->
     var first_id = "";
     var second_id = "";
     var third_id = "";
+    var firstPan = "";
+    var secondPan = "";
+    var thirdPan = "";
 
     $('.modal').on('shown.bs.modal', function (e) {
       trigger = $(e.relatedTarget);
@@ -159,7 +162,7 @@ immediately after the control sidebar -->
 
       $("#firstPanelist").change( function (){
 
-        var firstPan = $('#firstPanelist').val();
+        firstPan = $('#firstPanelist').val();
         first_id = $('#firstPanelist').children(":selected").attr("id");
         second_id = $('#secondPanelist').children(":selected").attr("id");
         third_id = $('#thirdPanelist').children(":selected").attr("id");
@@ -239,10 +242,26 @@ immediately after the control sidebar -->
 
         $.ajax({
           type: 'POST',
-          url: '/tms_ci/index.php/coordinator/get_panel_tags/'+firstPan,
-          success: function()
+          url: '/tms_ci/index.php/coordinator/get_panel_tags/'+first_id,
+          success: function(data)
           {
-
+            tags = "";
+            for(var x = 0; x<data.length; x++)
+            {
+              tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+            }
+            $('#firstPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+            border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+            <div class="box-body"><div> <p>\
+                  Specialization ('+data.length+'): <br>\
+                  <span></span>'
+                  +tags+
+                  '</p>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+            ');
           },
           error: function()
           {
@@ -250,20 +269,7 @@ immediately after the control sidebar -->
           }
         });
         
-        $('#firstPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
-          border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
-          <div class="box-body"><div> <p>\
-                Specialization (3): <br>\
-                <span></span>\
-                <span class="label regularLabel">Web Platform</span>\
-                <span class="label regularLabel">Web Application</span>\
-                <span class="label regularLabel">Information Technology</span>\
-                </p>\
-              </div>\
-            </div>\
-          </div>\
-        </div>\
-          ');
+        
 
 
       });
@@ -271,7 +277,7 @@ immediately after the control sidebar -->
 
       $("#secondPanelist").change( function (){
           
-        var secondPan = $('#secondPanelist').val();
+        secondPan = $('#secondPanelist').val();
         first_id = $('#firstPanelist').children(":selected").attr("id");
         second_id = $('#secondPanelist').children(":selected").attr("id");
         third_id = $('#thirdPanelist').children(":selected").attr("id");
@@ -349,20 +355,34 @@ immediately after the control sidebar -->
           }
         });
         
-        $('#secondPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
-          border"> <h3 class="box-title">' + secondPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
-          <div class="box-body"><div> <p>\
-                Specialization (3): <br>\
-                <span></span>\
-                <span class="label regularLabel">Web Platform</span>\
-                <span class="label regularLabel">Web Application</span>\
-                <span class="label regularLabel">Information Technology</span>\
-                </p>\
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/get_panel_tags/'+second_id,
+          success: function(data)
+          {
+            tags = "";
+            for(var x = 0; x<data.length; x++)
+            {
+              tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+            }
+            $('#secondPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+            border"> <h3 class="box-title">' + secondPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+            <div class="box-body"><div> <p>\
+                  Specialization ('+data.length+'): <br>\
+                  <span></span>'
+                  +tags+
+                  '</p>\
+                </div>\
               </div>\
             </div>\
           </div>\
-        </div>\
-          ');
+            ');
+          },
+          error: function()
+          {
+
+          }
+        });
 
 
       });
@@ -370,7 +390,7 @@ immediately after the control sidebar -->
       $("#thirdPanelist").change( function (){
 
        
-        var thirdPan = $('#thirdPanelist').val();
+        thirdPan = $('#thirdPanelist').val();
         first_id = $('#firstPanelist').children(":selected").attr("id");
         second_id = $('#secondPanelist').children(":selected").attr("id");
         third_id = $('#thirdPanelist').children(":selected").attr("id");
@@ -448,20 +468,34 @@ immediately after the control sidebar -->
           }
         });
 
-        $('#thirdPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
-          border"> <h3 class="box-title">' + thirdPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
-          <div class="box-body"><div> <p>\
-                Specialization (3): <br>\
-                <span></span>\
-                <span class="label regularLabel">Web Platform</span>\
-                <span class="label regularLabel">Web Application</span>\
-                <span class="label regularLabel">Information Technology</span>\
-                </p>\
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/get_panel_tags/'+third_id,
+          success: function(data)
+          {
+            tags = "";
+            for(var x = 0; x<data.length; x++)
+            {
+              tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+            }
+            $('#thirdPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+            border"> <h3 class="box-title">' + thirdPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+            <div class="box-body"><div> <p>\
+                  Specialization ('+data.length+'): <br>\
+                  <span></span>'
+                  +tags+
+                  '</p>\
+                </div>\
               </div>\
             </div>\
           </div>\
-        </div>\
-          ');
+            ');
+          },
+          error: function()
+          {
+
+          }
+        });
 
 
       });
@@ -686,6 +720,10 @@ immediately after the control sidebar -->
             $('#secondPanelist').append(option_2);
             $('#thirdPanelist').append(option_3);
 
+            firstPan = $('#firstPanelist').val();
+            secondPan = $('#secondPanelist').val();
+            thirdPan = $('#thirdPanelist').val();
+
             first_id = $('#firstPanelist').children(":selected").attr("id");
             second_id = $('#secondPanelist').children(":selected").attr("id");
             third_id = $('#thirdPanelist').children(":selected").attr("id");
@@ -707,6 +745,92 @@ immediately after the control sidebar -->
             console.log('3:' +option_3 +option3);
 
             console.log('first_id ' + first_id +' '+ 'second_id ' + second_id +' '+ 'third_id ' + third_id +' ');
+            $.ajax({
+              type: 'POST',
+              url: '/tms_ci/index.php/coordinator/get_panel_tags/'+first_id,
+              success: function(data)
+              {
+                tags = "";
+                for(var x = 0; x<data.length; x++)
+                {
+                  tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+                }
+                $('#firstPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+                border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+                <div class="box-body"><div> <p>\
+                      Specialization ('+data.length+'): <br>\
+                      <span></span>'
+                      +tags+
+                      '</p>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>\
+                ');
+              },
+              error: function()
+              {
+
+              }
+            });
+
+            $.ajax({
+              type: 'POST',
+              url: '/tms_ci/index.php/coordinator/get_panel_tags/'+second_id,
+              success: function(data)
+              {
+                tags = "";
+                for(var x = 0; x<data.length; x++)
+                {
+                  tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+                }
+                $('#secondPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+                border"> <h3 class="box-title">' + secondPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+                <div class="box-body"><div> <p>\
+                      Specialization ('+data.length+'): <br>\
+                      <span></span>'
+                      +tags+
+                      '</p>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>\
+                ');
+              },
+              error: function()
+              {
+
+              }
+            });
+
+            $.ajax({
+              type: 'POST',
+              url: '/tms_ci/index.php/coordinator/get_panel_tags/'+third_id,
+              success: function(data)
+              {
+                tags = "";
+                for(var x = 0; x<data.length; x++)
+                {
+                  tags = tags + '<span class="label regularLabel">'+data[x]['specialization']+'</span><br>';
+                }
+                $('#thirdPanelBox').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+                border"> <h3 class="box-title">' + thirdPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+                <div class="box-body"><div> <p>\
+                      Specialization ('+data.length+'): <br>\
+                      <span></span>'
+                      +tags+
+                      '</p>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>\
+                ');
+              },
+              error: function()
+              {
+
+              }
+            });
             
           },
           error: function(err)
@@ -903,22 +1027,22 @@ immediately after the control sidebar -->
 
     })
   
-    function set_defense_date()
-    {
-      $.ajax({
-        type: 'POST',
-        url: '/tms_ci/index.php/coordinator/set_defense_date',
-        data: {'group_id': group_id, 'verdict': new_date},
-        success: function()
-        {
-          console.log('succ defendse');
-        },
-        error: function(err)
-        {
-          console.log(err);
-        }
-      })
-    }
+    // function set_defense_date()
+    // {
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: '/tms_ci/index.php/coordinator/set_defense_date',
+    //     data: {'group_id': group_id, 'verdict': new_date},
+    //     success: function()
+    //     {
+    //       console.log('succ defendse');
+    //     },
+    //     error: function(err)
+    //     {
+    //       console.log(err);
+    //     }
+    //   })
+    // }
 
   });
 </script>

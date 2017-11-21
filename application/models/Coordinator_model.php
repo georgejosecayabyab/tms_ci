@@ -398,6 +398,17 @@ class coordinator_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_panel_tags($panel)
+	{
+		$sql = "SELECT * 
+				FROM FACULTY_SPECIALIZATION FS
+				JOIN SPECIALIZATION S
+				ON FS.SPECIALIZATION_ID=S.SPECIALIZATION_ID
+				WHERE FS.USER_ID=".$panel.";";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
 
 
