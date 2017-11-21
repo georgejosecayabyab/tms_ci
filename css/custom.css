@@ -55,7 +55,7 @@ th {
 #tableSection {
 	
 	margin-left: 30px;
-	
+	margin-top: 50px;
 	margin-right: 30px;
 }
 
@@ -300,20 +300,13 @@ th {
 
 }
 
+.post{
 
-#modalbutton{
-	margin-left: 30px;
-	margin-top: 30px;
+	color: #000;
 }
 
-#conflict{
-	margin-left: 10px;
-	background-color: #4174c6; /* Green */
-   
-    font-size: 12px;
-}
-
-#upload1{
-	margin-left: 30px;
-	margin-top: 25px;
+#manualPanel{
+	 top: 3000px;
+	 display: none;
+     visibility: hidden;
 }

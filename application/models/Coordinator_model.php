@@ -72,13 +72,11 @@ class coordinator_model extends CI_Model
 	//This functions gets the group information
 	public function get_group_info()
 	{
-		$sql = "SELECT TG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_ID, TG.INITIAL_VERDICT, TG.FINAL_VERDICT, TG.IS_ACTIVE, DD.DEFENSE_DATE_ID, DD.DEFENSE_DATE, DD.START_TIME, DD.END_TIME, DD.VENUE, CD.COURSE_CODE, CD.SECTION
+		$sql = "SELECT TG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_CODE, TG.INITIAL_VERDICT, TG.FINAL_VERDICT, TG.IS_ACTIVE, DD.DEFENSE_DATE_ID, DD.DEFENSE_DATE, DD.START_TIME, DD.END_TIME, DD.VENUE, TG.SECTION
 				FROM THESIS_GROUP TG	LEFT JOIN DEFENSE_DATE DD
 										ON TG.GROUP_ID = DD.GROUP_ID
-                        				LEFT JOIN COURSE_DETAILS CD 
-                        				ON TG.COURSE_ID = CD.COURSE_ID
                         				JOIN COURSE C
-                        				ON CD.COURSE_CODE=C.COURSE_CODE;";
+                        				ON TG.COURSE_CODE=C.COURSE_CODE;";
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
@@ -105,9 +103,7 @@ class coordinator_model extends CI_Model
 	public function get_all_course_details()
 	{
 		$sql = "SELECT * 
-				FROM COURSE_DETAILS CD
-				JOIN COURSE C 
-				ON C.COURSE_CODE=CD.COURSE_CODE;";
+				FROM COURSE;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -122,10 +118,10 @@ class coordinator_model extends CI_Model
 
 	//Coordinator Announcement
 
-	public function add_announcement($description, $course_id)
+	public function add_announcement($description, $course_code)
 	{
-		$sql = "INSERT INTO `thesis_related_event` (`event_id`, `event_desc`, `course_id`) 
-				VALUES (NULL, ".$description.", ".$course_id.");";
+		$sql = "INSERT INTO `thesis_related_event` (`event_id`, `event_desc`, `course_code`) 
+				VALUES (NULL, ".$description.", ".$course_code.");";
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
@@ -176,7 +172,7 @@ class coordinator_model extends CI_Model
 	{
 		$sql = "select t.thesis_id, t.thesis_title, tg.group_id, t.abstract
 				from thesis t 
-				join thesis_group tg
+				left join thesis_group tg
 				on tg.thesis_id=t.thesis_id
 				where thesis_status='ON-GOING';";
 		$query = $this->db->query($sql);
@@ -477,8 +473,8 @@ class coordinator_model extends CI_Model
 	public function insert_student($first_name, $last_name, $email, $course)
 	{
 
-		$sql = "INSERT INTO STUDENT (USER_ID, DEGREE, COURSE_ID) 
-				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=0), 'BSIT', 1);";
+		$sql = "INSERT INTO STUDENT (USER_ID, COURSE_CODE) 
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=0), '".$course."');";
 
 		$query = $this->db->query($sql);
 	}

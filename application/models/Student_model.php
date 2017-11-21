@@ -44,10 +44,8 @@
 			$sql = "SELECT *
 					FROM STUDENT S 	JOIN USER U 
 									ON S.USER_ID = U.USER_ID
-									JOIN COURSE_DETAILS CD
-									ON CD.COURSE_ID = S.COURSE_ID
 									JOIN COURSE C
-									ON C.COURSE_CODE=CD.COURSE_CODE
+									ON C.COURSE_CODE=S.COURSE_CODE
 					WHERE S.USER_ID = ".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
@@ -96,12 +94,10 @@
 		{
 			$sql = "SELECT *
 					FROM STUDENT S 
-					JOIN COURSE_DETAILS CD
-					ON CD.COURSE_ID = S.COURSE_ID
 					JOIN COURSE C
-					ON C.COURSE_CODE=CD.COURSE_CODE
+					ON C.COURSE_CODE=S.COURSE_CODE
 					JOIN FORM F 
-					ON F.COURSE_CODE = CD.COURSE_CODE
+					ON F.COURSE_CODE = C.COURSE_CODE
 					WHERE S.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->result_array();
@@ -111,10 +107,8 @@
 		{
 			$sql = "SELECT *
 					FROM STUDENT S 
-					JOIN COURSE_DETAILS CD
-					ON CD.COURSE_ID=S.COURSE_ID
 					JOIN COURSE C
-					ON C.COURSE_CODE=CD.COURSE_CODE
+					ON C.COURSE_CODE=S.COURSE_CODE
 					WHERE S.USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
@@ -127,10 +121,8 @@
 					FROM THESIS_GROUP TG 
 					JOIN THESIS T
 					ON T.THESIS_ID = TG.THESIS_ID
-					JOIN COURSE_DETAILS CD
-					ON CD.COURSE_ID = TG.COURSE_ID
 					JOIN COURSE C
-					ON C.COURSE_CODE=CD.COURSE_CODE
+					ON C.COURSE_CODE=TG.COURSE_CODE
 					JOIN USER U
 					ON TG.ADVISER_ID = U.USER_ID
 					WHERE TG.GROUP_ID=".$group_id.";";
@@ -246,7 +238,7 @@
 		public function get_thesis_related_event($user_id)
 		{
 			$sql = "SELECT * FROM THESIS_RELATED_EVENT 
-					WHERE COURSE_ID=(SELECT COURSE_ID FROM STUDENT WHERE USER_ID=".$user_id.");";
+					WHERE COURSE_CODE=(SELECT COURSE_CODE FROM STUDENT WHERE USER_ID=".$user_id.");";
 
 			$query = $this->db->query($sql);
 			return $query->result_array();

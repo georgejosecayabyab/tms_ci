@@ -107,7 +107,7 @@
                 <?php
                   foreach($course as $crow)
                   {
-                    if($row['course_id']==$crow['course_id'])
+                    if($row['course_code']==$crow['course_code'])
                     { 
                       echo $crow['course_code'];
                     }
@@ -115,15 +115,7 @@
                 ?>
               </td>
               <td>
-                <?php
-                  foreach($course as $crow)
-                  {
-                    if($row['course_id']==$crow['course_id'])
-                    { 
-                      echo $crow['section'];
-                    }
-                  }
-                ?>
+                <?php echo $row['section'];?>
               </td>
               <td><?php echo $row['group_name']?></td>
               <td><?php echo $row['is_active'];?></td>
