@@ -29,6 +29,15 @@
               </thead>
               
               <tbody>
+                <?php foreach($related_news as $row):?>
+                  <tr>
+                    <td><a href="coordinatorSpecificAnnouncements.html"> Announcement 1 </a></td>
+                    <td>THS-1</td>
+                 
+                    <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
+
+                  </tr>
+                <?php endforeach;?>
                 <tr>
                   <td><a href="coordinatorSpecificAnnouncements.html"> Announcement 1 </a></td>
                   <td>THS-1</td>

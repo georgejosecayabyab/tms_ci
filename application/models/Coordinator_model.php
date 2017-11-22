@@ -87,8 +87,8 @@ class coordinator_model extends CI_Model
 	//This function gets the student information note no section
 	public function get_student_info()
 	{
-		$sql = "SELECT *
-				FROM STUDENT S 	LEFT JOIN USER U
+		$sql = "SELECT CONCAT(U.LAST_NAME,', ', U.FIRST_NAME) AS 'NAME', S.COURSE_CODE, TG.GROUP_NAME, U.IS_ACTIVE
+				FROM STUDENT S 	JOIN USER U
 								ON S.USER_ID = U.USER_ID
                 				LEFT JOIN STUDENT_GROUP SG 
                 				ON SG.STUDENT_ID = S.USER_ID
@@ -474,7 +474,7 @@ class coordinator_model extends CI_Model
 	{
 
 		$sql = "INSERT INTO STUDENT (USER_ID, COURSE_CODE) 
-				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=0), '".$course."');";
+				VALUES ((SELECT USER_ID FROM USER WHERE FIRST_NAME='".$first_name."' AND LAST_NAME='".$last_name."' AND EMAIL='".$email."' AND USER_TYPE=0), (SELECT COURSE_CODE FROM COURSE WHERE COURSE_CODE='".$course."'));";
 
 		$query = $this->db->query($sql);
 	}
@@ -499,6 +499,13 @@ class coordinator_model extends CI_Model
 		//escape all variable
 		$this->db->where('news_id', $news_id);
 		$this->db->delete('news');
+	}
+
+	public function get_related_news($related_)
+	{
+		$sql = "SELECT * FROM THESIS_RELATED_EVENT";
+		
+
 	}
 }
 

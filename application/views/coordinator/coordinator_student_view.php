@@ -93,7 +93,6 @@
           <tr>
             <th>Name</th>
             <th>Course</th>
-            <th>Section</th>
             <th>Group</th>
             <th>Status</th>
           </tr>
@@ -102,23 +101,14 @@
         <tbody>
           <?php foreach($student as $row):?>
             <tr>
-              <td><?php echo $row['first_name'].' '.$row['last_name'];?></td>
+              <td><?php echo $row['NAME'];?></td>
               <td>
                 <?php
-                  foreach($course as $crow)
-                  {
-                    if($row['course_code']==$crow['course_code'])
-                    { 
-                      echo $crow['course_code'];
-                    }
-                  }
+                  echo $row['COURSE_CODE'];
                 ?>
               </td>
-              <td>
-                <?php echo $row['section'];?>
-              </td>
-              <td><?php echo $row['group_name']?></td>
-              <td><?php echo $row['is_active'];?></td>
+              <td><?php echo $row['GROUP_NAME']?></td>
+              <td><?php echo $row['IS_ACTIVE'];?></td>
             </tr>
           <?php endforeach;?>
           

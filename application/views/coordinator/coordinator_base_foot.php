@@ -111,6 +111,14 @@ immediately after the control sidebar -->
 
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
+<script>
+  function check()
+  {
+    var ref = $('#course').val();
+    console.log(ref);
+  }
+</script>
+
 <script type="text/javascript">
   $('.modal').on('shown.bs.modal', function (e) {
     var element_id = $(this).attr("id");
