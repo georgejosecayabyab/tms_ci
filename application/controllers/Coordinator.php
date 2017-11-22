@@ -138,7 +138,7 @@
 
 		public function view_home_announcement()
 		{
-			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['news'] = $this->coordinator_model->get_news();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -713,6 +713,13 @@
 			$this->coordinator_model->insert_user($user);
 
 			$this->coordinator_model->insert_student($first_name, $last_name, $email, $course);
+		}
+
+		public function delete_news($news_id)
+		{
+			$this->coordinator_model->delete_news($news_id);
+			redirect('coordinator/view_home_announcement');
+
 		}
 
 

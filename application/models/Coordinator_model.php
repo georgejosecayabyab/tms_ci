@@ -486,6 +486,20 @@ class coordinator_model extends CI_Model
 
 		$query = $this->db->query($sql);
 	}
+
+	public function get_news()
+	{
+		$sql = "SELECT * FROM NEWS;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function delete_news($news_id)
+	{
+		//escape all variable
+		$this->db->where('news_id', $news_id);
+		$this->db->delete('news');
+	}
 }
 
 

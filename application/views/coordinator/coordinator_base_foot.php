@@ -284,8 +284,28 @@ immediately after the control sidebar -->
 
           }
         });
-        
-        
+
+
+      });
+
+      $("#firstPanelistManual").change( function (){
+
+        var firstPan = $('#firstPanelistManual').val();
+
+        $('#firstBoxManual').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+        border"> <h3 class="box-title">' + firstPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+        <div class="box-body"><div> <p>\
+        Specialization (3): <br>\
+        <span></span>\
+        <span class="label regularLabel">Web Platform</span>\
+        <span class="label regularLabel">Web Application</span>\
+        <span class="label regularLabel">Information Technology</span>\
+        </p>\
+        </div>\
+        </div>\
+        </div>\
+        </div>\
+        ');
 
 
       });
@@ -403,6 +423,28 @@ immediately after the control sidebar -->
 
       });
 
+      $("#secondPanelistManual").change( function (){
+
+        var secondPan = $('#secondPanelistManual').val();
+
+        $('#secondBoxManual').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+        border"> <h3 class="box-title">' + secondPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+        <div class="box-body"><div> <p>\
+        Specialization (3): <br>\
+        <span></span>\
+        <span class="label regularLabel">Web Platform</span>\
+        <span class="label regularLabel">Web Application</span>\
+        <span class="label regularLabel">Information Technology</span>\
+        </p>\
+        </div>\
+        </div>\
+        </div>\
+        </div>\
+        ');
+
+
+      });
+
       $("#thirdPanelist").change( function (){
 
        
@@ -512,6 +554,28 @@ immediately after the control sidebar -->
 
           }
         });
+
+
+      });
+
+      $("#thirdPanelistManual").change( function (){
+
+        var thirdPan = $('#thirdPanelistManual').val();
+
+        $('#thirdBoxManual').html('<div class="col-md-4"> <div class="box box-success"> <div class="box-header with-\
+        border"> <h3 class="box-title">' + thirdPan +  '</h3> <!-- /.box-tools --></div><!-- /.box-header -->\
+        <div class="box-body"><div> <p>\
+        Specialization (3): <br>\
+        <span></span>\
+        <span class="label regularLabel">Web Platform</span>\
+        <span class="label regularLabel">Web Application</span>\
+        <span class="label regularLabel">Information Technology</span>\
+        </p>\
+        </div>\
+        </div>\
+        </div>\
+        </div>\
+        ');
 
 
       });

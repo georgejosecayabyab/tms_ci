@@ -369,6 +369,63 @@
 </div>
 
 
+<div class="modal fade" id="modal-verdict">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title"> <b> Defense Verdict </b> </h3>
+        </div>
+        <div class="modal-body">
+
+
+          <h4> <label> Initial Verdict </label> </h4>
+          
+
+          <div class="post">
+
+            <div class="row">
+              <a class="btn btn-app conditionalBtn">
+                <i class="fa fa-check"></i> Conditional Pass
+              </a>
+              <a class="btn btn-app failBtn">
+                <i class="fa fa-times"></i> Fail 
+              </a>
+              
+              <a class="btn btn-app redefenseBtn">
+                <i class="fa fa-refresh"></i> Redefense
+              </a>
+            </div>
+          </div>
+
+          <div class="post">
+            <h4> <label>Final Verdict: </label> </h4>
+            <div class="row">
+
+
+             <a class="btn btn-app successBtn">
+              <i class="fa fa-check"></i> Pass
+            </a>
+
+            <a class="btn btn-app failBtn">
+              <i class="fa fa-times"></i> Fail 
+            </a>
+
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary pull-left">Save changes</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 <div class="modal fade" id="modal-verdict">
   <div class="modal-dialog">
@@ -788,7 +845,7 @@
                 <div class="col-xs-4">
                <div class="form-group">
                   <label>Third Panelist</label>
-                  <select class="form-control">
+                  <select class="form-control" >
                     <option>Oliver Malabanan</option>
                     <option>Geanne Franco</option>
                     <option>Fritz Flores</option>

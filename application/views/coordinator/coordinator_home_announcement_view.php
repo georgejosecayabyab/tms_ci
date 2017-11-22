@@ -28,45 +28,12 @@
               </thead>
               
               <tbody>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html"> Announcement 1 </a></td>
-                
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 2</a></td>
-
-               
-
-
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 3</a></td>
-                  
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 4 </a></td>
-                  
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 5</a></td>
-                
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                </tr>
+                <?php foreach($news as $row):?>
+                  <tr>
+                    <td><a href="#"><?php echo $row['news_title'];?></a></td>
+                    <td><a href="<?php echo site_url('coordinator/delete_news/'.$row['news_id']);?>"><button type="button" value= "<?php echo $row['news_id'];?>" class="btn btn-block btn-danger">Delete</button></a></td>
+                  </tr>
+                <?php endforeach;?>
                 
               </tbody>
             </table>
