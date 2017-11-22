@@ -13,6 +13,20 @@
         </section>
         <!-- Main content -->
         <section class="content container-fluid">
+          <?php if($this->session->flashdata('fail')): ?>s
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+                <?php echo $this->session->flashdata('fail'); ?></center>
+              </div>
+          <?php endif; ?>
+          <?php if($this->session->flashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+              <?php echo $this->session->flashdata('success'); ?></center>
+            </div>
+          <?php endif; ?>
           <div class="row">
             <?php foreach($course as $row):?>
               <div class="col-lg-6 col-xs-4">
