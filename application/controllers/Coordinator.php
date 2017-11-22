@@ -9,6 +9,9 @@
 			parent::__construct();
 			$this->load->database();
 			$this->load->model('coordinator_model');
+
+
+			$this->load->helper('download');
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
 			$this->load->library('email');
@@ -41,6 +44,7 @@
 			$this->load->view('coordinator/coordinator_base_head', $data);
 			$this->load->view('coordinator/coordinator_home_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
+
 		}
 
 
@@ -315,6 +319,8 @@
 		public function view_set_term()
 		{
 			$data['term'] = $this->coordinator_model->get_term();
+			$data['year'] = $this->coordinator_model->get_year();
+			$data['all_term'] = $this->coordinator_model->get_all_term();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -475,10 +481,12 @@
 			}
 		}
 
-		public function upload_form($course_code)
+		public function upload_form()
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
+
+			$course_code = $this->input->post('course');
 			
 			$config['upload_path']          = './forms/';
             $config['allowed_types']        = 'pdf|docx';
@@ -502,7 +510,7 @@
 	            $rest = $this->upload->data();
 	            //$this->load->view('upload_success', $data);
 	            $this->coordinator_model->insert_form($rest['file_name'], $course_code);
-	            $this->session->set_flashdata('success', 'Document has been uploaded!');
+	            $this->session->set_flashdata('success', 'Form has been uploaded!');
 	            redirect('coordinator/view_form');
 
             }
@@ -511,6 +519,7 @@
 		public function delete_form($form_id)
 		{
 			$this->coordinator_model->delete_form($form_id);
+			$this->session->set_flashdata('success', 'Form has been deleted!');
 			redirect('coordinator/view_form');
 		}
 
@@ -779,6 +788,21 @@
 				$this->coordinator_model->insert_new_specific_announcement($data);
 				redirect('coordinator/view_specific_announcement');
 
+			}
+		}
+
+		////download
+		public function download_form($form_name)
+		{
+			if($form_name)
+			{
+				$file = realpath("forms")."\\".$form_name;
+				if(file_exists($file))
+				{
+					$data = file_get_contents($file);
+
+					force_download($form_name, $data);
+				}	
 			}
 		}
 

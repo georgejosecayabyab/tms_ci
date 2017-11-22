@@ -53,20 +53,32 @@
                 <div class="form-group">
                   <label for="inputName" class="col-sm-2 control-label">Current Term</label>
                   <div class="col-sm-8">
-                    <text><?php echo 'Term'.$term['term'].' AY '.$term['school_year_code'];?></text>
+                    <text>
+                      <?php 
+                        $year1 = $year['year'] + 1;
+                        $year = $year['year'];
+
+                        echo 'Term '.$term['term'].' AY '.$year.'-'.$year1;
+                      ?>  
+                    </text>
                   </div>
                 </div>
                 
                 
                 <div class="form-group ">
-                  <label for="inputName" class="col-sm-2 control-label">Term</label>
+                  <label for="term" class="col-sm-2 control-label">Term</label>
                   
                   <div class="col-sm-8">
                     <span>
-                      <select class="form-control select2" style="width: 100%;">
-                        <option>Term 1</option>
-                        <option>Term 2</option>
-                        <option>Term 3</option>
+                      <select class="form-control select2" name="term" style="width: 100%;">
+                        <?php foreach($all_term as $row):?>
+                          <?php if($term['temr']==$row['term']):?>
+                            <option selected><?php echo $row['term'];?></option>
+                          <?php else:?>
+                            <option><?php echo $row['term'];?></option>
+                          <?php endif;?>
+                          
+                        <?php endforeach;?>
                       </select>
                     </span>
                   </div>

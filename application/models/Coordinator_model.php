@@ -293,12 +293,21 @@ class coordinator_model extends CI_Model
 
 	public function get_term()
 	{
-		$sql = "select * 
-				from course_details cd
-				join school_year sy
-				on sy.school_year_id=cd.school_year
-				where curdate() between sy.start_date and sy.end_date
-				group by cd.term, sy.school_year_code;";
+		$sql = "SELECT * FROM TERM WHERE IS_ACTIVE=1;";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function get_all_term()
+	{
+		$sql = "SELECT * FROM TERM;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_year()
+	{
+		$sql = "SELECT * FROM SCHOOL_YEAR WHERE IS_ACTIVE=1;";
 		$query = $this->db->query($sql);
 		return $query->first_row('array');
 	}
