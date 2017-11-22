@@ -174,7 +174,7 @@
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
-			$this->load->view('coordinator/coordinator_new_announcement_specific_view', $data);
+			$this->load->view('coordinator/coordinator_new_announcement_home_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
@@ -201,7 +201,7 @@
 
 		public function view_new_specific_announcement()
 		{
-			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['course'] = $this->coordinator_model->get_all_course();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -720,6 +720,66 @@
 			$this->coordinator_model->delete_news($news_id);
 			redirect('coordinator/view_home_announcement');
 
+		}
+
+		public function delete_related_news($event_id)
+		{
+			$this->coordinator_model->delete_related_news($event_id);
+			redirect('coordinator/view_specific_announcement');
+		}
+
+		public function validate_home_announcement()
+		{
+			$topic_name = $this->input->post("discussion_title");
+			$discussion = $this->input->post("editor1");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+
+			$this->form_validation->set_rules('discussion_title', 'Title', 'required|trim');
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('coordinator/view_new_home_announcement');
+			}
+			else
+			{
+				$data = array(
+					'news_title' => $discussion,
+					'news_title' => $topic_name,
+					'date_time' => $date_time,
+					'is_featured' => 0,
+				);
+				$this->coordinator_model->insert_new_home_announcement($data);
+				redirect('coordinator/view_home_announcement');
+
+			}
+		}
+
+		public function validate_specific_announcement()
+		{
+			$course = $this->input->post("course");
+			$event_desc = $this->input->post("editor1");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('coordinator/view_new_specific_announcement');
+			}
+			else
+			{
+				$data = array(
+					'event_desc' => $event_desc,
+					'course_code' => $course
+				);
+				$this->coordinator_model->insert_new_specific_announcement($data);
+				redirect('coordinator/view_specific_announcement');
+
+			}
 		}
 
 

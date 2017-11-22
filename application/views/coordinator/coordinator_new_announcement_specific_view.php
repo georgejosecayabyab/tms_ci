@@ -33,22 +33,20 @@
     <div class="row">
       <div class="col-md-12">
         <div class="box box-info">
-          <form action="<?php echo site_url('faculty/validate_discussion');?>" method="POST">
+          <form action="<?php echo site_url('coordinator/validate_specific_announcement');?>" method="POST">
             <div class="box-header">
             
               <div class="form-group">
-                <label for="discussion_title" class="col-sm-2 control-label">Discussion Title</label>
-                <div class="col-sm-6">
-                  <input class="form-control" id="discussion_title" name="discussion_title" placeholder="Title">
-                </div>
+                <label for="course" class="col-sm-2 control-label">Course</label>
+                <span>
+                  <select class="form-control select2" name="course" style="width: 50%;">
+                    <?php foreach($course as $row):?>
+                      <option><?php echo $row['course_code'];?></option>
+                    <?php endforeach;?>  
+                  </select>
+                </span>
               </div>
-              <span>
-                <select class="form-control select2" style="width: 50%;">
-                  <option>Term 1</option>
-                  <option>Term 2</option>
-                  <option>Term 3</option>
-                </select>
-              </span>
+              
               <!-- tools box -->
               <div class="pull-right box-tools">
                 

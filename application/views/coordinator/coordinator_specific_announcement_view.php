@@ -13,8 +13,8 @@
         </section>
         <!-- Main content -->
         <div class="col-lg-3 col-xs-2">
-                      <button id="newAnnouncement" onclick="location.href='coordinatorSpecificAnnouncements.html';" type="button" class="btn btn-block btn-primary">New Announcement</button>
-                      </div>
+          <a href="<?php echo site_url('coordinator/view_new_specific_announcement');?>"><button id="newAnnouncement" type="button" class="btn btn-block btn-primary">New Announcement</button></a>
+        </div>
         <section id="tableSection" class="content container-fluid">
           <div class="row" id="scheduleRow">
             <table id="table" class="display" cellspacing="0" width="100%">
@@ -31,52 +31,13 @@
               <tbody>
                 <?php foreach($related_news as $row):?>
                   <tr>
-                    <td><a href="coordinatorSpecificAnnouncements.html"> Announcement 1 </a></td>
-                    <td>THS-1</td>
+                    <td><a href="coordinatorSpecificAnnouncements.html"><?php echo $row['event_desc'];?></a></td>
+                    <td><?php echo $row['course_code'];?></td>
                  
-                    <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
+                    <td><a href="<?php echo site_url('coordinator/delete_related_news/'.$row['event_id']);?>"><button type="button" class="btn btn-block btn-danger">Delete</button></td>
 
                   </tr>
                 <?php endforeach;?>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html"> Announcement 1 </a></td>
-                  <td>THS-1</td>
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 2</a></td>
-                  <td>THS-2</td>
-               
-
-
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 3</a></td>
-                  <td>THS-3</td>
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 4 </a></td>
-                  <td>THS-4</td>
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                  
-                </tr>
-                <tr>
-                  <td><a href="coordinatorSpecificAnnouncements.html">Announcement 5</a></td>
-                  <td>THS-1</td>
-               
-                  <td><button type="button" class="btn btn-block btn-danger">Delete</button></td>
-
-                </tr>
                 
               </tbody>
             </table>

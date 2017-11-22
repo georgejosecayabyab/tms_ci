@@ -501,11 +501,31 @@ class coordinator_model extends CI_Model
 		$this->db->delete('news');
 	}
 
-	public function get_related_news($related_)
+	public function get_related_news()
 	{
-		$sql = "SELECT * FROM THESIS_RELATED_EVENT";
-		
+		$sql = "SELECT * FROM THESIS_RELATED_EVENT;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
 
+	}
+
+	public function delete_related_news($event_id)
+	{
+		//escape all variable
+		$this->db->where('event_id', $event_id);
+		$this->db->delete('thesis_related_event');
+	}
+
+	public function insert_new_home_announcement($data)
+	{
+		//escape every variable
+		$this->db->insert('news', $data);
+	}
+
+	public function insert_new_specific_announcement($data)
+	{
+		//escape every variable
+		$this->db->insert('thesis_related_event', $data);
 	}
 }
 

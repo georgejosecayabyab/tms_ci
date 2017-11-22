@@ -1218,7 +1218,7 @@ immediately after the control sidebar -->
     $('#editor1').val(topic_info);
   });
 
-  function fill_in()
+  function home_fill_in()
   {
     var topic_info = editor.getData();
     var topic_name = $('#discussion_title').val();

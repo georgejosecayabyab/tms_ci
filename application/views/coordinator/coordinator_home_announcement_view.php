@@ -34,7 +34,6 @@
                     <td><a href="<?php echo site_url('coordinator/delete_news/'.$row['news_id']);?>"><button type="button" value= "<?php echo $row['news_id'];?>" class="btn btn-block btn-danger">Delete</button></a></td>
                   </tr>
                 <?php endforeach;?>
-                
               </tbody>
             </table>
            
