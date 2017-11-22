@@ -32,7 +32,7 @@
     </div>
   </div>
   <!-- Modal -->
-  <form method="POST" class="form-horizontal">
+  <form action="<?php echo site_url('coordinator/validate_student');?>" method="POST" class="form-horizontal">
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <!-- Modal content-->
@@ -76,7 +76,7 @@
           </div>
           <div class="modal-footer">
             <div class="row" align="center">
-              <button id="submitbtn" type="submit" onclick="check()" class="btn btn-success">Save and Quit</button>
+              <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
               <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
             </div>
           </div>

@@ -503,6 +503,8 @@ class coordinator_model extends CI_Model
 
 	public function get_related_news($related_)
 	{
+		$sql = "SELECT * FROM THESIS_RELATED_EVENT";
+		
 
 	}
 }
