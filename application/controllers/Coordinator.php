@@ -180,7 +180,7 @@
 
 		public function view_specific_announcement()
 		{
-			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['related_news'] = $this->coordinator_model->get_related_news();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",

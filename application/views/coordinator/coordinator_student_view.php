@@ -32,7 +32,7 @@
     </div>
   </div>
   <!-- Modal -->
-  <form action="<?php echo site_url('coordinator/validate_student');?>" method="POST" class="form-horizontal">
+  <form method="POST" class="form-horizontal">
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <!-- Modal content-->
@@ -76,7 +76,7 @@
           </div>
           <div class="modal-footer">
             <div class="row" align="center">
-              <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
+              <button id="submitbtn" type="submit" onclick="check()" class="btn btn-success">Save and Quit</button>
               <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
             </div>
           </div>
@@ -93,7 +93,6 @@
           <tr>
             <th>Name</th>
             <th>Course</th>
-            <th>Section</th>
             <th>Group</th>
             <th>Status</th>
           </tr>
@@ -102,23 +101,14 @@
         <tbody>
           <?php foreach($student as $row):?>
             <tr>
-              <td><?php echo $row['first_name'].' '.$row['last_name'];?></td>
+              <td><?php echo $row['NAME'];?></td>
               <td>
                 <?php
-                  foreach($course as $crow)
-                  {
-                    if($row['course_code']==$crow['course_code'])
-                    { 
-                      echo $crow['course_code'];
-                    }
-                  }
+                  echo $row['COURSE_CODE'];
                 ?>
               </td>
-              <td>
-                <?php echo $row['section'];?>
-              </td>
-              <td><?php echo $row['group_name']?></td>
-              <td><?php echo $row['is_active'];?></td>
+              <td><?php echo $row['GROUP_NAME']?></td>
+              <td><?php echo $row['IS_ACTIVE'];?></td>
             </tr>
           <?php endforeach;?>
           
