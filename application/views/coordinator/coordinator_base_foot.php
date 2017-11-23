@@ -1073,40 +1073,35 @@ immediately after the control sidebar -->
             var conflict = "";
             console.log(data['panel_defense']);
             console.log('this is free: ' + data['free'][0]['START']);
+            var common_button = "";
+            for(var x = 0; x<data['free'].length; x++)
+            {
+              common_button = common_button + '<button class="btn btn-primary">'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
+              console.log(common_button);
+            }
+            for(var x = 0; x<data['panel_defense'].length; x++)
+            {
+              console.log('kanina '+data['panel_defense'][x]['NAME']);
+              conflict = conflict + '<span> <b> '+data['panel_defense'][x]['NAME']+' </b> has a thesis defense at <b> '+data['panel_defense'][x]['START']+' - ' +data['panel_defense'][x]['END'] +' </b> </span> <br>';
+            }
+            $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+              <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
+              <h5> <span>'+common_button+'</span>\
+              </h5> \
+              </div>');
+            console.log('after '+common_button);
+
+            
             if(data['panel_defense'].length > 0 )
             {
-              var common_button = "";
-              for(var x = 0; x<data['free'].length; x++)
-              {
-                common_button = common_button + '<button>'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
-                console.log(common_button);
-              }
-              for(var x = 0; x<data['panel_defense'].length; x++)
-              {
-                console.log('kanina '+data['panel_defense'][x]['NAME']);
-                conflict = conflict + '<span> <b> '+data['panel_defense'][x]['NAME']+' </b> has a thesis defense at <b> '+data['panel_defense'][x]['START']+' - ' +data['panel_defense'][x]['END'] +' </b> </span> <br>';
-              }
-              $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
-                <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
-                <h5> <span>'+common_button+'</span>\
-                </h5> \
-                </div>');
-              console.log('after '+common_button);
-
               $("#conflict").html('<div class="alert alert-danger alert-dismissible">\
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
-                <h4><i class="icon fa fa-ban"></i> Conflict Defense for ' +  dateVal + ' </h4>\
-                ' + conflict + '</div>');
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
+              <h4><i class="icon fa fa-ban"></i> Conflict Defense for ' +  dateVal + ' </h4>\
+              ' + conflict + '</div>');
             }
             else
             {
-              $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
-                <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
-                <h5> <span>'+common_button+'</span>\
-                </h5> \
-                </div>');
               $("#conflict").html('<div class="alert alert-success alert-dismissible">\
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
                 <h4><i class="icon fa fa-ban"></i> No Conflict Defense for ' +  dateVal + ' </h4>\
