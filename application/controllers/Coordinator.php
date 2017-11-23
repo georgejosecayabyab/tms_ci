@@ -9,6 +9,9 @@
 			parent::__construct();
 			$this->load->database();
 			$this->load->model('coordinator_model');
+
+
+			$this->load->helper('download');
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
 			$this->load->library('email');
@@ -41,6 +44,7 @@
 			$this->load->view('coordinator/coordinator_base_head', $data);
 			$this->load->view('coordinator/coordinator_home_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
+
 		}
 
 
@@ -174,7 +178,7 @@
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
-			$this->load->view('coordinator/coordinator_new_announcement_specific_view', $data);
+			$this->load->view('coordinator/coordinator_new_announcement_home_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);
 		}
 
@@ -201,7 +205,7 @@
 
 		public function view_new_specific_announcement()
 		{
-			$data['group'] = $this->coordinator_model->get_group_info();
+			$data['course'] = $this->coordinator_model->get_all_course();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -315,6 +319,8 @@
 		public function view_set_term()
 		{
 			$data['term'] = $this->coordinator_model->get_term();
+			$data['year'] = $this->coordinator_model->get_year();
+			$data['all_term'] = $this->coordinator_model->get_all_term();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -475,10 +481,12 @@
 			}
 		}
 
-		public function upload_form($course_code)
+		public function upload_form()
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
+
+			$course_code = $this->input->post('course');
 			
 			$config['upload_path']          = './forms/';
             $config['allowed_types']        = 'pdf|docx';
@@ -502,7 +510,7 @@
 	            $rest = $this->upload->data();
 	            //$this->load->view('upload_success', $data);
 	            $this->coordinator_model->insert_form($rest['file_name'], $course_code);
-	            $this->session->set_flashdata('success', 'Document has been uploaded!');
+	            $this->session->set_flashdata('success', 'Form has been uploaded!');
 	            redirect('coordinator/view_form');
 
             }
@@ -511,6 +519,7 @@
 		public function delete_form($form_id)
 		{
 			$this->coordinator_model->delete_form($form_id);
+			$this->session->set_flashdata('success', 'Form has been deleted!');
 			redirect('coordinator/view_form');
 		}
 
@@ -720,6 +729,81 @@
 			$this->coordinator_model->delete_news($news_id);
 			redirect('coordinator/view_home_announcement');
 
+		}
+
+		public function delete_related_news($event_id)
+		{
+			$this->coordinator_model->delete_related_news($event_id);
+			redirect('coordinator/view_specific_announcement');
+		}
+
+		public function validate_home_announcement()
+		{
+			$topic_name = $this->input->post("discussion_title");
+			$discussion = $this->input->post("editor1");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+
+			$this->form_validation->set_rules('discussion_title', 'Title', 'required|trim');
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('coordinator/view_new_home_announcement');
+			}
+			else
+			{
+				$data = array(
+					'news_title' => $discussion,
+					'news_title' => $topic_name,
+					'date_time' => $date_time,
+					'is_featured' => 0,
+				);
+				$this->coordinator_model->insert_new_home_announcement($data);
+				redirect('coordinator/view_home_announcement');
+
+			}
+		}
+
+		public function validate_specific_announcement()
+		{
+			$course = $this->input->post("course");
+			$event_desc = $this->input->post("editor1");
+			date_default_timezone_set('Asia/Manila');
+			$date_time = date("Y-m-d H:i:s");
+
+			$this->form_validation->set_rules('editor1', 'Information', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				redirect('coordinator/view_new_specific_announcement');
+			}
+			else
+			{
+				$data = array(
+					'event_desc' => $event_desc,
+					'course_code' => $course
+				);
+				$this->coordinator_model->insert_new_specific_announcement($data);
+				redirect('coordinator/view_specific_announcement');
+
+			}
+		}
+
+		////download
+		public function download_form($form_name)
+		{
+			if($form_name)
+			{
+				$file = realpath("forms")."\\".$form_name;
+				if(file_exists($file))
+				{
+					$data = file_get_contents($file);
+
+					force_download($form_name, $data);
+				}	
+			}
 		}
 
 

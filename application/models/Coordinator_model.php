@@ -293,12 +293,21 @@ class coordinator_model extends CI_Model
 
 	public function get_term()
 	{
-		$sql = "select * 
-				from course_details cd
-				join school_year sy
-				on sy.school_year_id=cd.school_year
-				where curdate() between sy.start_date and sy.end_date
-				group by cd.term, sy.school_year_code;";
+		$sql = "SELECT * FROM TERM WHERE IS_ACTIVE=1;";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function get_all_term()
+	{
+		$sql = "SELECT * FROM TERM;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function get_year()
+	{
+		$sql = "SELECT * FROM SCHOOL_YEAR WHERE IS_ACTIVE=1;";
 		$query = $this->db->query($sql);
 		return $query->first_row('array');
 	}
@@ -501,11 +510,31 @@ class coordinator_model extends CI_Model
 		$this->db->delete('news');
 	}
 
-	public function get_related_news($related_)
+	public function get_related_news()
 	{
-		$sql = "SELECT * FROM THESIS_RELATED_EVENT";
-		
+		$sql = "SELECT * FROM THESIS_RELATED_EVENT;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
 
+	}
+
+	public function delete_related_news($event_id)
+	{
+		//escape all variable
+		$this->db->where('event_id', $event_id);
+		$this->db->delete('thesis_related_event');
+	}
+
+	public function insert_new_home_announcement($data)
+	{
+		//escape every variable
+		$this->db->insert('news', $data);
+	}
+
+	public function insert_new_specific_announcement($data)
+	{
+		//escape every variable
+		$this->db->insert('thesis_related_event', $data);
 	}
 }
 

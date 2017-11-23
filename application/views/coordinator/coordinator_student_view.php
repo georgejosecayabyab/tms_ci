@@ -108,7 +108,17 @@
                 ?>
               </td>
               <td><?php echo $row['GROUP_NAME']?></td>
-              <td><?php echo $row['IS_ACTIVE'];?></td>
+              <td>
+                <?php 
+                  if($row['IS_ACTIVE'] == 1)
+                  {
+                    echo 'Active';
+                  }
+                  else
+                  {
+                    echo 'Inactive';
+                  }
+                ?></td>
             </tr>
           <?php endforeach;?>
           
