@@ -26,11 +26,13 @@
       <?php echo $this->session->flashdata('success'); ?></center>
     </div>
   <?php endif; ?>
-  <div class="col-lg-2 col-xs-4">
-    <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Student</button>
-  </div>
-  <div class="col-lg-6 col-xs-4">
-    <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Add Group</button>
+  <div class="row">
+    <div class="col-lg-2 col-xs-4">
+      <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Student</button>
+    </div>
+    <div class="col-lg-6 col-xs-4">
+      <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Add Group</button>
+    </div>
   </div>
   <!-- Modal 1 -->
   <form action="<?php echo site_url('coordinator/validate_student');?>" method="POST" class="form-horizontal">
@@ -141,6 +143,7 @@
       <table id="table" class="display" cellspacing="0" width="100%">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Course</th>
             <th>Group</th>
@@ -151,6 +154,7 @@
         <tbody>
           <?php foreach($student as $row):?>
             <tr>
+              <td><input name="<?php echo $row['USER_ID'];?>" type="checkbox" id="student_box"></td>
               <td><?php echo $row['NAME'];?></td>
               <td>
                 <?php

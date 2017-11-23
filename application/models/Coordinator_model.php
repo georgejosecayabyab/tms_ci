@@ -85,7 +85,7 @@ class coordinator_model extends CI_Model
 	//This function gets the student information note no section
 	public function get_student_info()
 	{
-		$sql = "SELECT CONCAT(U.LAST_NAME,', ', U.FIRST_NAME) AS 'NAME', S.COURSE_CODE, TG.GROUP_NAME, U.IS_ACTIVE
+		$sql = "SELECT CONCAT(U.LAST_NAME,', ', U.FIRST_NAME) AS 'NAME', U.USER_ID, S.COURSE_CODE, TG.GROUP_NAME, U.IS_ACTIVE
 				FROM STUDENT S 	JOIN USER U
 								ON S.USER_ID = U.USER_ID
                 				LEFT JOIN STUDENT_GROUP SG 

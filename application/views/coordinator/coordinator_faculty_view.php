@@ -30,7 +30,6 @@
     </div>
   </div>
   <!-- Modal -->
-  
   <form method="POST" action="<?php echo site_url('coordinator/validate_faculty');?>" class="form-horizontal">
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">

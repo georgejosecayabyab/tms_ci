@@ -66,6 +66,19 @@ immediately after the control sidebar -->
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
+<script>
+  $('#table').change(function(){
+    var student = $('#student_box').attr('name');
+    console.log();
+    $('table [type="checkbox"]').each(function(i, chk) {
+      if (chk.checked) {
+        console.log("Checked!", i, chk);
+      }
+    });
+  });
+
+</script>
+
 <!--editor-->
 <script>
   $(function () {
