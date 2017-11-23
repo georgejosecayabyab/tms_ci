@@ -88,16 +88,17 @@
     </div>
   </form>
   <!-- Modal2 -->
-  <div id="myModal2" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Group</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal">
+
+  <form method="POST" action="#" class="form-horizontal">
+    <div id="myModal2" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add Group</h4>
+          </div>
+          <div class="modal-body">
             <div class="form-group">
               <label for="inputName" class="col-sm-2 control-label">Group Name</label>
               <div class="col-sm-8">
@@ -108,34 +109,29 @@
               <label for="inputName" class="col-sm-2 control-label">Adviser</label>
               <div class="col-sm-8">
                 <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
+                  <?php foreach($faculty as $row):?>
+                    <option><?php echo $row['last_name'].', '.$row['first_name'];?></option>
+                  <?php endforeach;?>
                 </select> 
               </div>
             </div>
-            
             <div class="form-group">
               <label for="inputName" class="col-sm-2 control-label">Members</label>
-              <div class="col-sm-8">
-                <h5>Ralph Cobankiat, Cloud Camilon, Sean Perez, Patrick Mijares</h5>
+              <div id="group_members" class="col-sm-8">
+                <h5>None</h5>
               </div>
-              
             </div>
-            
-        </div>
-        <div class="modal-footer">
-          <div class="row" align="center">
-            <button id="submitbtn" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Save and Quit</button>
-          <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button></div>
+          </div>
+          <div class="modal-footer">
+            <div class="row" align="center">
+              <button id="add_group_submit" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Save and Quit</button>
+              <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
   <!-- Main content -->
   <section id="tableSection" class="content container-fluid">
     <div class="row" id="scheduleRow">

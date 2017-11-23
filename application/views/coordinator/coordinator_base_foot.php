@@ -67,15 +67,40 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
 <script>
+  
+  var member = "";
+  
   $('#table').change(function(){
     var student = $('#student_box').attr('name');
-    console.log();
+    var member = "";
     $('table [type="checkbox"]').each(function(i, chk) {
       if (chk.checked) {
         console.log("Checked!", i, chk);
+        var name = $(this).attr("name");
+        console.log('id:' + name);
+        $.ajax({
+          type: 'POST',
+          url: '/tms_ci/index.php/coordinator/get_user_info/'+name,
+          success: function(data)
+          {
+            console.log(data);
+            member = member + data['user']['first_name']+' '+data['user']['last_name']+', ';
+            
+            console.log('senpai '+member);
+            $('#group_members').empty();
+            $('#group_members').append(member.substring(0, member.length -1));
+          },
+          error: function(err)
+          {
+            console.log(err);
+          }
+        });
       }
+      
     });
+
   });
+  
 
 </script>
 

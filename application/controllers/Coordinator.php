@@ -103,6 +103,7 @@
 		{
 			$data['student'] = $this->coordinator_model->get_student_info();
 			$data['course'] = $this->coordinator_model->get_all_course_details();
+			$data['faculty'] = $this->coordinator_model->get_all_active_faculty();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -876,6 +877,14 @@
 			);
 			$this->coordinator_model->insert_specialization($data);
 
+		}
+
+		public function get_user_info($user_id)
+		{
+			$data['user'] = $this->coordinator_model->get_user_info($user_id);
+
+			header('Content-Type: application/json');
+			echo json_encode($data);
 		}
 
 

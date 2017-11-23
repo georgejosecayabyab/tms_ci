@@ -539,13 +539,27 @@ class coordinator_model extends CI_Model
 	{
 		$sql = "SELECT * FROM SPECIALIZATION;";
 		$query = $this->db->query($sql);
-		return $query->result_array($sql);
+		return $query->result_array();
 	}
 
 	public function insert_specialization($data)
 	{
 		//escape every variable
 		$this->db->insert('specialization', $data);
+	}
+
+	public function get_user_info($user_id)
+	{
+		$sql = "SELECT * FROM USER WHERE USER_ID=".$user_id.";";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function get_all_active_faculty()
+	{
+		$sql = "SELECT * FROM USER WHERE USER_ID IN(SELECT USER_ID FROM FACULTY WHERE IS_COORDINATOR=0) ORDER BY LAST_NAME ASC;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
 	}
 }
 
