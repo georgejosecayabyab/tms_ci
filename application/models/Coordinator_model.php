@@ -561,6 +561,15 @@ class coordinator_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_all_year()
+	{
+		$sql = "SELECT * FROM SCHOOL_YEAR;";
+
+		$query = $this->db->query($sql);
+		return $query->result_array();
+		
+	}
 }
 
 

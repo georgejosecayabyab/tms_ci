@@ -82,11 +82,6 @@
         {
           echo '
             <li>
-              <div class="timeline-item">
-                <div class="timeline-body">
-                  No Replies
-                </div>
-              </div>
             </li>
             <!-- END timeline item -->
             <!-- timeline item -->';

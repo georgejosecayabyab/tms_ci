@@ -57,13 +57,6 @@
                   <div class="timeline-body">'
                     .$row['DISCUSS'].
                   '</div>';
-                  if($row['USER_ID']==$student_data['user_id'])
-                  {
-                    echo '<div class="timeline-footer">
-                      <a class="btn btn-primary btn-xs">Edit</a>
-                      <a class="btn btn-danger btn-xs" href="'.site_url('student/delete_reply/'.$row['DISCUSSION_ID']).'">Delete</a>
-                    </div>';
-                  }
                 echo '</div>
               </li>';
             }
@@ -80,13 +73,6 @@
                   <div class="timeline-body">'
                     .$row['DISCUSS'].
                   '</div>';
-                  if($row['USER_ID']==$student_data['user_id'])
-                  {
-                    echo '<div class="timeline-footer">
-                      <a class="btn btn-primary btn-xs">Edit</a>
-                      <a class="btn btn-danger btn-xs" href="'.site_url('student/delete_reply/'.$row['DISCUSSION_ID']).'">Delete</a>
-                    </div>';
-                  }
                 echo '</div>
               </li>';
             }
@@ -96,11 +82,6 @@
         {
           echo '
             <li>
-              <div class="timeline-item">
-                <div class="timeline-body">
-                  No Replies
-                </div>
-              </div>
             </li>
             <!-- END timeline item -->
             <!-- timeline item -->';

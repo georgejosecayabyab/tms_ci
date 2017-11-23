@@ -124,8 +124,8 @@
           </div>
           <div class="modal-footer">
             <div class="row" align="center">
-              <button id="add_group_submit" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Save and Quit</button>
-              <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
+              <button id="add_group_submit" onclick="" type="button" class="btn btn-success">Save and Quit</button>
+              <button id="submitbtn2" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
             </div>
           </div>
         </div>

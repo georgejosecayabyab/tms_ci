@@ -335,6 +335,7 @@
 			$data['term'] = $this->coordinator_model->get_term();
 			$data['year'] = $this->coordinator_model->get_year();
 			$data['all_term'] = $this->coordinator_model->get_all_term();
+			$data['all_year'] = $this->coordinator_model->get_all_year();
 			$data['active_tab'] = array(
 				'home' => "",
 				'group' => "",
@@ -348,6 +349,8 @@
 				'specialization' => "",
 				'term' => "active"  
 			);
+
+			//echo $data['year']['year'];
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
 			$this->load->view('coordinator/coordinator_set_term_view', $data);
@@ -885,6 +888,18 @@
 
 			header('Content-Type: application/json');
 			echo json_encode($data);
+		}
+
+		public function sample_year()
+		{
+			$result = $this->coordinator_model->get_year();
+
+			echo $result['year'];
+		}
+
+		public function move_to_next_term()
+		{
+			
 		}
 
 

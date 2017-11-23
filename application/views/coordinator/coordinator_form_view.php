@@ -29,7 +29,7 @@
   <?php endif; ?>
   <div class="row">
     <div class="col-lg-6 col-xs-4">
-      <button id="modalbutton" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Add Form</button>
+      <button id="addFaculty2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Form</button>
     </div>
   </div>
   <!-- Modal -->

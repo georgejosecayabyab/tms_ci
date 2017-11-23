@@ -69,10 +69,11 @@ immediately after the control sidebar -->
 <script>
   
   var member = "";
-  
+
   $('#table').change(function(){
     var student = $('#student_box').attr('name');
     var member = "";
+    var id = [];
     $('table [type="checkbox"]').each(function(i, chk) {
       if (chk.checked) {
         console.log("Checked!", i, chk);
@@ -85,10 +86,11 @@ immediately after the control sidebar -->
           {
             console.log(data);
             member = member + data['user']['first_name']+' '+data['user']['last_name']+', ';
-            
+            id.push(data['user']['user_id']);
             console.log('senpai '+member);
             $('#group_members').empty();
-            $('#group_members').append(member.substring(0, member.length -1));
+            $('#group_members').append(member.substring(0, member.length -2));
+            console.log(id);
           },
           error: function(err)
           {
@@ -1070,17 +1072,18 @@ immediately after the control sidebar -->
           {
             var conflict = "";
             console.log(data['panel_defense']);
-            console.log('this is free: ' + data['free']);
+            console.log('this is free: ' + data['free'][0]['START']);
             if(data['panel_defense'].length > 0 )
             {
               var common_button = "";
               for(var x = 0; x<data['free'].length; x++)
               {
-                common_button = common_button + '<button class="btn btn-default">'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
+                common_button = common_button + '<button>'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
+                console.log(common_button);
               }
               for(var x = 0; x<data['panel_defense'].length; x++)
               {
-                console.log(data['panel_defense'][x]['NAME']);
+                console.log('kanina '+data['panel_defense'][x]['NAME']);
                 conflict = conflict + '<span> <b> '+data['panel_defense'][x]['NAME']+' </b> has a thesis defense at <b> '+data['panel_defense'][x]['START']+' - ' +data['panel_defense'][x]['END'] +' </b> </span> <br>';
               }
               $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
@@ -1089,6 +1092,7 @@ immediately after the control sidebar -->
                 <h5> <span>'+common_button+'</span>\
                 </h5> \
                 </div>');
+              console.log('after '+common_button);
 
               $("#conflict").html('<div class="alert alert-danger alert-dismissible">\
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\

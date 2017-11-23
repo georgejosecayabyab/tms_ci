@@ -1,126 +1,89 @@
 <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1 id="Title">
-        Set Term
-        
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="studentGroup.html"><i class="fa fa-home"></i> Group</a></li>
-          
-        </ol>
-      </section>
-      <!-- Main content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1 id="Title">
+    Set Term
+    
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="studentGroup.html"><i class="fa fa-home"></i> Group</a></li>
       
-      <section class="content container-fluid">
-        
-        <div class="row" id="scheduleRow">
-          
-          <div class="col-lg-4 col-xs-4">
-            <!-- small box -->
-            <div class="small-box bg-red">
-              
-              
-            </div>
-          </div>
-          <div class="col-lg-4 col-xs-4">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-              
-              
-            </div>
-          </div>
-          
-          <div class="col-lg-4 col-xs-4">
-            <!-- small box -->
-            <div class="small-box bg-green">
-              
-              
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12 col-xs-8">
-            <div class="box box-primary">
-              <div class="box-header"></div>
-              <!-- /.box-header -->
-              <div  class="box-body">
-              
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <form class="form-horizontal">
-                <div class="form-group">
-                  <label for="inputName" class="col-sm-2 control-label">Current Term</label>
-                  <div class="col-sm-8">
-                    <text>
-                      <?php 
-                        $year1 = $year['year'] + 1;
-                        $year = $year['year'];
+    </ol>
+  </section>
+  <!-- Main content -->
+  
+  <section class="content container-fluid">
+    
+    <div class="row">
+      <div class="col-lg-12 col-xs-8">
+        <div class="box box-primary">
+          <div class="box-header"></div>
+          <form action="<?php echo site_url('coordinator/');?>" method="post" class="form-horizontal">
+            <!-- /.box-header -->
+            <div  class="box-body">
+              <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Current Term</label>
+                <div class="col-sm-8">
+                  <text>
+                    <?php 
+                      $year1 = $year['year'] + 1;
+                      $year = $year['year'];
 
-                        echo 'Term '.$term['term'].' AY '.$year.'-'.$year1;
-                      ?>  
-                    </text>
+                      echo 'Term '.$term['term'].' AY '.$year.'-'.$year1;
+                    ?>  
+                  </text>
+                </div>
+              </div>
+              <div class="form-group ">
+                <label for="term" class="col-sm-2 control-label">Term</label>
+                <div class="col-sm-8">
+                  <span>
+                    <select class="form-control select2" name="term" style="width: 100%;">
+                      <?php foreach($all_term as $row):?>
+                        <?php if($term['term']==$row['term']):?>
+                          <option selected><?php echo $term['term'];?></option>
+                        <?php else:?>
+                          <option><?php echo $row['term'];?></option>
+                        <?php endif;?>
+                      <?php endforeach;?>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="year" class="col-sm-2 control-label">School Year</label>
+                <div class="col-sm-1">
+                  <select class="form-control select2" name="year">
+                    <?php foreach($all_year as $row):?>
+                      <?php if($year==$row['year']):?>
+                        <option selected><?php echo $year;?></option>
+                      <?php else:?>
+                        <option><?php echo $row['year'];?></option>
+                      <?php endif;?>
+                    <?php endforeach;?>
+                  </select>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-4 col-xs-12">
+                  </div>
+                  <div class="col-lg-3 col-xs-12">
+                    <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
+                    <a href="<?php echo site_url('coordinator');?>"><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
                   </div>
                 </div>
-                
-                
-                <div class="form-group ">
-                  <label for="term" class="col-sm-2 control-label">Term</label>
-                  
-                  <div class="col-sm-8">
-                    <span>
-                      <select class="form-control select2" name="term" style="width: 100%;">
-                        <?php foreach($all_term as $row):?>
-                          <?php if($term['temr']==$row['term']):?>
-                            <option selected><?php echo $row['term'];?></option>
-                          <?php else:?>
-                            <option><?php echo $row['term'];?></option>
-                          <?php endif;?>
-                          
-                        <?php endforeach;?>
-                      </select>
-                    </span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputName" class="col-sm-2 control-label">School Year</label>
-                  <div class="col-sm-1">
-                    <input class="form-control" id="inputName" placeholder="Year">
-                  </div>
-                </div>
-                
-                
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="col-lg-4 col-xs-12">
-                    </div>
-                    <div class="col-lg-3 col-xs-12">
-                      <form>
-                        <button id="submitbtn" onclick="location.href='coordinatorSetTerm.html';" type="button" class="btn btn-success">Save and Quit</button>
-                        <button id="submitbtn2" onclick="location.href='coordinatorSetTerm.html';" type="button" class="btn btn-danger">Exit</button>
-                        
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                
-              
-              
+              </div>
             </div>
             <!-- /.box-body -->
-            
-          </div>
+          </form>
         </div>
-        <!-- /.modal -->
-        
-              </div>
-              <!-- /.box-body -->
-            </div>
-          </div>
-        </div>
-        
-      </section>
-      <!-- /.content -->
+      </div>
     </div>
-    <!-- /.content-wrapper -->
+    
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
