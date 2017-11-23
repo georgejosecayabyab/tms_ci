@@ -490,6 +490,7 @@
 				////create
 				$data = array(
 					'group_id' => $group_id,
+					'defense_type' => 'REGULAR DEFENSE',
 					'defense_date' => $date,
 					'start_time' => $start,
 					'end_time' => $end,

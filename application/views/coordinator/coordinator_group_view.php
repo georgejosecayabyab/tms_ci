@@ -13,120 +13,118 @@
     </ol>
   </section>
   <!-- Main content -->
+  <section id="tableSection" class="content container-fluid">
 
-
-
-        <section id="tableSection" class="content container-fluid">
-
-          <?php if($this->session->flashdata('fail')): ?>
-              <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
-                <?php echo $this->session->flashdata('fail'); ?></center>
-              </div>
-          <?php endif; ?>
-          <?php if($this->session->flashdata('success')): ?>
-            <div class="alert alert-success alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
-              <?php echo $this->session->flashdata('success'); ?></center>
-            </div>
-          <?php endif; ?> 
-          <div class="row" id="scheduleRow">
-            <table id="table" class="display" cellspacing="0" width="100%">
-              <thead>
-                <tr>
-                  <th>Group Name</th>
-                  <th>Course</th>
-                  <th>Panel</th>
-                  <th>Defense Type</th>
-                  <th>Defense Date (mm/dd/yy)</th>
-                  <th>Verdict</th>
+    <?php if($this->session->flashdata('fail')): ?>
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+          <?php echo $this->session->flashdata('fail'); ?></center>
+        </div>
+    <?php endif; ?>
+    <?php if($this->session->flashdata('success')): ?>
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+        <?php echo $this->session->flashdata('success'); ?></center>
+      </div>
+    <?php endif; ?> 
+    <div class="row" id="scheduleRow">
+      <table id="table" class="display" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Group Name</th>
+            <th>Course</th>
+            <th>Panel</th>
+            <th>Defense Type</th>
+            <th>Defense Date (mm/dd/yy)</th>
+            <th>Verdict</th>
+            
+          </tr>
+        </thead>
+        
+        <tbody>
+          <?php foreach($group as $row):?>
+            <tr>
+              <td><a href="coordinatorGroupSpecific.html"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
+              <td><?php echo $row['COURSE_CODE'];?></td>
+              <td>
+                <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
+                <?php
+                  $panels = 'None -';
+                  $panels2 = '';
+                  foreach($panel as $prow)
+                  {
+                    if($row['GROUP_ID']==$prow['group_id'])
+                    {
+                      $panels.=$prow['name'].', ';
+                      $panels2.=$prow['name'].', ';
+                    }
+                  }
+                  if($panels=='None -'){
+                    echo substr(trim($panels), 0, -1);
+                  }
+                  else
+                  {
+                    echo substr(trim($panels2), 0, -1);
+                  }
                   
-                </tr>
-              </thead>
-              
-              <tbody>
-                <?php foreach($group as $row):?>
-                  <tr>
-                    <td><a href="coordinatorGroupSpecific.html"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
-                    <td><?php echo $row['COURSE_CODE'];?></td>
-                    <td>
-                      <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
-                      <?php
-                        $panels = 'None -';
-                        $panels2 = '';
-                        foreach($panel as $prow)
-                        {
-                          if($row['GROUP_ID']==$prow['group_id'])
-                          {
-                            $panels.=$prow['name'].', ';
-                            $panels2.=$prow['name'].', ';
-                          }
-                        }
-                        if($panels=='None -'){
-                          echo substr(trim($panels), 0, -1);
-                        }
-                        else
-                        {
-                          echo substr(trim($panels2), 0, -1);
-                        }
-                        
-                      ?>
-                        <i class="fa fa-users"> </i>
-                      </button>
-                    </td>
-                    <td>none</td>
-                    <td>
-                      <?php if($row['DEFENSE_DATE']==null):?>
-                        <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
-                        Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
-                        </button>
-                      <?php else:?>
-                        <?php 
-                          $data_time = "";
-                          $date_new = strtotime($row['DEFENSE_DATE']);
-                          $formatted_date_new = date('d/m/Y', $date_new);
-                          $time_new = strtotime($row['START_TIME']);
-                          $formatted_time_new = date('g:i A', $time_new);
-                          $date_time = $formatted_date_new.' - '.$formatted_time_new;
-                        ?>
-                        <button value="<?php echo $row['GROUP_ID'];?>" id="<?php echo $formatted_date_new;?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
-                        <?php echo $date_time;?> <i class="fa fa-fw fa-calendar-check-o"> </i>
-                        </button>
-                      <?php endif;?>
-                    </td>
-                    <td>
-                      <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict">   
-                        <?php 
-                          if($row['INITIAL_VERDICT']=='NOV')
-                          {
-                            echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
-                          }
-                          else if($row['INITIAL_VERDICT']=='CP')
-                          {
-                            echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
-                          }
-                          else if($row['INITIAL_VERDICT']=='F')
-                          {
-                            echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
-                          }
-                          else if($row['INITIAL_VERDICT']=='P')
-                          {
-                            echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
-                          }
-                          else
-                          {
-                            echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
-                          }
-                        ?>
-                      </button>
-                    </td>
-                  </tr>
-                <?php endforeach;?>
-              </tbody>
-            </table>
-
+                ?>
+                  <i class="fa fa-users"> </i>
+                </button>
+              </td>
+              <td>none</td>
+              <td>
+                <?php if($row['DEFENSE_DATE']==null):?>
+                  <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                  Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
+                  </button>
+                <?php else:?>
+                  <?php 
+                    $data_time = "";
+                    $date_new = strtotime($row['DEFENSE_DATE']);
+                    $formatted_date_new = date('d/m/Y', $date_new);
+                    $time_new = strtotime($row['START_TIME']);
+                    $formatted_time_new = date('g:i A', $time_new);
+                    $date_time = $formatted_date_new.' - '.$formatted_time_new;
+                  ?>
+                  <button value="<?php echo $row['GROUP_ID'];?>" id="<?php echo $formatted_date_new;?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                  <?php echo $date_time;?> <i class="fa fa-fw fa-calendar-check-o"> </i>
+                  </button>
+                <?php endif;?>
+              </td>
+              <td>
+                <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict">   
+                  <?php 
+                    if($row['INITIAL_VERDICT']=='NOV')
+                    {
+                      echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                    }
+                    else if($row['INITIAL_VERDICT']=='CP')
+                    {
+                      echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                    }
+                    else if($row['INITIAL_VERDICT']=='F')
+                    {
+                      echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                    }
+                    else if($row['INITIAL_VERDICT']=='P')
+                    {
+                      echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                    }
+                    else
+                    {
+                      echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                    }
+                  ?>
+                </button>
+              </td>
+            </tr>
+          <?php endforeach;?>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
 <div class="modal fade" id="modal-defensedate">
   <div class="modal-dialog modal-lg">
@@ -165,73 +163,65 @@
               </div>
             </div>
             <h4> <label>Time:</label> </h4>
-
-
-
             <div id="timePickedSuggested">
-
-
-
             </div>
-
             <br>
 
             <div class="row">
               <div class="col-xs-2">
+                <select class="form-control" id="startHour">
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+              </div>
 
-               <select class="form-control" id="startHour">
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-              </select>
+              <div class="col-xs-2">
+                <select class="form-control" id="startMinute">
+                  <option>00</option>
+                  <option>15</option>
+                  <option>30</option>
+                  <option>45</option>
+
+                </select>
+              </div>
+
+              <div class="col-xs-1">
+                <select class="median" id="startMedDynamic">
+                  <option>AM</option>
+                  <option>PM</option>                 
+                </select>
+              </div>
+
+              <div class="col-xs-2">
+                <select class="form-control" id="endHour">
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+              </div>
+
+              <div class="col-xs-2">
+                <select class="form-control" id="endMinute">
+                  <option>00</option>
+                  <option>15</option>
+                  <option>30</option>
+                  <option>45</option>
+
+                </select>
+              </div>
+
+              <div class="col-xs-1">
+                <select class="median" id="endMedDynamic">
+                  <option>AM</option>
+                  <option>PM</option>                 
+                </select>
+              </div>
+
             </div>
-
-            <div class="col-xs-2">
-              <select class="form-control" id="startMinute">
-                <option>00</option>
-                <option>15</option>
-                <option>30</option>
-                <option>45</option>
-
-              </select>
-            </div>
-
-            <div class="col-xs-1">
-              <select class="median" id="startMedDynamic">
-                <option>AM</option>
-                <option>PM</option>                 
-              </select>
-            </div>
-
-            <div class="col-xs-2">
-              <select class="form-control" id="endHour">
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-              </select>
-            </div>
-
-            <div class="col-xs-2">
-              <select class="form-control" id="endMinute">
-                <option>00</option>
-                <option>15</option>
-                <option>30</option>
-                <option>45</option>
-
-              </select>
-            </div>
-
-            <div class="col-xs-1">
-              <select class="median" id="endMedDynamic">
-                <option>AM</option>
-                <option>PM</option>                 
-              </select>
-            </div>
-
-          </div>
 
 
       <!-- /.input group -->
