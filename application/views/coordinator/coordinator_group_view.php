@@ -18,8 +18,8 @@
 
         <section id="tableSection" class="content container-fluid">
 
-          <?php if($this->session->flashdata('fail')): ?>s
-              <div class="alert alert-success alert-dismissible">
+          <?php if($this->session->flashdata('fail')): ?>
+              <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
                 <?php echo $this->session->flashdata('fail'); ?></center>
@@ -38,8 +38,8 @@
                 <tr>
                   <th>Group Name</th>
                   <th>Course</th>
-                  <th>Section</th>
                   <th>Panel</th>
+                  <th>Defense Type</th>
                   <th>Defense Date (mm/dd/yy)</th>
                   <th>Verdict</th>
                   
@@ -51,7 +51,6 @@
                   <tr>
                     <td><a href="coordinatorGroupSpecific.html"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
                     <td><?php echo $row['COURSE_CODE'];?></td>
-                    <td><?php echo $row['SECTION'];?></td>
                     <td>
                       <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
                       <?php
@@ -77,6 +76,7 @@
                         <i class="fa fa-users"> </i>
                       </button>
                     </td>
+                    <td>none</td>
                     <td>
                       <?php if($row['DEFENSE_DATE']==null):?>
                         <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">

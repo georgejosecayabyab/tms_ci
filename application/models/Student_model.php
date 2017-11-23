@@ -407,6 +407,13 @@
 			$this->db->insert('upload', $data);
 		}
 
+		public function insert_revision($file_name, $upload_name, $date_time, $group_id)
+		{
+			$sql = "INSERT INTO REVISION (UPLOAD_ID, REVISION_NAME) 
+					VALUES ((SELECT UPLOAD_ID FROM UPLOAD WHERE UPLOAD_NAME='".$upload_name."' AND UPLOAD_DATE_TIME='".$date_time."' AND GROUP_ID=".$group_id."), '".$file_name."');";
+			$this->db->query($sql);
+		}
+
 		public function delete_upload()
 		{
 			//escape all variable
@@ -472,6 +479,17 @@
 			return $query->result_array();
 
 
+		}
+
+		public function get_uploads_revision($group_id)
+		{
+			$sql = "SELECT * 
+					FROM UPLOAD U 
+					LEFT JOIN REVISION R 
+					ON R.UPLOAD_ID=U.UPLOAD_ID
+					WHERE U.GROUP_ID = ".$group_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
 		}
 
 	}

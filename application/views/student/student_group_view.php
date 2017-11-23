@@ -16,7 +16,20 @@
 
     <!-- Main content -->
     <section class="content">
-
+      <?php if($this->session->flashdata('fail')): ?>
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+          <?php echo $this->session->flashdata('fail'); ?></center>
+        </div>
+      <?php endif; ?>
+      <?php if($this->session->flashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+          <?php echo $this->session->flashdata('success'); ?></center>
+        </div>
+      <?php endif; ?> 
       <div class="row">
         <div class="col-md-3">
 
@@ -223,21 +236,7 @@
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="timeline"><!--current upload tab-->
-                <div class="form-group">
-                  <label for="exampleInputFile"><font size="+1">Current Document:</label>
-                    <a href="#">
-                      <?php if(sizeof($submit) > 0):?>
-                          <h3 class="box-title"><a href="<?php echo site_url('student/download_file/'.$submit['upload_name']);?>"><?php echo $submit['upload_name'];?></a></h3>
-                      <?php else:?>
-                        No document submitted
-                      <?php endif;?>
-                    </font></a> 
-                  <p class="help-block"><font size="-1">Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
-
-                </div>
-
                 
-
                 <!-- The timeline -->
                 <ul class="timeline timeline-inverse">
                   <!-- timeline time label -->
@@ -337,18 +336,8 @@
                     </div>
                   </div>
                   
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Members</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Members">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Adviser</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Adviser">
-                    </div>
-                  </div>
+                  
+                  
                   <div class="form-group ">
                     <label for="inputName" class="col-sm-2 control-label">Specialization</label>
                     
@@ -386,17 +375,58 @@
                   </div>
                 </form>
               </div>
-
-
+              
               <div class="tab-pane" id="newUpload"><!--new upload tab-->
-                <form action="<?php echo site_url('student/upload_file');?>" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
-                 <div class="form-group">
-                  <label for="exampleInputFile"><font size="+1">Upload New Document Submission</font></label>
-                  <input id="submission" type="file" name="userfile" size="20" />
-                  <input id="upload1" type="submit" class="btn btn-success" value="upload" />
-                  <p class="help-block"><font size="-1"> Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
-                </div>
+                
+                <form action="<?php echo site_url('student/validate_thesis_uploads');?>" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                  <div class="col-md-6"><!--upload document-->
+                    <div class="form-group">
+                      <label for="thesis_file"><font size="+1">Upload New Revised Document Submission</font></label>
+                      <input id="thesis_file" type="file" name="thesis_file" size="20"> <!--document file to be uploaded-->
+                      <p class="help-block"><font size="-1"> Last upload was on:<?php echo $submit['upload_date_time'];?></font></p>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                  <div class="col-md-6"> <!--upload revisions list-->
+                    <div class="form-group">
+                      <label for="revision_file"><font size="+1">Upload Associated Revisions List</font></label>
+                      <input id="revision_file" type="file" name="revision_file" size="20" />
+                      <p class="help-block"><font size="-1"> Last upload was on:<?php echo $submit['upload_date_time'];?></font></p>
+                    </div>
+                  </div>
+                  <div style="center">
+                    <button id="uploadForm" type="submit" name="upload_thesis_revision" class="btn btn-success">upload forms</button>
+                  </div>
                 </form>
+                <section id="tableSection" class="content container-fluid">
+                  <div class="col-lg-14">
+                    <label for="table"> Archive</label>
+                    <table id="table" class="display" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Document Name</th>
+                          <th>Date Uploaded</th>
+                          
+                          <th>Revisions List</th>
+                          
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+                        <?php foreach($uploads as $row):?>
+                          <tr>
+                            <td><a href="facultyPanelSpecific.html"><?php echo $row['upload_name'];?></a></td>
+                            <td><?php echo $row['upload_date_time'];?></td>
+                            <td><a href="facultyPanelSpecific.html"><?php echo $row['revision_name'];?></a></td>
+                          </tr>
+                        <?php endforeach;?>
+                      </tbody>
+                    </table>
+                    
+                    <!-- END timeline item -->
+                    <!-- timeline item -->
+                  </div>
+                </section>
               </div>
 
               <!-- /.tab-pane -->

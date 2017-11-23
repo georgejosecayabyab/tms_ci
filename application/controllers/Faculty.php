@@ -181,6 +181,7 @@
 			$data['submit'] = $this->faculty_model->latest_uploaded($group_id);
 			//$data['thesis'] = details about thesis document, paths and file
 			$data['group'] = $this->faculty_model->get_group_details($group_id);
+			$data['upload'] = $this->faculty_model->get_uploads_revision($group_id);
 			$data['active_tab'] = array(
 				'home' => "",
 				'schedule' => "",
@@ -191,6 +192,31 @@
 
 			$this->load->view('faculty/faculty_base_head', $data);
 			$this->load->view('faculty/faculty_panel_specific_view', $data);
+			$this->load->view('faculty/faculty_base_foot', $data); 
+
+		}
+
+		public function view_panel_document($group_id, $upload_id)
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
+			$data['submit'] = $this->faculty_model->latest_uploaded($group_id);
+			$data['group'] = $this->faculty_model->get_group_details($group_id);
+			$data['upload'] = $this->faculty_model->get_upload_thesis_revision($upload_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "",
+				'advisees' => "",
+				'panels' => "active",
+				'archive' => "" 
+			);
+
+			$this->load->view('faculty/faculty_base_head', $data);
+			$this->load->view('faculty/faculty_panel_document_view', $data);
 			$this->load->view('faculty/faculty_base_foot', $data); 
 
 		}

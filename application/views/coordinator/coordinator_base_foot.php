@@ -1035,6 +1035,11 @@ immediately after the control sidebar -->
             console.log('this is free: ' + data['free']);
             if(data['panel_defense'].length > 0 )
             {
+              var common_button = "";
+              for(var x = 0; x<data['free'].length; x++)
+              {
+                common_button = common_button + '<button class="btn btn-default">'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
+              }
               for(var x = 0; x<data['panel_defense'].length; x++)
               {
                 console.log(data['panel_defense'][x]['NAME']);
@@ -1043,7 +1048,7 @@ immediately after the control sidebar -->
               $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
                 <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
-                <h5> <span>'+data['free']+'</span>\
+                <h5> <span>'+common_button+'</span>\
                 </h5> \
                 </div>');
 
@@ -1057,7 +1062,7 @@ immediately after the control sidebar -->
               $("#suggestion").html('<div class="alert alert-success alert-dismissible">\
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
                 <h4><i class="icon fa fa-check"></i> Available Schedule for ' +  dateVal  + ' </h4>\
-                <h5> <span>'+data['free']+'</span>\
+                <h5> <span>'+common_button+'</span>\
                 </h5> \
                 </div>');
               $("#conflict").html('<div class="alert alert-success alert-dismissible">\

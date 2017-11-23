@@ -6,7 +6,7 @@ class coordinator_model extends CI_Model
 
 	public function get_group_common_free_time_by_day($group_id, $day)
 	{
-		$sql = "SELECT T.TIME_ID, T.START_TIME, T.END_TIME 
+		$sql = "SELECT T.TIME_ID, TIME_FORMAT(T.START_TIME, '%h:%i %p') AS 'START', TIME_FORMAT(T.END_TIME, '%h:%i %p') AS 'END'
 				FROM TIME T
 				WHERE T.TIME_ID NOT IN
 				(SELECT TIME_ID FROM SCHEDULE WHERE USER_ID IN 
@@ -14,9 +14,7 @@ class coordinator_model extends CI_Model
 						OR USER_ID IN 
 						(SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id." AND STATUS=1)
 					AND DAY='".$day."'
-					GROUP BY TIME_ID)
-				AND T.TIME_ID >= 5
-                AND T.TIME_ID <= 60;";
+					GROUP BY TIME_ID);";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 
@@ -535,6 +533,19 @@ class coordinator_model extends CI_Model
 	{
 		//escape every variable
 		$this->db->insert('thesis_related_event', $data);
+	}
+
+	public function get_all_specialization()
+	{
+		$sql = "SELECT * FROM SPECIALIZATION;";
+		$query = $this->db->query($sql);
+		return $query->result_array($sql);
+	}
+
+	public function insert_specialization($data)
+	{
+		//escape every variable
+		$this->db->insert('specialization', $data);
 	}
 }
 

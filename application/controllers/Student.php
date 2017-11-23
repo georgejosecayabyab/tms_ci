@@ -133,6 +133,7 @@
 				$data['submit'] = $this->student_model->latest_uploaded($group_id);
 				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
 				$data['reply'] = $this->student_model->get_discussion_reply_count();
+				$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
 				$data['active_tab'] = array(
 					'home' => "",
 					'group' => "active",
@@ -263,9 +264,58 @@
 			}
 		}
 
+		public function validate_thesis_uploads()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$group = $this->student_model->get_group($user_id);
+
+			$files = array();
+            if($_FILES['thesis_file']['name'] != '')
+            {
+            	$files[] = $_FILES['thesis_file']['name'];
+            }
+            if($_FILES['revision_file']['name'] != '')
+            {
+            	$files[] = $_FILES['revision_file']['name'];
+            }
+
+            if(sizeof($files)==2)
+            {
+            	//$d1 = $this->upload->do_upload('thesis_file');
+            	//$d2 = $this->upload->do_upload('revision_file');
+            	if($_FILES['thesis_file']['type'] != 'application/pdf' || $_FILES['revision_file']['type'] != 'application/pdf')////|| ! $this->upload->do_upload('revision_file') ! $this->upload->do_upload('thesis_file') 
+            	{
+            		$error = array('error' => $this->upload->display_errors());
+            		$this->session->set_flashdata('fail', "PDFs only");
+            		redirect('student/view_group/'.$group['group_id']);
+            		
+            	}
+            	else
+            	{
+            		// $thesis = $this->upload->do_upload('thesis_file');
+            		// $revision = $this->upload->do_upload('revision_file');
+					$this->upload_file('thesis_file', 'revision_file');
+					// $this->upload_file('revision_file');
+					$rest = $this->upload->data();
+					$d3 = $_FILES['thesis_file']['type'];
+
+		            $this->session->set_flashdata('success', $d3);
+					redirect('student/view_group/'.$group['group_id']);
+            	}
+				
+			
+            }
+            else
+            {
+            	$this->session->set_flashdata('fail', 'uploading of documents come in pair2');
+            	redirect('student/view_group/'.$group['group_id']);
+            }
+		}
 
 		////upload
-		public function upload_file()
+		////uploading thesis and revisions list
+		public function upload_file($file_name, $revision)
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
@@ -277,31 +327,53 @@
             $config['max_width']            = 4096;
             $config['max_height']           = 2048;
 
-            $this->load->library('upload', $config);
 
-            if ( ! $this->upload->do_upload('userfile'))
+            $this->load->library('upload', $config);
+            
+            if ( ! $this->upload->do_upload($file_name))
             {
-                $error = array('error' => $this->upload->display_errors());
-                //$this->load->view('upload_form', $error);
                 $this->session->set_flashdata('fail', $error['error']);
-	            redirect('student/view_group/'.$group['group_id']);
+	            
             }
             else
             {
 	            $data = array('upload_data' => $this->upload->data());
 	            $rest = $this->upload->data();
-	            //$this->load->view('upload_success', $data);
 	            date_default_timezone_set('Asia/Manila');
 				$date_time = date("Y-m-d H:i:s");
-				$content = array(
+				$thesis_content = array(
 					'upload_date_time' => $date_time,
 					'upload_name' => $rest['file_name'],
 					'group_id' => $group['group_id']
 				);
-	            $this->student_model->insert_upload($content);
+	            $this->student_model->insert_upload($thesis_content);
+	            $this->upload_revision($revision, $rest['file_name'], $date_time, $group['group_id']);
 	            $this->session->set_flashdata('success', 'Document has been uploaded!');
-	            redirect('student/view_group/'.$group['group_id']);
+            }
+		}
 
+		public function upload_revision($file_name, $upload_name, $date_time, $group_id)
+		{	
+			$config['upload_path']          = './uploaded_revision/';
+            $config['allowed_types']        = 'pdf';
+            $config['max_size']             = 2000;
+            $config['max_width']            = 4096;
+            $config['max_height']           = 2048;
+
+
+            $this->load->library('upload', $config);
+            
+            if ( ! $this->upload->do_upload($file_name))
+            {
+                $error = array('error' => $this->upload->display_errors());
+                //$this->load->view('upload_form', $error);
+                $this->session->set_flashdata('fail', $error['error']);
+            }
+            else
+            {
+	            $data = array('upload_data' => $this->upload->data());
+	            $rest = $this->upload->data();
+	            $this->student_model->insert_revision($rest['file_name'], $upload_name, $date_time, $group_id);
             }
 		}
 

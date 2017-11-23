@@ -38,6 +38,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -62,6 +63,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -88,6 +90,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -110,6 +113,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -132,6 +136,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -153,6 +158,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -174,6 +180,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -195,6 +202,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -216,6 +224,7 @@
 				'form' => "",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -239,6 +248,7 @@
 				'form' => "active",
 				'report' => "",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -260,6 +270,7 @@
 				'form' => "",
 				'report' => "active",
 				'archive' => "",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -283,7 +294,8 @@
 				'specific_announcement' => "",
 				'form' => "",
 				'report' => "",
-				'archive' => "active_tab",
+				'archive' => "active",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -307,7 +319,8 @@
 				'specific_announcement' => "",
 				'form' => "",
 				'report' => "",
-				'archive' => "active_tab",
+				'archive' => "active",
+				'specialization' => "",
 				'term' => ""  
 			);
 
@@ -330,12 +343,35 @@
 				'specific_announcement' => "",
 				'form' => "",
 				'report' => "",
-				'archive' => "active_tab",
-				'term' => ""  
+				'archive' => "",
+				'specialization' => "",
+				'term' => "active"  
 			);
 
 			$this->load->view('coordinator/coordinator_base_head', $data);
 			$this->load->view('coordinator/coordinator_set_term_view', $data);
+			$this->load->view('coordinator/coordinator_base_foot', $data);	
+		}
+
+		public function view_specialization()
+		{
+			$data['specialization'] = $this->coordinator_model->get_all_specialization();
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'specialization' => "active",
+				'term' => ""  
+			);
+
+			$this->load->view('coordinator/coordinator_base_head', $data);
+			$this->load->view('coordinator/coordinator_add_specialization_view', $data);
 			$this->load->view('coordinator/coordinator_base_foot', $data);	
 		}
 
@@ -365,28 +401,34 @@
 
 			$panel_defense = $this->coordinator_model->get_panel_defense_date($group_id, $date);
 			$free_common_time = $this->coordinator_model->get_group_common_free_time_by_day($group_id, $day);
+			// $common_array = array();
 
-			$common_time = "";
-			$start = $free_common_time[0]['START_TIME'];
-			$end = '';
-			for($i=0; $i<sizeof($free_common_time);$i++)
-			{	
-				if($i+1 < sizeof($free_common_time))
-				{
-					if($free_common_time[$i+1]['TIME_ID'] - $free_common_time[$i]['TIME_ID'] != 1)
-					{
-						$end = $free_common_time[$i]['END_TIME'];
-						date('h:i a m/d/Y', strtotime($date));
-						$common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
-						$start = $free_common_time[$i+1]['START_TIME'];
-					}
-				}
-				if($i+1 == sizeof($free_common_time))
-				{
-					$end = $free_common_time[$i]['END_TIME'];
-					$common_time.=date('h:i a', strtotime($start)).' - '.date('h:i a', strtotime($end)).' | ';
-				}
-			}
+			// foreach($free_common_time as $row)
+			// {
+			// 	$common_array[] = $row[''];
+			// }
+
+			// $common_time = "";
+			// $start = $free_common_time[0]['START'];
+			// $end = '';
+			// for($i=0; $i<sizeof($free_common_time);$i++)
+			// {	
+			// 	if($i+1 < sizeof($free_common_time))
+			// 	{
+			// 		if($free_common_time[$i+1]['TIME_ID'] - $free_common_time[$i]['TIME_ID'] != 1)
+			// 		{
+			// 			$end = $free_common_time[$i]['END'];
+			// 			date('h:i a m/d/Y', strtotime($date));
+			// 			$common_time.=$start.' - '.$end.' | ';
+			// 			$start = $free_common_time[$i+1]['START'];
+			// 		}
+			// 	}
+			// 	if($i+1 == sizeof($free_common_time))
+			// 	{
+			// 		$end = $free_common_time[$i]['END'];
+			// 		$common_time.=$start.' - '.$end.' | ';
+			// 	}
+			// }
 
 			// $common_hour = array();
 			// $start = $free_common_time[0]['START_TIME'];
@@ -412,7 +454,7 @@
 			// }
 
 			$data = array(
-				'free' => $common_time,
+				'free' => $free_common_time,
 				'panel_defense' => $panel_defense
 			);
 			header('Content-Type: application/json');
@@ -804,6 +846,36 @@
 					force_download($form_name, $data);
 				}	
 			}
+		}
+
+		public function validate_specialization()
+		{
+			$specialization = $this->input->post('specialization');
+
+			$this->form_validation->set_rules('specialization', 'Specialization', 'required|trim|alpha_numeric');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				//// set flash data
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('coordinator/view_specialization');
+			}
+			else
+			{
+				$this->insert_specialization($specialization);
+				$this->session->set_flashdata('success', 'Specialization has been added!');
+				redirect('coordinator/view_specialization');
+			}
+
+		}
+
+		public function insert_specialization($specialization)
+		{
+			$data = array(
+				'specialization'=> $specialization
+			);
+			$this->coordinator_model->insert_specialization($data);
+
 		}
 
 

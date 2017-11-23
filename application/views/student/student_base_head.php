@@ -31,6 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.min.css">
   
   <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.css">
+
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -58,18 +59,6 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-green sidebar-mini">
-    <?php if($this->session->flashdata('fail')): ?>
-      <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><center><i class="icon fa fa-info"></i><?php echo $this->session->flashdata('fail'); ?></center></h4>
-      </div>  
-    <?php endif; ?>
-    <?php if($this->session->flashdata('success')): ?>
-      <div class="alert alert-info alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><center><i class="icon fa fa-check"></i><?php echo $this->session->flashdata('success'); ?></center></h4>
-      </div>  
-    <?php endif; ?>
 <div class="wrapper">
 
   <!-- Main Header -->

@@ -83,6 +83,7 @@ immediately after the control sidebar -->
 
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 <script src="<?php echo base_url();?>datepicker/bootstrap-datepicker.js"></script>
+
 <script type="text/javascript">
   $('#datepicker,#datepicker2').datepicker({
     autoclose: true
@@ -129,6 +130,10 @@ immediately after the control sidebar -->
     // Background color of headers
     headerBackgroundColor: "transparent"
     
+  });
+
+  $('#specialCase').click(function (){
+    $('#specialField').html('<input class="text form-control" placeholder="Subject/Date/Time" id="specialText"> </input>');
   });
 
 

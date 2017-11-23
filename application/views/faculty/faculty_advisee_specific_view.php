@@ -178,17 +178,6 @@
             </div><!-- END DISCUSSION -->
             <!-- /.tab-pane -->
             <div class="tab-pane" id="timeline"><!-- VERDICT-->
-              <div class="form-group">
-                <label for="exampleInputFile"><font size="+1">Current Document:</label>
-                  <a href="#">
-                    <?php if(sizeof($submit) > 0):?>
-                        <h3 class="box-title"><a href="<?php echo site_url('faculty/download_file/'.$submit['upload_name']);?>"><?php echo $submit['upload_name'];?></a></h3>
-                    <?php else:?>
-                      No document submitted
-                    <?php endif;?>
-                    </font></a>
-                <p class="help-block"><font size="-1">Last upload was on: <?php echo $submit['upload_date_time'];?></font></p>
-              </div>
               <!-- The timeline -->
               <!-- VERDICT START-->
               <ul class="timeline timeline-inverse">

@@ -26,6 +26,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
 
+
+  <script src="<?php echo base_url();?>js/jquery.min.js"></script>
+
+  <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
+
   <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet">
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.min.css">

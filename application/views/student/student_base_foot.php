@@ -100,6 +100,7 @@
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
 
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
 <script>
   $(function () {
     //Initialize Select2 Elements

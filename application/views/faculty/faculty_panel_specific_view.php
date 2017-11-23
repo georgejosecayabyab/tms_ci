@@ -1,195 +1,128 @@
-  <?php echo $this->session->flashdata('msg'); ?>
-  <?php echo validation_errors(); ?>
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1 id="Title">
-        <?php echo $group['thesis_title'];?> ge
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="<?php echo site_url('faculty/view_panel_details');?>">Panels</a></li>
-        <li class="active"><?php echo $group['thesis_title'];?></li>
-        
-      </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-       
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>
-           
+<!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1 id="Title">
+          CT - Thesis Portal
+          
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="facultyPanelInitial.html">Panels</a></li>
+            <li class="active">CT - Thesis Platform</li>
+            
+          </ol>
+        </section>
+        <!-- Main content -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-md-12">
+              
+              <section id="tableSection" class="content container-fluid">
+                <div class="row" id="scheduleRow">
+                  <div class="col-lg-14">
+                    <table id="table" class="display" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Document Name</th>
+                          <th>Date Uploaded</th>
+                          
+                          <th>Revisions List</th>
+                          
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+                        <?php foreach($upload as $row):?>
+                          <tr>
+                            <td><a href="<?php echo site_url('faculty/view_panel_document/'.$row['group_id'].'/'.$row['upload_id']);?>"><?php echo $row['upload_name'];?></a></td>
+                            <td><?php echo $row['upload_date_time'];?></td>
+                            <td><a href="<?php echo site_url('faculty/view_panel_document/'.$row['group_id'].'/'.$row['upload_id']);?>"><?php echo $row['revision_name'];?></a></td>
+                          </tr>
+                        <?php endforeach;?>
+                      </tbody>
+                    </table>
+                    
+                    <!-- END timeline item -->
+                    <!-- timeline item -->
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <!-- /.box-body -->
+                  
+                  <!-- /.box-footer-->
+                </div>
+                <!-- /.box -->
+              </section>
+            </div>
+            <!-- /.content -->
           </div>
-        </div>
-        <div class="box-body">
-
-         
-          <br>
+        </section>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
         
-        </div>
-
-
-        <div id="pdf">
-          <?php if(sizeof($submit)>0):?>
-            <iframe src = "<?php echo base_url();?>uploaded_thesis/<?php echo $submit['upload_name'];?>" width='1000' height='500' allowfullscreen webkitallowfullscreen></iframe><!-- url of pdf document. check if exists -->
-          <?php else:?>
-            No Document
-          <?php endif;?>
-          
-        </div>
-        <div id="pdf" >
-
-        
-
-        </div>
-
-        <div  id="timeline">
-          <!-- The timeline -->
-          <ul class="timeline timeline-inverse">
-
-            <!-- timeline time label -->
-            <li class="time-label">
-                  <span class="bg-gray" id="panelComments">
-                      Panel Comments
-                  </span>
-             <a href="#inputComment"><i id="addComment" class="fa fa-fw fa-plus-circle bg-blue"></i> </a>
-
-            </li>
-            <!-- /.timeline-label -->
-            <!-- timeline item -->
-            <?php 
-              //echo form_open('faculty/delete_comment');
-              echo '<input type="hidden" name="group_id" value="'.$group['group_id'].'">';
-              if(sizeof($comment)>0)
-              {
-                $date = '';
-                foreach($comment as $row)
-                {
-                  if($date != $row['DATE'])
-                  {
-                    $date_new = strtotime($row['DATE']);
-                    $formatted_date_new = date('F d, Y', $date_new);
-                    $date = $row['DATE'];
-                    echo '<li class="time-label">
-                      <span class="bg-green">'
-                        .$formatted_date_new.'
-                      </span>
-                    </li>';
-                    echo '<li>
-                     <i class="fa fa-comments bg-green"></i>
-
-                      <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
-
-                        <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
-
-                        <div class="timeline-body">'
-                          .$row['THESIS_COMMENT'].
-                        '</div>';
-                        if($row['USER_ID']==$faculty_data['USER_ID'])
-                        {
-                          echo '<div class="timeline-footer">
-                            <a class="btn btn-primary btn-xs">Edit</a>
-                            <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                          </div>';
-                        }
-                      echo '</div>
-                    </li>';
-                  }
-                  else
-                  {
-                    echo '<li>
-                     <i class="fa fa-comments bg-green"></i>
-
-                      <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i>'.$row['TIME'].'</span>
-
-                        <h3 class="timeline-header"><a href="#">'.$row['COMMENTED BY'].'</a> commented</h3>
-
-                        <div class="timeline-body">'
-                          .$row['THESIS_COMMENT'].
-                        '</div>';
-                        if($row['USER_ID']==$faculty_data['USER_ID'])
-                        {
-                          echo '<div class="timeline-footer">
-                            <a class="btn btn-primary btn-xs">Edit</a>
-                            <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                          </div>';
-                        }
-                      echo '</div>
-                    </li>';
-                  }
-                }
-              }
-              else
-              {
-                echo '
-                  <li>
-                    <div class="timeline-item">
-                      <div class="timeline-body">
-                        No Comment
-                      </div>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->';
-              }
-              //echo '</form>';
-            ?>
-          
-            <!-- END timeline item -->
-            <!-- timeline item -->
-
-            <li class="time-label">
-                <span class="bg-gray" id="panelComments">
-                    Post a comment
-                </span>
-            </li>
-
-            <li id="inputComment">
-              <i class="fa  fa-pencil-square-o bg-blue"></i>
-
-              <div class="timeline-item">
-               
-                <h3 class="timeline-header">Post a Comment</h3>
-                <?php echo form_open('faculty/validate_comment');?>
-                  <input type="hidden" name="group_id" value="<?php echo $group['group_id'];?>">
-                  <input type="hidden" name="thesis_title" value="<?php echo $group['thesis_title'];?>">
-                  <div class="timeline-body">
-                    <div class="form-group">
-                      <label></label>
-                      <textarea name="comment" class="form-control" rows="3" placeholder="Post a comment about your verdict on the thesis document."></textarea>
-                    </div>
-                  </div>
-                  <div class="timeline-footer">
-                    <input type="submit" name="submit_comment" value="Submit" class="btn btn-primary btn-xs">
-                  </div>
-                </form>
-              </div>
-            </li>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+          <!-- Create the tabs -->
+          <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+            
           </ul>
-        </div>
-      
-        <!-- /.box-body -->
-        <div class="box-footer">
-         
-        </div>
-        <!-- /.box-footer-->
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane active" id="control-sidebar-home-tab">
+              
+              <ul class="control-sidebar-menu">
+                <li>
+                  <a href="facultyViewProfile.html">
+                    <i class="menu-icon fa fa-user bg-green"></i>
+                    <div class="menu-info">
+                      <h4 class="control-sidebar-subheading">View Profile</h4>
+                      
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <!-- /.control-sidebar-menu -->
+              
+              <ul class="control-sidebar-menu">
+                <li>
+                  <a href="facultyChangePassword.html">
+                    <i class="menu-icon fa fa-expeditedssl bg-green"></i>
+                    <div class="menu-info">
+                      <h4 class="control-sidebar-subheading">Change Password</h4>
+                      
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <ul class="control-sidebar-menu">
+                <li>
+                  <a href="login.html">
+                    <i class="menu-icon fa fa-sign-out bg-green"></i>
+                    <div class="menu-info">
+                      <h4 class="control-sidebar-subheading">Logout</h4>
+                      
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              
+              <!-- /.control-sidebar-menu -->
+            </div>
+            <!-- /.tab-pane -->
+            
+            
+          </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+        immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
       </div>
-      <!-- /.box -->
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  
+      <!-- ./wrapper -->

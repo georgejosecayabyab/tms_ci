@@ -219,11 +219,10 @@
 		//get panel details (Time, Date, Topic, State)
 		public function get_panel_details($id)
 		{
-
 			$sql = "SELECT PG.PANEL_GROUP_ID, PG.PANEL_ID, PG.STATUS, PG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_CODE, DD.DEFENSE_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS END, DD.VENUE, DD.STATUS, TG.INITIAL_VERDICT, IV.VERDICT AS 'IV_CODE', TG.FINAL_VERDICT, FV.VERDICT AS 'FV_CODE'
 					FROM PANEL_GROUP PG	JOIN THESIS_GROUP TG 
 										ON PG.GROUP_ID = TG.GROUP_ID
-                        				JOIN DEFENSE_DATE DD
+                        				LEFT JOIN DEFENSE_DATE DD
 										ON PG.GROUP_ID = DD.GROUP_ID
                         				JOIN THESIS T
                         				ON TG.THESIS_ID = T.THESIS_ID
@@ -571,5 +570,29 @@
 			$query = $this->db->query($sql);
 			return $query->first_row('array');
 		}
+
+		public function get_uploads_revision($group_id)
+		{
+			$sql = "SELECT * 
+					FROM UPLOAD U 
+					LEFT JOIN REVISION R 
+					ON R.UPLOAD_ID=U.UPLOAD_ID
+					WHERE U.GROUP_ID = ".$group_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function get_upload_thesis_revision($upload_id)
+		{
+			$sql = "SELECT * 
+					FROM UPLOAD U 
+					LEFT JOIN REVISION R 
+					ON R.UPLOAD_ID=U.UPLOAD_ID
+					WHERE U.UPLOAD_ID = ".$upload_id.";";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+
 	}
 ?>

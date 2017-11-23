@@ -57,13 +57,6 @@
                   <div id="'.$row['DISCUSSION_ID'].'" class="timeline-body">'
                     .$row['DISCUSS'].
                   '</div>';
-                  if($row['USER_ID']==$faculty_data['USER_ID'])
-                  {
-                    echo '<div id="'.$row['DISCUSSION_ID'].'_foot" class="timeline-footer">
-                      <a id="edit_reply" value="'.$row['DISCUSSION_ID'].'" class="btn btn-primary btn-xs" >Edit</a>
-                      <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_reply/'.$row['DISCUSSION_ID']).'">Delete</a>
-                    </div>';
-                  }
                 echo '</div>
               </li>';
             }
@@ -80,13 +73,6 @@
                   <div id="'.$row['DISCUSSION_ID'].'" class="timeline-body">'
                     .$row['DISCUSS'].
                   '</div>';
-                  if($row['USER_ID']==$faculty_data['USER_ID'])
-                  {
-                    echo '<div id="'.$row['DISCUSSION_ID'].'_foot" class="timeline-footer">
-                      <a id="edit_reply" value="'.$row['DISCUSSION_ID'].'" class="btn btn-primary btn-xs" >Edit</a>
-                      <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_reply/'.$row['DISCUSSION_ID']).'">Delete</a>
-                    </div>';
-                  }
                 echo '</div>
               </li>';
             }

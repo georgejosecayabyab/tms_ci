@@ -2,27 +2,44 @@
     $.fn.weekly_schedule = function(callerSettings) {
 
         var settings = $.extend({
-           
-           days: ["mon", "tue", "wed", "thu", "fri", "sat","sun"], // Days displayed
-            hours: "7:00AM-9:00PM", // Hours displyed
+            days: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"], // Days displayed
+            hours: "7:00AM-10:00PM", // Hours displyed
             fontFamily: "Montserrat", // Font used in the component
             fontColor: "black", // Font colot used in the component
-            fontWeight: "700", // Font weight used in the component
+            fontWeight: "100", // Font weight used in the component
             fontSize: "0.8em", // Font size used in the component
             hoverColor: "#727bad", // Background color when hovered
             selectionColor: "#9aa7ee", // Background color when selected
             headerBackgroundColor: "transparent", // Background color of headers
             onSelected: function(){}, // handler called after selection
             onRemoved: function(){} // handler called after removal
-
-            
         }, callerSettings||{});
 
         settings.hoursParsed = parseHours(settings.hours);
 
         var mousedown = false;
         var devarionMode = false;
+
         var schedule = this;
+
+         function transformData(output){
+     
+            let sched = {};
+
+            for(const key in output){
+                const time = output[key];
+                
+                sched[key] = [];
+                for(let index1 = 0; index1 < time.length; ++index1){
+                    sched[key].push(time[index1].classList['2'] + (time[index1].classList['3']).replace('<br>',
+                        ''));
+                }
+            }
+
+            //console.log(sched[0][0]); // RETURNS DATA FROM MONDAY (O) FIRST INDEX
+            return (sched);
+
+        }
 
         function getSelectedHour() {
             var dayContainer = $('.day');
@@ -38,9 +55,9 @@
                 }
                 output[i] = hoursSelected;
             }
-
-            output = transformData(output);
-            return output;
+            
+           
+            return (transformData(output));
         }
 
         if (typeof callerSettings == 'string') {
@@ -101,24 +118,10 @@
                     class: 'hour-header-item ' + hours[i]
                 });
 
-           
-                 if (hours[i].includes("00")){
                 var header_title = $('<h5>' + hours[i] +'</h5>');
+
                 hour_header_item.append(header_title);
                 hourHeaderContainer.append(hour_header_item);
-            }
-
-                else{
-
-                var header_title = $('<h5 class="invisible"> XXX </h5>');
-                hour_header_item.append(header_title);
-                hourHeaderContainer.append(hour_header_item);
-
-                }
-               
-
-               
-
             }
 
 
@@ -129,11 +132,33 @@
                 });
 
                 for(var j = 0; j < hours.length; j++) {
+
+                // if (j == 2){                            
+
+                //     var hour = $('<div></div>', {
+                //         class: "hour-save " + hours[j]
+
+                //     }
+
+                //     ).addClass('selected');
+
+                //     day.append(hour);
+                    
+
+                // }
+
+
+                // else{                            
+
                     var hour = $('<div></div>', {
                         class: "hour " + hours[j]
                     });
 
                     day.append(hour);
+
+                //}
+
+                    
                 }
 
                 days_wrapper.append(day);
@@ -150,13 +175,6 @@
             /*
              *  Style Everything
              */
-
-
-            $('.invisible').css({
-                visibility: "hidden"
-
-            });
-
             $('.schedule').css({
                 width: "100%",
                 display: "flex",
@@ -164,22 +182,18 @@
                 justifyContent: "flex-start"
             });
 
-
             $('.header').css({
                 height: "30px",
                 width: "100%",
                 background: settings.headerBackgroundColor,
-                paddingBottom: "5px",
+                marginBottom: "5px",
                 display: "flex",
-                flexDirection: "row",
-                fontWeight: "bold"
+                flexDirection: "row"
             });
-
-
             $('.align-block').css({
                 width: "100%",
                 height: "100%",
-                background: "settings.headerBackgroundColor",
+                background: settings.headerBackgroundColor,
                 margin: "3px"
             });
 
@@ -189,7 +203,6 @@
                 height: '100%',
                 margin: '2px' // option
             });
-
             $('.header-item h3').css({
                 margin: 0,
                 textAlign: 'center',
@@ -201,8 +214,7 @@
                 fontSize: settings.fontSize,
                 fontWeight: settings.fontWeight,
                 transform: "translateY(-50%)",
-                userSelect: "none",
-                fontWeight: "bold"
+                userSelect: "none"
             });
 
             $('.hour-header').css({
@@ -211,8 +223,7 @@
                 margin: '2px', // option
                 marginRight: '1px',
                 background: settings.headerBackgroundColor,
-                width: '100%',
-
+                width: '100%'
             });
 
             $('.days-wrapper').css({
@@ -232,10 +243,10 @@
                 borderColor: "none", // option
                 borderStyle: "none" // option
             });
-
-
-           $('.hour-header-item').css({
+            $('.hour-header-item').css({
                 color: settings.fontColor,
+                margin: "0", // option
+                textAlign: "right",
                 verticalAlign: "middle",
                 position: "relative",
                 fontFamily: settings.fontFamily,
@@ -243,30 +254,35 @@
                 fontWeight: settings.fontWeight,
                 paddingRight: "10%",
                 userSelect: "none",
-                bottom: "2px"
+                bottom: "9px"
+            });
 
-              
-                
-            }); 
-
-            $('.day').css({ 
+            $('.day').css({
                 display: "flex",
                 flexDirection: "column",
-                marginRight: "2px", // option
-                background: "#00", // option
-                width: "100%",
-                marginTop: "0px"
-                
+                marginRight: "1px", // option
+                marginBottom: "1px",
+                background: "transparent", // option
+                width: "100%"
             });
             $('.hour').css({
-                background: "#bfbfbf", // option
+                background: "#dddddd", // option
                 marginBottom: "1px", // option
                 width: "100%",
                 height: "100%",
                 userSelect: "none",
-                paddingTop: "15px"
-
+                padding: "30px"
             });
+
+               $('.hour-save').css({
+                background: "#6fdc6f", // option
+                marginBottom: "1px", // option
+                width: "100%",
+                height: "100%",
+                userSelect: "none",
+                padding: "30px"
+            });
+
 
             /*
              * Hook eventlisteners
@@ -284,16 +300,25 @@
                 return false;
             });
 
-            $('.hour').on('mouseenter', function() {
+            $('.hour,.hour-save').on('mouseenter', function() {
                 if (!mousedown) {
                     $(this).addClass('hover');
                 }
                 else {
                     if (devarionMode) {
                         $(this).removeClass('selected');
+                        
+
+                        if($(this).hasClass('hour-save')){
+
+                            $(this).removeClass('selected');
+                             $(this).css('background','#dddddd');
+
+                        }
                     }
                     else {
                         $(this).addClass('selected');
+                        console.log(" A A A A A GUY GANSA");
                     }
                 }
             }).on('mousedown', function() {
@@ -301,85 +326,52 @@
                 focusOn($(this).parent());
 
                 if ($(this).hasClass('selected')) {
+
+                    console.log("GUY");
+
+                    if($(this).hasClass('hour-save')){
+
                     schedule.trigger('selectionremoved')
                     $(this).removeClass('selected');
                     devarionMode = true;
+                    console.log("REMOVED? AGUY GANSA");
+                    $(this).css('background','#dddddd');
+
+                    }
+
+                    schedule.trigger('selectionremoved')
+                    $(this).removeClass('selected');
+                    devarionMode = true;
+                    console.log("REMOVED? AGUY");
                 }
+
+                              
+
                 else {
                     schedule.trigger('selectionmade')
                     $(this).addClass('selected');
+                    console.log("CLICKED? AGUY");
                 }
                 $(this).removeClass('hover');
             }).on('mouseup', function() {
                 devarionMode = false;
                 mousedown = false;
+
                 clearFocus();
             }).on('mouseleave', function () {
                 if (!mousedown) {
                     $(this).removeClass('hover');
+
                 }
             });
 
         }
 
-
-        function transformData(output){
-     
-            let sched = {};
-
-            for(const key in output){
-                const time = output[key];
-                
-                sched[key] = [];
-                for(let index1 = 0; index1 < time.length; ++index1){
-                    sched[key].push(time[index1].classList['1']);
-                }
-            }
-
-            console.log(sched[0][0]); // RETURNS DATA FROM MONDAY (O) FIRST INDEX
-            return (sched);
-
-        }
-
-
-
         function parseHours(string) {
-            var output = [];
 
-            var split = string.toUpperCase().split("-");
-            var startInt = parseInt(split[0].split(":")[0]);
-            var endInt = parseInt(split[1].split(":")[0]);
-
-            var startMin = parseInt(split[0].split(":")[1]);
-            var endMin = parseInt(split[1].split(":")[1]);
-
-
-            var startHour = split[0].includes("PM") ? startInt + 12 : startInt;
-            var endHour = split[1].includes("PM") ? endInt + 12 : endInt;
-
-            var curHour = startHour;
-            for (curHour; curHour <= endHour - 1; curHour++) {
-                var parsedStr = "";
-
-                if (curHour > 12) {
-                    parsedStr += (curHour-12).toString() + ":00PM";
-                }
-                else if (curHour == 12) {
-                    parsedStr += curHour.toString() + ":00PM";
-                }
-                else {
-                    parsedStr += curHour.toString() + ":00AM";
-                }
-
-                output.push(parsedStr);
-                quarter =  parsedStr.replace("00", "15");  //replace 00 with 15
-                output.push(quarter);
-                half = parsedStr.replace("00", "30");  //replace 00 with 30 12:00AM
-
-                quarts =  parsedStr.replace("00", "45");  //replace 00 with
-                output.push(half);
-                output.push(quarts);
-            }
+            var output = ["<br> 7:30 AM<br> - </br> 9:00 AM","<br> 9:15 AM<br> - </br> 10:45 AM","<br> 11:00 AM<br> - </br> 12:30 PM",
+                "<br> 12:45 PM<br> - </br> 2:15 PM","<br> 2:30 PM<br> - </br> 4:00 PM", 
+                "<br> 4:15 PM<br> - </br> 5:45 PM", "<br> 6:00 PM<br> - </br> 7:30 PM", "<br> 8:45 PM<br> - </br> 9:15 PM"];
 
             return output;
         }
@@ -394,7 +386,9 @@
 
             for (var i = 0; i < dayContainer.length; i++) {
                 if ($(dayContainer[i]).hasClass(targetDayClass)) {
+
                     continue;
+
                 }
 
                 var hours = $(dayContainer[i]).children();
