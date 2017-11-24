@@ -20,7 +20,7 @@
       <div class="col-lg-12 col-xs-8">
         <div class="box box-primary">
           <div class="box-header"></div>
-          <form action="<?php echo site_url('coordinator/');?>" method="post" class="form-horizontal">
+          <form action="<?php echo site_url('coordinator/move_to_next_term');?>" method="post" class="form-horizontal">
             <!-- /.box-header -->
             <div  class="box-body">
               <div class="form-group">

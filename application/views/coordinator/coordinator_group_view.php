@@ -46,7 +46,7 @@
         <tbody>
           <?php foreach($group as $row):?>
             <tr>
-              <td><a href="coordinatorGroupSpecific.html"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
+              <td><a href="#" data-toggle="modal" data-target="#modal-description"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
               <td><?php echo $row['COURSE_CODE'];?></td>
               <td>
                 <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
@@ -73,51 +73,114 @@
                   <i class="fa fa-users"> </i>
                 </button>
               </td>
-              <td>none</td>
+              <td><?php echo $row['DEFENSE_TYPE'];?></td>
               <td>
-                <?php if($row['DEFENSE_DATE']==null):?>
-                  <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
-                  Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
-                  </button>
+                <?php if($row['FINAL_VERDICT']!="P" && $row['FINAL_VERDICT']!="F" ):?>
+                  <?php if($row['DEFENSE_DATE']==null):?>
+                    <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                    Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
+                    </button>
+                  <?php else:?>
+                    <?php 
+                      $data_time = "";
+                      $date_new = strtotime($row['DEFENSE_DATE']);
+                      $formatted_date_new = date('d/m/Y', $date_new);
+                      $time_new = strtotime($row['START']);
+                      $formatted_time_new = date('g:i A', $time_new);
+                      $date_time = $formatted_date_new.' - '.$formatted_time_new;
+                    ?>
+                    <button value="<?php echo $row['GROUP_ID'];?>" id="<?php echo $formatted_date_new;?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
+                    <?php echo $date_time;?> <i class="fa fa-fw fa-calendar-check-o"> </i>
+                    </button>
+                  <?php endif;?>
                 <?php else:?>
                   <?php 
                     $data_time = "";
                     $date_new = strtotime($row['DEFENSE_DATE']);
                     $formatted_date_new = date('d/m/Y', $date_new);
-                    $time_new = strtotime($row['START_TIME']);
+                    $time_new = strtotime($row['START']);
                     $formatted_time_new = date('g:i A', $time_new);
                     $date_time = $formatted_date_new.' - '.$formatted_time_new;
                   ?>
-                  <button value="<?php echo $row['GROUP_ID'];?>" id="<?php echo $formatted_date_new;?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
-                  <?php echo $date_time;?> <i class="fa fa-fw fa-calendar-check-o"> </i>
-                  </button>
+                  <?php echo $date_time;?>
                 <?php endif;?>
               </td>
               <td>
-                <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict">   
+                <?php if($row['FINAL_VERDICT']!="P" && $row['FINAL_VERDICT']!="F" ):?>
+                  <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict" onclick="verdictState('<?php echo $row['DEFENSE_TYPE'];?>')">   
+                    <?php 
+                      if($row['INITIAL_VERDICT']!='NOV')
+                      {
+                        if($row['INITIAL_VERDICT']=='NOV')
+                        {
+                          echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                        }
+                        else if($row['INITIAL_VERDICT']=='CP')
+                        {
+                          echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                        }
+                        else if($row['INITIAL_VERDICT']=='F')
+                        {
+                          echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                        }
+                        else if($row['INITIAL_VERDICT']=='P')
+                        {
+                          echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                        }
+                        else
+                        {
+                          echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                        }
+                      }
+                      else
+                      {
+                        if($row['FINAL_VERDICT']=='NOV')
+                        {
+                          echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                        }
+                        else if($row['FINAL_VERDICT']=='CP')
+                        {
+                          echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                        }
+                        else if($row['FINAL_VERDICT']=='F')
+                        {
+                          echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                        }
+                        else if($row['FINAL_VERDICT']=='P')
+                        {
+                          echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                        }
+                        else
+                        {
+                          echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                        }
+                      }
+                    ?>
+                  </button>
+                <?php else:?>
                   <?php 
-                    if($row['INITIAL_VERDICT']=='NOV')
-                    {
-                      echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
-                    }
-                    else if($row['INITIAL_VERDICT']=='CP')
-                    {
-                      echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
-                    }
-                    else if($row['INITIAL_VERDICT']=='F')
-                    {
-                      echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
-                    }
-                    else if($row['INITIAL_VERDICT']=='P')
-                    {
-                      echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
-                    }
-                    else
-                    {
-                      echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
-                    }
-                  ?>
-                </button>
+                      if($row['FINAL_VERDICT']=='NVY')
+                      {
+                        echo 'No Verdict Yet<i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                      }
+                      else if($row['FINAL_VERDICT']=='CP')
+                      {
+                        echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                      }
+                      else if($row['FINAL_VERDICT']=='F')
+                      {
+                        echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                      }
+                      else if($row['FINAL_VERDICT']=='P')
+                      {
+                        echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                      }
+                      else
+                      {
+                        echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                      }
+                    ?>
+                <?php endif;?>
               </td>
             </tr>
           <?php endforeach;?>
@@ -155,7 +218,7 @@
             <div class="form-group">
               <h4> <label>Free Schedule:</label> </h4>
 
-              <div id="suggestion"> 
+              <div id="suggestion" class="name"> 
                Select a date for suggestions
               </div>
 
@@ -341,21 +404,21 @@
 
   <a href="#" id="suggested"> + Input The Schedule With Suggestions</a>
 
-</div>
+  </div>
 
-</div>
+    </div>
 
-<br>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-  <a  href="<?php echo site_url('coordinator/view_group');?>"><button id="modal-defense-button" type="button" class="btn btn-primary pull-left">Save changes</button></a>
-</div>
-</div>
-<!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
-</div>
+    <br>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a  href="<?php echo site_url('coordinator/view_group');?>"><button id="modal-defense-button" type="button" class="btn btn-primary pull-left">Save changes</button></a>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+  <!-- /.modal-dialog -->
+  </div>
 </div>
 
 
@@ -365,57 +428,73 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-          <h3 class="modal-title"> <b> Defense Verdict </b> </h3>
+          <h3 id="modal-verdict-title" class="modal-title"> <b> Defense Verdict: </b> </h3>
         </div>
         <div class="modal-body">
 
+        <div id="initialVerdict">
 
-          <h4> <label> Initial Verdict </label> </h4>
-          
+          <h4> <label> Initial Verdict: </label> </h4>
 
           <div class="post">
-
             <div class="row">
-              <a class="btn btn-app conditionalBtn">
+              <a id="modal-verdict-pass" value="P" class="btn btn-app successBtn">
+                <i class="fa fa-check"></i> Pass
+              </a>
+              <a id="modal-verdict-conditional-pass" value="CP" class="btn btn-app conditionalBtn">
                 <i class="fa fa-check"></i> Conditional Pass
               </a>
-              <a class="btn btn-app failBtn">
-                <i class="fa fa-times"></i> Fail 
+
+               <a id="modal-verdict-redefense" value="RD" class="btn btn-app redefenseBtn">
+                <i class="fa fa-check"></i> Redefense
               </a>
-              
-              <a class="btn btn-app redefenseBtn">
-                <i class="fa fa-refresh"></i> Redefense
+              <a id="modal-verdict-redemo" value="RM" class="btn btn-app redefenseBtn1">
+                <i class="fa fa-refresh"></i> Redemo
               </a>
+
+              <a id="modal-verdict-special-defense" value="SD" class="btn btn-app redefenseBtn2">
+                <i class="fa fa-refresh"></i> Special Defense
+              </a>
+
+            
             </div>
           </div>
 
-          <div class="post">
-            <h4> <label>Final Verdict: </label> </h4>
-            <div class="row">
-
-
-             <a class="btn btn-app successBtn">
+        </div>
+        <div id="finalVerdict">
+          <h4> <label>Final Verdict: </label> </h4>
+          <div class="row">
+            <a id="modal-verdict-pass" value="P" class="btn btn-app successBtn">
               <i class="fa fa-check"></i> Pass
             </a>
-
-            <a class="btn btn-app failBtn">
-              <i class="fa fa-times"></i> Fail 
+            <a id="modal-verdict-conditional-pass" value="CP" class="btn btn-app conditionalBtn">
+              <i class="fa fa-check"></i> Conditional Pass
             </a>
 
+             <a id="modal-verdict-redefense" value="RD" class="btn btn-app redefenseBtn">
+              <i class="fa fa-check"></i> Redefense
+            </a>
+            <a id="modal-verdict-redemo" value="RM" class="btn btn-app redefenseBtn1">
+              <i class="fa fa-refresh"></i> Redemo
+            </a>
 
+            <a id="modal-verdict-special-defense" value="SD" class="btn btn-app redefenseBtn2">
+              <i class="fa fa-refresh"></i> Special Defense
+            </a>
+            <a id="modal-verdict-fail" value="F" class="btn btn-app failBtn">
+              <i class="fa fa-times"></i> Fail
+            </a>
           </div>
         </div>
-
       </div>
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-primary pull-left">Save changes</button>
+        <div class="modal-footer">
+          <a href="<?php echo site_url('coordinator/view_group');?>"><button id="modal-verdict-button" onclick="edit_verdict()" type="button" class="btn btn-primary pull-left">Save changes</button></a>
+        </div>
       </div>
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-content -->
+    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal-dialog -->
-</div>
 
 <div class="modal fade" id="modal-verdict">
   <div class="modal-dialog">
@@ -456,8 +535,6 @@
   </div>
 
   
-
-
 <div class="modal fade" id="modal-panel">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -503,7 +580,7 @@
               <div  class="col-xs-4" id="suggestionOne">
 
                 <div class="alert alert-success alert-dismissible">
-                  <h4><i class="icon fa fa-user"></i> Geanne Franco </h4>
+                  <h4 id="suggestion1Name"><i class="icon fa fa-user"></i>Geanne Franco<a href="#"><i id="addPanel1" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>
                   <h5> Assistant Professor </h5>
 
               <div> 
@@ -543,7 +620,7 @@
 
               <div  class="col-xs-4" id="suggestionTwo">
                 <div class="alert alert-success alert-dismissible">
-                  <h4><i class="icon fa fa-user"></i> Oliver Malabanan </h4>
+                  <h4 id="suggestion2Name"><i class="icon fa fa-user"></i> Oliver Malabanan <a href="#"><i id="addPanel2" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>
                   <h5> Assistant Professor </h5>
                   <div> 
                     <p>
@@ -568,7 +645,7 @@
               <div  class="col-xs-4" id="suggestionThree">
 
                 <div class="alert alert-success alert-dismissible">
-                  <h4><i class="icon fa fa-user"></i> Fritz Flores  </h4>
+                  <h4 id="suggestion3Name"><i class="icon fa fa-user"></i> Fritz Flores  a href="#"><i id="addPanel3" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>
                   <h5> Assistant Professor </h5>
 
               <div> 
@@ -605,24 +682,15 @@
 
             </div>
             <!-- /.box-body -->
-          </div>
-
-
-
-
-          </div>          
-
-
+            </div>
+          </div>    
           <div class="post">
-
              <h4> <label>  Assign Panelist: </label> </h4> 
-
              <div class="row">
-
               <div class="col-xs-4">
                <div class="form-group">
                   <label>First Panelist</label>
-                  <select class="form-control" id="firstPanelist">
+                  <select class="form-control select2" id="firstPanelist" style="width: 100%;">
                     <option>Oliver Malabanan</option>
                     <option>Geanne Franco</option>
                     <option>Fritz Flores</option>
@@ -631,12 +699,10 @@
                   </select>
                 </div>  
               </div>
-
-               
               <div class="col-xs-4">
                 <div class="form-group">
                   <label>Second Panelist</label>
-                  <select class="form-control" id="secondPanelist">
+                  <select class="form-control select2" id="secondPanelist" style="width: 100%;">
                     <option>Oliver Malabanan</option>
                     <option>Geanne Franco</option>
                     <option>Fritz Flores</option>
@@ -645,13 +711,10 @@
                   </select>
                 </div>  
               </div>
-
-                
-
               <div class="col-xs-4">
                 <div class="form-group">
                   <label>Third Panelist</label>
-                  <select class="form-control" id="thirdPanelist">
+                  <select class="form-control select2" id="thirdPanelist" style="width: 100%;">
                     <option>Oliver Malabanan</option>
                     <option>Geanne Franco</option>
                     <option>Fritz Flores</option>
@@ -660,124 +723,96 @@
                   </select>
                 </div>  
               </div>
-
             </div>
-          </div>
-
-
-          <div class="post">
-
-            <h4> <label>  Assigned Panelist: </label> </h4> 
-
-
-            <div class="row" id="assignedPanel">
-
-
-          <div id="firstPanelBox">
-          <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Geanne Franco</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-      </div>
-
-
-      <div id="secondPanelBox">
-        <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Oliver Malabanan</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-      </div>
-
-
-
-
-      <div id="thirdPanelBox">
-        <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Fritz Flores</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-      </div>
-
-            </div>
-
-              <a href="#" id="manualPanelButton"> + Manually Input The Panelist</a>
-
             <div>
+              <a href="#" id="manualPanelButton"> + Manually Input The Panelist</a>
+            </div>
+          </div>
+          <div class="post">
+            <h4> <label>  Assigned Panelist: </label> </h4> 
+            <div class="row" id="assignedPanel">
+              <div id="firstPanelBox">
+                <div class="col-md-4">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Geanne Franco</h3>
+                    <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <div> 
+                        <p>
+                        Specialization (3): <br>
+                        <span></span>
+                        <span class="label regularLabel">Web Platform</span>
+                        <span class="label regularLabel">Web Application</span>
+                        <span class="label regularLabel">Information Technology</span>
+                        
+                        </p>
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
+                  <!-- /.box -->
+                </div>
+              </div>
+              <div id="secondPanelBox">
+                <div class="col-md-4">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Oliver Malabanan</h3>
+                    <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <div> 
+                        <p>
+                        Specialization (3): <br>
+                        <span></span>
+                        <span class="label regularLabel">Web Platform</span>
+                        <span class="label regularLabel">Web Application</span>
+                        <span class="label regularLabel">Information Technology</span>
+                        
+                        </p>
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
+                  <!-- /.box -->
+                </div>
+              </div>
+
+              <div id="thirdPanelBox">
+                <div class="col-md-4">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Fritz Flores</h3>
+
+              
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+                <div> 
+                 <p>
+                Specialization (3): <br>
+                <span></span>
+                <span class="label regularLabel">Web Platform</span>
+                <span class="label regularLabel">Web Application</span>
+                <span class="label regularLabel">Information Technology</span>
+                
+                </p>
+
+              </div>
+
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
 
       
     </div>
@@ -788,179 +823,238 @@
 
 
           <div id="manualPanel">
+                          <div class="post">
+                            <h4> <label>  Group Tags: </label> </h4>
+                            <span class="label regularLabel">Web Platform</span>
+                            <span class="label regularLabel">Web Application</span>
+                            <span class="label regularLabel">Information Technology</span>
+                          </div>
 
-           <div class="post">
-            <h4> <label>  Group Tags: </label> </h4>
-            <span class="label regularLabel">Web Platform</span>
-            <span class="label regularLabel">Web Application</span>
-            <span class="label regularLabel">Information Technology</span>
-          </div>
+                          <div class="post">
+                            <h4> <label>  Suggested Panelist: </label> </h4>
+                            <div class="box box-default">
+                              <div class="box-header with-border">
+                                <h3 class="box-title">  </h3>
+                                <div class="box-tools pull-right">
+                                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                  </button>
+                                </div>
+                                <!-- /.box-tools -->
+                              </div>
+                              <!-- /.box-header -->
+                              <div class="box-body">
+                                <div class="row">
+                                  <div  class="col-xs-4" id="suggestionOne">
+                                    <div class="alert alert-success alert-dismissible">
+                                      <h4><i class="icon fa fa-user"></i> Geanne Franco </h4>
+                                      <h5> Assistant Professor </h5>
+                                      <div>
+                                        <p>
+                                          <b> Specialization: </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Web Application</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                          <span class="label regularLabel">Information Systems</span>
+                                          <span class="label regularLabel">Django Framework</span>
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p>
+                                          <b> Common (3): </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Web Application</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div  class="col-xs-4" id="suggestionTwo">
+                                    <div class="alert alert-success alert-dismissible">
+                                      <h4><i class="icon fa fa-user"></i> Oliver Malabanan </h4>
+                                      <h5> Assistant Professor </h5>
+                                      <div>
+                                        <p>
+                                          <b> Specialization: </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                          <span class="label regularLabel">Information Systems</span>
+                                          <span class="label regularLabel">Django Framework</span>
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p>
+                                          <b> Common (2): </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div  class="col-xs-4" id="suggestionThree">
+                                    <div class="alert alert-success alert-dismissible">
+                                      <h4><i class="icon fa fa-user"></i> Fritz Flores  </h4>
+                                      <h5> Assistant Professor </h5>
+                                      <div>
+                                        <p>
+                                          <b> Specialization: </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                          <span class="label regularLabel">Information Systems</span>
+                                          <span class="label regularLabel">Django Framework</span>
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p>
+                                          <b> Common (1): </b> <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- /.box-body -->
+                            </div>
+                          </div>
 
+                          <div class="post">
+                            <h4> <label>  Assign Panelist: </label> </h4>
+                            <div class="row">
+                              <div class="col-xs-4">
+                                <div class="form-group">
+                                  <label>First Panelist</label>
+                                  <select class="form-control select2" id="firstPanelistManual" style="width: 100%;">
+                                    <option selected="selected">Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>California</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-xs-4">
+                                <div class="form-group">
+                                  <label>Second Panelist</label>
+                                  <select class="form-control select2" id="secondPanelistManual" style="width: 100%;">
+                                    <option selected="selected">Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>California</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-xs-4">
+                                <div class="form-group">
+                                  <label>Third Panelist</label>
+                                  <select class="form-control select2" id="thirdPanelistManual" style="width: 100%;">
+                                    <option selected="selected">Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>California</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
 
-            <div class="post">
+                            <div>
+                              <a href="#" id="dynamicPanelButton"> + Input The Panelist With Suggestion</a>
+                              
+                            </div>
 
-             <h4> <label>  Assign Panelist: </label> </h4> 
+                          </div>
+                          <div class="post">
+                            <h4> <label>  Assigned Panelist: </label> </h4>
+                            <div class="row">
+                              <div id="firstBoxManual">
+                                <div class="col-md-4">
+                                  <div class="box box-success">
+                                    <div class="box-header with-border">
+                                      <h3 class="box-title">Geanne Franco</h3>
+                                      <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                      <div>
+                                        <p>
+                                          Specialization (3): <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Web Application</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                  </div>
+                                  <!-- /.box -->
+                                </div>
+                              </div>
+                              <div id="secondBoxManual">
+                                <div class="col-md-4">
+                                  <div class="box box-success">
+                                    <div class="box-header with-border">
+                                      <h3 class="box-title">Oliver Malabanan</h3>
+                                      <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                      <div>
+                                        <p>
+                                          Specialization (3): <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Web Application</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                  </div>
+                                  <!-- /.box -->
+                                </div>
+                              </div>
+                              <div id="thirdBoxManual">
+                                <div class="col-md-4">
+                                  <div class="box box-success">
+                                    <div class="box-header with-border">
+                                      <h3 class="box-title">Fritz Flores</h3>
+                                      <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                      <div>
+                                        <p>
+                                          Specialization (3): <br>
+                                          <span></span>
+                                          <span class="label regularLabel">Web Platform</span>
+                                          <span class="label regularLabel">Web Application</span>
+                                          <span class="label regularLabel">Information Technology</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                  </div>
+                                  <!-- /.box -->
+                                </div>
+                              </div>
+                            </div>
+                            
 
-             <div class="row">
-
-            <div class="col-xs-4">
-               <div class="form-group">
-                  <label>First Panelist</label>
-                  <select class="form-control">
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
-                  </select>
-                </div>  
-              </div>
-
-               
-                <div class="col-xs-4">
-               <div class="form-group">
-                  <label>Second Panelist</label>
-                  <select class="form-control">
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
-                  </select>
-                </div>  
-              </div>
-
-                
-
-                <div class="col-xs-4">
-               <div class="form-group">
-                  <label>Third Panelist</label>
-                  <select class="form-control" >
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
-                  </select>
-                </div>  
-              </div>
-
-            </div>
-          </div>
-
-
-          <div class="post">
-
-            <h4> <label>  Assigned Panelist: </label> </h4> 
-
-
-            <div class="row">
-
-          <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Geanne Franco</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-
-        <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Oliver Malabanan</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-
-
-        <div class="col-md-4">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Fritz Flores</h3>
-
-              
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-                <div> 
-                 <p>
-                Specialization (3): <br>
-                <span></span>
-                <span class="label regularLabel">Web Platform</span>
-                <span class="label regularLabel">Web Application</span>
-                <span class="label regularLabel">Information Technology</span>
-                
-                </p>
-
-              </div>
-
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-
-            </div>
-
-              <a href="#" id="dynamicPanelButton"> + Input The Panelist With Suggestion</a>
-
-            <div>
-
-      
-    </div>
-    </div>
-
-
-          </div>
-
-        </div>
+                          </div>
+                        </div>
 
 
 
@@ -980,6 +1074,40 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="modal-description">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title"> <b> Team C </b> </h3>
+        </div>
+        <div class="modal-body">
+
+          <div class="post">
+            <h4> <label> <i class="fa fa-book"> </i> Thesis Title   </label> </h4>
+            <span id="thesis_title"> CT Thesis Management System </span>
+
+          </div>
+          <div class="post">
+            <h4> <label> <i class="fa fa-users"> </i> Group Members  </label> </h4>
+            <span id="thesis_member"> Cloud Camilon, George Cayabyab, Ralph Cobankiat, Jose Gabriel Mariano   </span>
+          </div>
+          <div class="post">
+            <h4> <label> <i class="fa fa-user"> </i> Thesis Adviser  </label> </h4>
+            <span id="thesis_adviser"> Geanne Ross Franco  </span>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</div>
 
 </div>
 </div>

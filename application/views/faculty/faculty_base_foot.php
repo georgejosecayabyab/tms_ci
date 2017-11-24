@@ -82,7 +82,12 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
 
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>datepicker/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+  $('#datepicker').datepicker({
+    autoclose: true
+  })
+</script>
 
 <script type="text/javascript">
   $('#datepicker,#datepicker2').datepicker({
@@ -151,7 +156,12 @@ immediately after the control sidebar -->
           $.ajax({
             type:'POST',
             url:'/tms_ci/index.php/faculty/insert_schedule',
-            data: {'data': test[i2], 'day': day}
+            data: {'data': test[i2], 'day': day},
+            success: function(data)
+            {
+              var obj = JSON.parse(data);
+              console.log('code '+test[i2]);
+            }
 
           }); 
         }

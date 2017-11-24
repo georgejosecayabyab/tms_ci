@@ -25,7 +25,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="<?php echo base_url();?>css/custom.css">
 
-    <link rel="stylesheet" href="<?php echo base_url();?>css/datepicker/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.min.css">
 
     <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
     
@@ -149,7 +149,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="<?php echo $active_tab['report'];?>"><a href="<?php echo site_url('coordinator/view_report');?>"><i class="fa fa-bar-chart"></i> <span>Monitoring Report</span></a></li>
           <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('coordinator/view_archive');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
           <li class="<?php echo $active_tab['specialization'];?>"><a href="<?php echo site_url('coordinator/view_specialization');?>"><i class="fa fa-lightbulb-o"></i> <span>Specialization</span></a></li>
-          <li class="<?php echo $active_tab['term'];?>"><a href="<?php echo site_url('coordinator/view_set_term');?>"><i class="fa fa-calendar"></i> <span>Set Current Term <br> Current: 11/10/17 to 12/24/17</span></a></li>
+          <li class="<?php echo $active_tab['term'];?>"><a href="<?php echo site_url('coordinator/view_set_term');?>"><i class="fa fa-calendar"></i> <span>Set Current Term </span></a></li>
           
         </ul>
         <!-- /.sidebar-menu -->

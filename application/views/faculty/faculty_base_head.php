@@ -33,8 +33,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.min.css">
-      <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>ccs/bootstrap-datepicker.min.css">
 
   <!-- Google Font -->
   <link rel="stylesheet"

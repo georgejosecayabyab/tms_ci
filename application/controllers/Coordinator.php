@@ -379,6 +379,23 @@
 			$this->load->view('coordinator/coordinator_base_foot', $data);	
 		}
 
+		public function view_thesis()
+		{
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'faculty' => "",
+				'student' => "",
+				'home_announcement' => "",
+				'specific_announcement' => "",
+				'form' => "",
+				'report' => "",
+				'archive' => "",
+				'specialization' => "active",
+				'term' => ""  
+			);
+		}
+
 		public function sample_common_free_time()
 		{
 			$data['time_mo'] = $this->coordinator_model->get_group_common_free_time_by_day(5, 'MO');
@@ -393,7 +410,17 @@
 			$group_id = $this->input->post("group_id");
 			$verdict = $this->input->post("verdict");
 
-			$this->coordinator_model->update_initial_verdict($group_id, $verdict);
+			if($verdict == 'P')
+			{
+				$this->coordinator_model->update_initial_verdict($group_id, $verdict);
+				$this->coordinator_model->update_final_verdict($group_id, $verdict);
+			}
+			else
+			{
+				$this->coordinator_model->update_initial_verdict($group_id, $verdict);
+			}
+			
+
 			$this->session->set_flashdata('success', 'Verdict has been updated!');
 		}
 
@@ -503,6 +530,50 @@
 			}
 
 			$this->session->set_flashdata('success', 'Defense date has been set!');
+		}
+
+		public function set_defense_date_link($group_id, $date, $time_id)
+		{
+			// $group_id = $this->input->post('group_id');
+			// $date = $this->input->post('date');
+			// $start = $this->input->post('start');
+			// $end = $this->input->post('end');
+			// $start = date("G:i", strtotime($start));
+			// $end = date("G:i", strtotime($end));
+			$time = $this->coordinator_model->get_time($time_id);
+
+			$result = $this->coordinator_model->check_defense_date($group_id);
+			if(sizeof($result) > 0)
+			{
+				////update
+				$data = array(
+					'defense_date' => $date,
+					'start_time' => $time['START'],
+					'end_time' => $time['END']
+				);
+
+				$this->coordinator_model->update_thesis_defense_date($group_id, $data);
+			}
+			else
+			{
+				////create
+				$data = array(
+					'group_id' => $group_id,
+					'defense_type' => 'REGULAR DEFENSE',
+					'defense_date' => $date,
+					'start_time' => $time['START'],
+					'end_time' => $time['END'],
+					'venue' => ' ',
+					'status' => 0,
+					'is_featured' => 0
+				);
+
+				$this->coordinator_model->insert_thesis_defense_date($data);
+			}
+
+			$this->session->set_flashdata('success', 'Defense date has been set!');
+
+			redirect('coordinator/view_group');
 		}
 
 		public function insert_defense_conversion($defense_date_id, $start, $end)////halt progress due to unknow defense_date_id in evry new insert
@@ -893,14 +964,61 @@
 
 		public function sample_year()
 		{
-			$result = $this->coordinator_model->get_year();
-
-			echo $result['year'];
+			var_dump($this->input->post('george'));
+			echo $this->input->post('group_name');
+			echo $this->input->post('adviser');
 		}
 
 		public function move_to_next_term()
 		{
-			
+			$old_term = $this->coordinator_model->get_term();
+			$this->coordinator_model->deactivate_old_term($old_term['term']);
+
+			$old_year = $this->coordinator_model->get_year();
+			$this->coordinator_model->deactivate_old_year($old_year['year']);
+
+			$term = $this->input->post('term');
+			$this->coordinator_model->activate_new_term($term);
+
+			$year = $this->input->post('year');
+			$this->coordinator_model->activate_new_year($year);
+			$result = $this->coordinator_model->get_all_passed_group();
+			foreach($result as $row)
+			{
+				$group_id = $row['GROUP_ID'];
+				$degree_code = $row['DEGREE_CODE'];
+				$this->coordinator_model->sample_move_term($group_id, $degree_code);
+			}
+
+			redirect('coordinator/view_set_term');
+
+		}
+
+		public function insert_group()
+		{
+			$users = $this->input->post('users');
+			$group_name = $this->input->post('group_name');
+			$thesis_title = $this->input->post('thesis_title');
+			$adviser = $this->input->post('adviser');
+			$course = $this->input->post('course');
+
+			$this->form_validation->set_rules('group_name', 'Group Name', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('thesis_title', 'Thesis Title', 'required|trim|alpha_numeric');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				//// set flash data
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('coordinator/view_student');
+			}
+			else
+			{
+				$this->insert_thesis($thesis_title);
+				$this->insert_thesis_group($group_name, $adviser, $thesis_title, $course_code);
+				$this->session->set_flashdata('success', 'Group has been created!');
+				redirect('coordinator/view_student');
+			}
+
 		}
 
 

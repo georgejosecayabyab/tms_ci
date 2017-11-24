@@ -210,13 +210,6 @@
                             <div class="timeline-body">'
                               .$row['THESIS_COMMENT'].
                             '</div>';
-                            if($row['USER_ID']==$faculty_data['USER_ID'])
-                            {
-                              echo '<div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">Edit</a>
-                                <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                              </div>';
-                            }
                           echo '</div>
                         </li>';
                       }
@@ -233,13 +226,6 @@
                             <div class="timeline-body">'
                               .$row['THESIS_COMMENT'].
                             '</div>';
-                            if($row['USER_ID']==$faculty_data['USER_ID'])
-                            {
-                              echo '<div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">Edit</a>
-                                <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                              </div>';
-                            }
                           echo '</div>
                         </li>';
                       }
@@ -274,7 +260,7 @@
                 <input type="text" class="form-control pull-right" id="datepicker">
               </div>
               <button id="submitbtn" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Set Meeting</button>
-                  <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
+              <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
             </div>
           </div>
           <!-- /.tab-content -->

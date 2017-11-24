@@ -66,6 +66,7 @@ immediately after the control sidebar -->
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
+<!--add student group-->
 <script>
   
   var member = "";
@@ -74,6 +75,8 @@ immediately after the control sidebar -->
     var student = $('#student_box').attr('name');
     var member = "";
     var id = [];
+
+    //$('#user_id').empty();
     $('table [type="checkbox"]').each(function(i, chk) {
       if (chk.checked) {
         console.log("Checked!", i, chk);
@@ -90,7 +93,8 @@ immediately after the control sidebar -->
             console.log('senpai '+member);
             $('#group_members').empty();
             $('#group_members').append(member.substring(0, member.length -2));
-            console.log(id);
+            $('#user_id').append('<input value="'+ data['user']['user_id']+'" name="users[]">');
+            console.log($('#user_id').val());
           },
           error: function(err)
           {
@@ -103,7 +107,6 @@ immediately after the control sidebar -->
 
   });
   
-
 </script>
 
 <!--editor-->
@@ -152,11 +155,13 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
 <script>
-  function check()
-  {
-    var ref = $('#course').val();
-    console.log(ref);
-  }
+  $('.modal').on('shown.bs.modal', function (e) {
+      trigger = $(e.relatedTarget);
+      group_id = trigger.attr("value");
+      sample_date = trigger.attr("id");
+      console.log('group_id: ' + group_id);
+  });
+
 </script>
 
 <script type="text/javascript">
@@ -657,6 +662,62 @@ immediately after the control sidebar -->
         });
 
       });
+
+    $('#addPanel1').click(
+
+      function(){
+
+
+        var $select = $('#firstPanelist')
+        $select.select2();
+
+
+        var suggest = $("#suggestion1Name").text().toString();
+        console.log(suggest.toString());
+
+        $select.val(suggest).trigger('change');
+
+      }
+
+    );
+
+
+    $('#addPanel2').click(
+
+
+      function(){
+
+
+        var $select = $('#secondPanelist')
+        $select.select2();
+
+
+        var suggest = $("#suggestion2Name").text().toString();
+        console.log(suggest.toString());
+
+        $select.val(suggest).trigger('change');
+
+      }
+
+    );
+
+    $('#addPanel3').click(
+
+      function(){
+
+
+        var $select = $('#thirdPanelist')
+        $select.select2();
+
+
+        var suggest = $("#suggestion3Name").text().toString();
+        console.log(suggest.toString());
+
+        $select.val(suggest).trigger('change');
+
+      }
+
+    );
     
 
       function fill_group_tags()
@@ -710,7 +771,7 @@ immediately after the control sidebar -->
 
               $('#suggestionOne').append('\
                 <div class="alert alert-success alert-dismissible">\
-                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][0]['NAME']+'</h4>\
+                  <h4 id="suggestion1Name"><i class="icon fa fa-user"></i>'+data['tag_count'][0]['NAME']+'<a href="#"><i id="addPanel1" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>\
                   <h5> Assistant Professor </h5>\
                   <div> \
                     <p>\
@@ -742,7 +803,7 @@ immediately after the control sidebar -->
 
               $('#suggestionTwo').append('\
                 <div class="alert alert-success alert-dismissible">\
-                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][1]['NAME']+'</h4>\
+                  <h4 id="suggestion2Name"><i class="icon fa fa-user"></i>'+data['tag_count'][1]['NAME']+'<a href="#"><i id="addPanel2" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>\
                   <h5> Assistant Professor </h5>\
                   <div> \
                     <p>\
@@ -775,7 +836,7 @@ immediately after the control sidebar -->
 
               $('#suggestionThree').append('\
                 <div class="alert alert-success alert-dismissible">\
-                  <h4><i class="icon fa fa-user"></i>'+data['tag_count'][2]['NAME']+'</h4>\
+                  <h4 id="suggestion3Name"><i class="icon fa fa-user"></i>'+data['tag_count'][2]['NAME']+'<a href="#"><i id="addPanel3" class="buttonCustom fa fa-fw fa-plus-circle"></i></a></h4>\
                   <h5> Assistant Professor </h5>\
                   <div> \
                     <p>\
@@ -826,6 +887,7 @@ immediately after the control sidebar -->
             var option2 = "";
             var option3 = "";
 
+            ////list start
             if(data['panel'].length == 0)
             {
               option_1 = option_1 + '<option selected id="'+ data['possible'][0]['user_id']+'">'+ data['possible'][0]['last_name']+', '+ data['possible'][0]['first_name']+'</option>';
@@ -865,14 +927,11 @@ immediately after the control sidebar -->
               }
             }
 
+            ////lis end
             $('#firstPanelist').append(option1);
             $('#secondPanelist').append(option2);
             $('#thirdPanelist').append(option3);
-            console.log('1:' +option_1 +option1);
-            console.log('2:' +option_2 +option2);
-            console.log('3:' +option_3 +option3);
 
-            console.log('first_id ' + first_id +' '+ 'second_id ' + second_id +' '+ 'third_id ' + third_id +' ');
             $.ajax({
               type: 'POST',
               url: '/tms_ci/index.php/coordinator/get_panel_tags/'+first_id,
@@ -974,10 +1033,13 @@ immediately after the control sidebar -->
 
 <!--modal-defense-->
 <script type="text/javascript">
+
   $(document).ready(function() {
     var group_id = "";
     var trigger = "";
     var sample_date = "";
+
+
 
     $('.modal').on('shown.bs.modal', function (e) {
       trigger = $(e.relatedTarget);
@@ -1050,6 +1112,8 @@ immediately after the control sidebar -->
       });
       
 
+          
+
       $("#datepicker").change(function () {
        
         var dateVal =  $('#datepicker').val();
@@ -1063,20 +1127,23 @@ immediately after the control sidebar -->
         m += 1;  // JavaScript months are 0-11
         var y = formattedDate.getFullYear();
         var new_date = y + "-" + m + "-" + d;
-
+        
         $.ajax({
           type:'POST',
           url: '/tms_ci/index.php/coordinator/get_panel_defense_date',
           data: {'group_id': group_id, 'date': new_date, 'day':day},
           success: function(data)
           {
+            
             var conflict = "";
             console.log(data['panel_defense']);
             console.log('this is free: ' + data['free'][0]['START']);
             var common_button = "";
             for(var x = 0; x<data['free'].length; x++)
             {
-              common_button = common_button + '<button class="btn btn-primary">'+ data['free'][x]['START']+'-'+data['free'][x]['END']+'</button>';
+              var link = '/tms_ci/index.php/coordinator/set_defense_date_link/'+group_id+'/'+new_date+'/'+data['free'][x]['TIME_ID'];
+              var time_string = data['free'][x]['START']+'-'+data['free'][x]['END'];
+              common_button = common_button + '<a href="'+link+'"><button id="'+data['free'][x]['TIME_ID']+'" class="btn btn-default time_button" name="time_button" value="'+data['free'][x]['TIME_ID']+'">'+ time_string+'</button></a>';
               console.log(common_button);
             }
             for(var x = 0; x<data['panel_defense'].length; x++)
@@ -1090,7 +1157,6 @@ immediately after the control sidebar -->
               <h5> <span>'+common_button+'</span>\
               </h5> \
               </div>');
-            console.log('after '+common_button);
 
             
             if(data['panel_defense'].length > 0 )
@@ -1107,6 +1173,7 @@ immediately after the control sidebar -->
                 <h4><i class="icon fa fa-ban"></i> No Conflict Defense for ' +  dateVal + ' </h4>\
                 </div>');
             }
+
             
           },
           error: function(err)
@@ -1116,6 +1183,7 @@ immediately after the control sidebar -->
         });
 
       })
+
 
 
       $('#table').DataTable();
@@ -1195,6 +1263,43 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').append('Defense Verdict: '+ text);
     
   })
+
+  function verdictState(defenseType){
+
+    if (defenseType == "REGULAR DEFENSE"){
+      console.log(defenseType);
+
+      $("#initialVerdict").css({
+        display: "inline",
+        visibility: "visible"
+      });
+
+
+      $("#finalVerdict").css({
+        display: "none",
+        visibility: "hidden"
+      });
+
+    }
+
+    else{
+      console.log('finll'+defenseType);
+      $("#initialVerdict").css({
+        display: "none",
+        visibility: "hidden"
+      });
+
+
+      $("#finalVerdict").css({
+        display: "inline",
+        visibility: "visible"
+      });
+
+    }
+
+
+  }
+
   $('#modal-verdict').click(function(){
 
   });
@@ -1203,6 +1308,7 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Pass');
     chosen_code = $('#modal-verdict-pass').attr("value");
+    console.log(chosen_code);
     
   });
   ////Conditional Pass
@@ -1210,24 +1316,43 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Conditional Pass');
     chosen_code = $('#modal-verdict-conditional-pass').attr("value");
+    console.log(chosen_code);
   });
   ////Fail
   $('#modal-verdict-fail').click(function(){
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Fail');
     chosen_code = $('#modal-verdict-fail').attr("value");
+    console.log(chosen_code);
   });
   ////No Verdict
   $('#modal-verdict-no-verdict').click(function(){
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: No Verdict');
     chosen_code = $('#modal-verdict-no-verdict').attr("value");
+    console.log(chosen_code);
   });
   /////Redefense
   $('#modal-verdict-redefense').click(function(){
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Redefense');
     chosen_code = $('#modal-verdict-redefense').attr("value");
+    console.log(chosen_code);
+  });
+
+  $('#modal-verdict-redemo').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Redemo');
+    chosen_code = $('#modal-verdict-redemo').attr("value");
+    console.log(chosen_code);
+  });
+
+  $('#modal-verdict-special-defense').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Special Defense');
+    chosen_code = $('#modal-verdict-special-defense').attr("value");
+
+    console.log(chosen_code);
   });
 
   function edit_verdict()

@@ -11,6 +11,7 @@ class coordinator_model extends CI_Model
 				WHERE T.TIME_ID NOT IN
 				(SELECT TIME_ID FROM SCHEDULE WHERE USER_ID IN 
 						(SELECT STUDENT_ID FROM STUDENT_GROUP WHERE GROUP_ID=".$group_id.") 
+						AND DAY='".$day."'
 						OR USER_ID IN 
 						(SELECT PANEL_ID FROM PANEL_GROUP WHERE GROUP_ID=".$group_id." AND STATUS=1)
 					AND DAY='".$day."'
@@ -70,7 +71,7 @@ class coordinator_model extends CI_Model
 	//This functions gets the group information
 	public function get_group_info()
 	{
-		$sql = "SELECT TG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_CODE, TG.INITIAL_VERDICT, TG.FINAL_VERDICT, TG.IS_ACTIVE, DD.DEFENSE_DATE_ID, DD.DEFENSE_DATE, DD.START_TIME, DD.END_TIME, DD.VENUE, TG.SECTION
+		$sql = "SELECT TG.GROUP_ID, TG.GROUP_NAME, TG.ADVISER_ID, TG.THESIS_ID, TG.COURSE_CODE, TG.INITIAL_VERDICT, TG.FINAL_VERDICT, TG.IS_ACTIVE, DD.DEFENSE_DATE_ID, DD.DEFENSE_DATE, TIME_FORMAT(DD.START_TIME, '%h:%i %p') AS 'START', TIME_FORMAT(DD.END_TIME, '%h:%i %p') AS 'END', DD.VENUE, TG.SECTION, DD.DEFENSE_TYPE
 				FROM THESIS_GROUP TG	LEFT JOIN DEFENSE_DATE DD
 										ON TG.GROUP_ID = DD.GROUP_ID
                         				JOIN COURSE C
@@ -122,7 +123,6 @@ class coordinator_model extends CI_Model
 				VALUES (NULL, ".$description.", ".$course_code.");";
 
 		$query = $this->db->query($sql);
-		return $query->result_array();
 	}	
 
 	//Coordinator Form
@@ -144,7 +144,6 @@ class coordinator_model extends CI_Model
 				VALUES (NULL, ".$form.", ".$course_code.");";
 
 		$query = $this->db->query($sql);
-		return $query->result_array();
 	}
 
 	///coordinator home
@@ -235,6 +234,16 @@ class coordinator_model extends CI_Model
 		$this->db->update('thesis_group', $data); 
 	}
 
+	public function update_final_verdict($group_id, $verdict)
+	{
+
+		$data = array(
+			'final_verdict' => $verdict
+		);
+		$this->db->where('group_id', $group_id);
+		$this->db->update('thesis_group', $data); 
+	}
+
 	////returns time of defenses the panels needed to attend on that day 
 	public function get_panel_defense_date($group_id, $date)
 	{
@@ -291,14 +300,14 @@ class coordinator_model extends CI_Model
 
 	public function get_term()
 	{
-		$sql = "SELECT * FROM TERM WHERE IS_ACTIVE=1;";
+		$sql = "SELECT * FROM SCHOOL_TERM WHERE IS_ACTIVE=1;";
 		$query = $this->db->query($sql);
 		return $query->first_row('array');
 	}
 
 	public function get_all_term()
 	{
-		$sql = "SELECT * FROM TERM;";
+		$sql = "SELECT * FROM SCHOOL_TERM;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -356,7 +365,7 @@ class coordinator_model extends CI_Model
 
 	public function get_common_tag_count($group_id)
 	{
-		$sql = "SELECT FS.USER_ID, CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME) AS 'NAME', COUNT(FS.USER_ID) AS 'COUNT'
+		$sql = "SELECT FS.USER_ID, CONCAT( U.LAST_NAME,', ',U.FIRST_NAME) AS 'NAME', COUNT(FS.USER_ID) AS 'COUNT'
 				FROM FACULTY F
 				JOIN FACULTY_SPECIALIZATION FS
 				ON FS.USER_ID=F.USER_ID
@@ -569,6 +578,117 @@ class coordinator_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 		
+	}
+
+	public function get_all_passed_group()
+	{
+		$sql = "SELECT C.COURSE_ORDER, TG.COURSE_CODE, TG.GROUP_NAME, TG.GROUP_ID, C.DEGREE_CODE
+				FROM COURSE C 
+				LEFT JOIN THESIS_GROUP TG 
+				ON TG.COURSE_CODE=C.COURSE_CODE
+				WHERE TG.FINAL_VERDICT='P'
+				ORDER BY GROUP_NAME ASC;";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function sample_move_term($group_id, $degree_code)
+	{
+		$this->db->query("SET @GROUP_ID =".$group_id.";");
+		$this->db->query("SET @DEGREE_CODE = '".$degree_code."';");
+		$this->db->query("SET @ANSWER = IF(
+						(SELECT COURSE_ORDER+1 
+							FROM COURSE C
+					        JOIN THESIS_GROUP TG
+					        ON TG.COURSE_CODE=C.COURSE_CODE
+					        WHERE DEGREE_CODE=@DEGREE_CODE
+					        AND TG.GROUP_ID=@GROUP_ID) <= (SELECT COURSE_ORDER 
+							FROM COURSE 
+							WHERE DEGREE_CODE=@DEGREE_CODE
+							ORDER BY COURSE_ORDER DESC
+							LIMIT 1), 
+
+					        (SELECT COURSE_ORDER+1 FROM COURSE C
+					        JOIN THESIS_GROUP TG
+					        ON TG.COURSE_CODE=C.COURSE_CODE
+					        WHERE DEGREE_CODE=@DEGREE_CODE
+					        AND TG.GROUP_ID=@GROUP_ID), 
+
+					        (SELECT COURSE_ORDER FROM COURSE C
+					        JOIN THESIS_GROUP TG
+					        ON TG.COURSE_CODE=C.COURSE_CODE
+					        WHERE DEGREE_CODE=@DEGREE_CODE
+					        AND TG.GROUP_ID=@GROUP_ID)
+					        );");
+
+		$sql = "UPDATE THESIS_GROUP
+					SET COURSE_CODE=(SELECT COURSE_CODE FROM COURSE WHERE COURSE_ORDER=@ANSWER AND DEGREE_CODE=@DEGREE_CODE)
+					WHERE GROUP_ID=@GROUP_ID;";
+						
+		$this->db->query($sql);
+	}
+	public function deactivate_old_term($term)
+	{	
+		$data = array(
+			'is_active' => 0
+		);
+		$this->db->where('term', $term);
+		$this->db->update('school_term', $data);
+	}
+
+	public function deactivate_old_year($year)
+	{	
+		$data = array(
+			'is_active' => 0
+		);
+		$this->db->where('year', $year);
+		$this->db->update('school_year', $data);
+	}
+
+	public function activate_new_term($term)
+	{
+		$data = array(
+			'is_active' => 1
+		);
+		$this->db->where('term', $term);
+		$this->db->update('school_term', $data);
+	}
+
+	public function activate_new_year($year)
+	{
+		$data = array(
+			'is_active' => 1
+		);
+		$this->db->where('year', $year);
+		$this->db->update('school_year', $data);
+
+	}
+
+	public function get_time($time_id)
+	{
+		$sql = "SELECT T.START_TIME AS 'START', T.END_TIME AS 'END'
+				FROM TIME T WHERE T.TIME_ID=".$time_id.";";
+
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function insert_thesis($thesis_title)
+	{	
+		$data = array(
+			'thesis_title' => $thesis_title,
+			'thesis_status' => 'ON-GOING',
+			'abstract' => ''
+		);
+
+		$this->db->insert('thesis', $data);
+
+	}
+
+	public function insert_thesis_group($group_name, $adviser, $thesis_title, $course_code)
+	{
+		$sql = "INSERT INTO THESIS_GROUP (GROUP_NAME, ADVISER_ID, THESIS_ID, INITIAL_VERDICT, FINAL_VERDICT, IS_ACTIVE, COURSE_CODE, SECTION)
+				VALUES";
 	}
 }
 

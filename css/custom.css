@@ -263,6 +263,17 @@
 	color: #FFF;
 	}
 
+.redefenseBtn2{
+	background-color: #c47d3c;
+	color: #FFF;
+	}
+
+
+.redefenseBtn1{
+	background-color: #b6c43c;
+	color: #FFF;
+	}
+
 #manualSched{
 	 display: none;
      visibility: hidden;
@@ -323,4 +334,26 @@
 	position: relative;
 	left: -20px;
 
+}
+
+.buttonCustom{
+	position: relative;
+	top: 3px;
+	font-size: 25px;
+
+}
+
+.bg-dark {
+    background-color: #00a65a!important;
+}
+
+
+#finalVerdict{
+	 display: none;
+     visibility: hidden;
+}
+
+#initialVerdict {
+	 display: inline;
+     visibility: visible;
 }
