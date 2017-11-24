@@ -53,6 +53,13 @@
 
 		}
 
+		public function if_coordinator($user_id)
+		{
+			$sql = "SELECT * FROM FACULTY WHERE USER_ID=".$user_id." AND IS_COORDINATOR=1;";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
 		//get student details
 		public function get_student($user_id)
 		{

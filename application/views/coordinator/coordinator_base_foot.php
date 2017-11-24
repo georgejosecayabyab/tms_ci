@@ -15,7 +15,6 @@
             <i class="menu-icon fa fa-birthday-cake bg-red"></i>
             <div class="menu-info">
               <h4 class="control-sidebar-subheading">View Profile</h4>
-              <p>Will be 23 on April 24th</p>
             </div>
           </a>
         </li>
@@ -27,18 +26,16 @@
             <i class="menu-icon fa fa-birthday-cake bg-red"></i>
             <div class="menu-info">
               <h4 class="control-sidebar-subheading">Edit Profile</h4>
-              <p>Will be 23 on April 24th</p>
             </div>
           </a>
         </li>
       </ul>
       <ul class="control-sidebar-menu">
         <li>
-          <a href="javascript:;">
+          <a href="<?php echo site_url('coordinator/logout');?>">
             <i class="menu-icon fa fa-birthday-cake bg-red"></i>
             <div class="menu-info">
               <h4 class="control-sidebar-subheading">Logout Profile</h4>
-              <p>Will be 23 on April 24th</p>
             </div>
           </a>
         </li>
@@ -94,7 +91,9 @@ immediately after the control sidebar -->
             $('#group_members').empty();
             $('#group_members').append(member.substring(0, member.length -2));
             $('#user_id').append('<input value="'+ data['user']['user_id']+'" name="users[]">');
+            $('#adviser_id').append('<input value="'+ $('#adviser').val()+'" name="adviser_id">');
             console.log($('#user_id').val());
+            console.log('adviser id: '+$('#adviser').val());
           },
           error: function(err)
           {
@@ -155,13 +154,7 @@ immediately after the control sidebar -->
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
 <script>
-  $('.modal').on('shown.bs.modal', function (e) {
-      trigger = $(e.relatedTarget);
-      group_id = trigger.attr("value");
-      sample_date = trigger.attr("id");
-      console.log('group_id: ' + group_id);
-  });
-
+  ////NONE
 </script>
 
 <script type="text/javascript">

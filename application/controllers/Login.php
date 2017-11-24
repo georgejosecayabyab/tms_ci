@@ -62,13 +62,22 @@
 						}
 						else
 						{
-							redirect("faculty");//faculty
+							$if_coordinator = $this->login_model->if_coordinator($result['user_id']);
+							if(sizeof($if_coordinator) > 0)
+							{
+								redirect("coordinator");
+							}
+							else
+							{
+								redirect("faculty");//faculty
+							}
+							
 						}
 					}
 					else
 					{
 						$this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Invalid email and password!</div>');
-                         redirect('login/index');
+                        redirect('login/index');
 					}
 				}
 				else

@@ -89,8 +89,8 @@
             </div>
 
             <div class="col-xs-5">
-               
-                <button id="submit"> Submit </button>
+              <button id="submit"  type="submit" class="btn btn-success">Save and Quit</button>
+              <a href="<?php echo site_url('faculty/view_schedule');?>"><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
 
             </div>
        

@@ -357,3 +357,14 @@
 	 display: inline;
      visibility: visible;
 }
+
+#noSched{
+
+	display: none;
+	visibility: hidden;
+}
+
+#withSched{
+	display: none;
+	visibility: hidden;
+}

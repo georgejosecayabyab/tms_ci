@@ -593,6 +593,13 @@
 			return $query->first_row('array');
 		}
 
+		public function get_sched($user_id)
+		{
+			$sql = "SELECT * FROM SCHEDULE WHERE USER_ID=".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
 
 	}
 ?>

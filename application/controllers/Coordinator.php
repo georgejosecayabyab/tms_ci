@@ -17,10 +17,15 @@
 			$this->load->library('email');
 			//check if session exist
 
-			// $session = $this->session->userdata();
-			// $user_id = $session['user_id'];
-			// $user_type = $session['user_type'];
-			// if($user_type != 1) exit('Access not allowed');
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			$user_type = $session['user_type'];
+			if($user_type != 1) exit('Access not allowed');
+			$if_coordinator = $this->coordinator_model->if_coordinator($user_id);
+			if(sizeof($if_coordinator) == 0)
+			{
+				exit('Access not allowed');
+			}
 		}
 
 		public function index()
@@ -1000,7 +1005,29 @@
 			$group_name = $this->input->post('group_name');
 			$thesis_title = $this->input->post('thesis_title');
 			$adviser = $this->input->post('adviser');
+			$adviser_id = $this->input->post('adviser_id');
 			$course = $this->input->post('course');
+
+			//// validations
+			if(sizeof($users) > 4 || sizeof($users) == 0)
+			{
+				$this->session->set_flashdata('fail', 'Invalid number of students');
+				redirect('coordinator/view_student');
+				$count = 0;
+				for($x = 0; $x < sizeof($users); $x++)
+				{
+					$valid_course = $this->coordinator_model->check_degree_code($users[$x]);
+					if($valid_course['course_code'] == $course)
+					{
+						$count++;
+					}
+				}
+				if($count != sizeof($users))
+				{
+					$this->session->set_flashdata('fail', 'Invalid course of student!');
+					redirect('coordinator/view_student');
+				}
+			}
 
 			$this->form_validation->set_rules('group_name', 'Group Name', 'required|trim|alpha_numeric');
 			$this->form_validation->set_rules('thesis_title', 'Thesis Title', 'required|trim|alpha_numeric');
@@ -1013,12 +1040,29 @@
 			}
 			else
 			{
-				$this->insert_thesis($thesis_title);
-				$this->insert_thesis_group($group_name, $adviser, $thesis_title, $course_code);
+				$this->coordinator_model->insert_thesis($thesis_title);
+				$this->coordinator_model->insert_thesis_group($group_name, $adviser_id, $thesis_title, $course);
+				$thesis_group_id = $this->coordinator_model->get_thesis_group($group_name, $adviser_id);
+				for($x = 0; $x < sizeof($users); $x++)
+				{
+					$this->coordinator_model->insert_student_group($users[$x], $thesis_group_id['group_id']);
+				}
 				$this->session->set_flashdata('success', 'Group has been created!');
 				redirect('coordinator/view_student');
 			}
 
+		}
+
+		////logout
+		public function logout()
+		{
+			$data = array(
+				'user_id' => '',
+				'user_type' => ''
+			);
+			$this->session->unset_userdata($data);
+			$this->session->sess_destroy();
+			redirect("home/index");
 		}
 
 

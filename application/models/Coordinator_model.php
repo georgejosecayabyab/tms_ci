@@ -21,6 +21,13 @@ class coordinator_model extends CI_Model
 
 
 	}
+
+	public function if_coordinator($user_id)
+	{
+		$sql = "SELECT * FROM FACULTY WHERE USER_ID=".$user_id." AND IS_COORDINATOR=1;";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
 	//Coordinator Faculty
 
 	//This function gets the user information of the faculty (NAME, USER_ID, IS_ACTIVE)
@@ -687,9 +694,38 @@ class coordinator_model extends CI_Model
 
 	public function insert_thesis_group($group_name, $adviser, $thesis_title, $course_code)
 	{
-		$sql = "INSERT INTO THESIS_GROUP (GROUP_NAME, ADVISER_ID, THESIS_ID, INITIAL_VERDICT, FINAL_VERDICT, IS_ACTIVE, COURSE_CODE, SECTION)
-				VALUES";
+		$sql = "INSERT INTO THESIS_GROUP (GROUP_NAME, ADVISER_ID, THESIS_ID, INITIAL_VERDICT, FINAL_VERDICT, IS_ACTIVE, COURSE_CODE)
+				VALUES ('".$group_name."', (SELECT USER_ID FROM FACULTY WHERE USER_ID=".$adviser."), (SELECT THESIS_ID FROM THESIS WHERE THESIS_TITLE='".$thesis_title."'), 'NOV', 'NVY', 1, '".$course_code."')";
+		$this->db->query($sql);
 	}
+
+	public function insert_student_group($user_id, $group_id)
+	{
+		$data = array(
+			'group_id' => $group_id,
+			'student_id' => $user_id,
+			'status' => 1
+		);
+
+		$this->db->insert('student_group', $data);
+	}
+
+	public function get_thesis_group($group_name, $adviser_id)
+	{
+		$sql = "SELECT * FROM THESIS_GROUP WHERE GROUP_NAME='".$group_name."' AND ADVISER_ID=".$adviser_id.";";
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+	public function check_degree_code($user_id)
+	{
+		$sql = "SELECT * FROM STUDENT WHERE USER_ID=".$user_id.";" ;
+		$query = $this->db->query($sql);
+		return $query->first_row('array');
+	}
+
+
+
 }
 
 

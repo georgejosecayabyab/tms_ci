@@ -278,6 +278,7 @@
 			$user_id = $session['user_id'];
 
 			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['sched'] = $this->faculty_model->get_sched($user_id);
 			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
 			$data['active_tab'] = array(
 				'home' => "",

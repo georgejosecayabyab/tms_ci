@@ -89,8 +89,11 @@
   </form>
   <!-- Modal2 -->
 
-  <form method="POST" action="<?php echo site_url('coordinator/sample_year');?>" class="form-horizontal">
+  <form method="POST" action="<?php echo site_url('coordinator/insert_group');?>" class="form-horizontal">
     <div id="user_id" hidden>
+
+    </div>
+    <div id="adviser_id" hidden>
 
     </div>
     <div id="myModal2" class="modal fade" role="dialog">
@@ -117,7 +120,7 @@
             <div class="form-group">
               <label for="course" class="col-sm-2 control-label">Course</label>
               <div class="col-sm-8">
-                <select class="form-control select2" name="course" style="width: 100%;">
+                <select class="form-control select2" id="course" name="course" style="width: 100%;">
                   <?php foreach($course as $row):?>
                     <option><?php echo $row['course_code'];?></option>
                   <?php endforeach;?>
@@ -127,9 +130,9 @@
             <div class="form-group">
               <label for="inputName" class="col-sm-2 control-label">Adviser</label>
               <div class="col-sm-8">
-                <select class="form-control select2" name="adviser" style="width: 100%;">
+                <select class="form-control select2" name="adviser" id="adviser" style="width: 100%;">
                   <?php foreach($faculty as $row):?>
-                    <option><?php echo $row['last_name'].', '.$row['first_name'];?></option>
+                    <option value="<?php echo $row['user_id'];?>"><?php echo $row['last_name'].', '.$row['first_name'];?></option>
                   <?php endforeach;?>
                 </select> 
               </div>
