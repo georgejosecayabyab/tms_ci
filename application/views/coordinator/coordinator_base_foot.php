@@ -9,27 +9,7 @@
   <div class="tab-content">
   <!-- Home tab content -->
     <div class="tab-pane active" id="control-sidebar-home-tab">
-      <ul class="control-sidebar-menu">
-        <li>
-          <a href="javascript:;">
-            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-            <div class="menu-info">
-              <h4 class="control-sidebar-subheading">View Profile</h4>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <!-- /.control-sidebar-menu -->
-      <ul class="control-sidebar-menu">
-        <li>
-          <a data-toggle="modal" data-target='#modal'>
-            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-            <div class="menu-info">
-              <h4 class="control-sidebar-subheading">Edit Profile</h4>
-            </div>
-          </a>
-        </li>
-      </ul>
+      
       <ul class="control-sidebar-menu">
         <li>
           <a href="<?php echo site_url('coordinator/logout');?>">
@@ -1245,6 +1225,7 @@ immediately after the control sidebar -->
   var text = "";
   var text_code = "";
   var chosen_code = "";
+  var type = "0";
 
   $('.modal').on('show.bs.modal', function (e) {
     trigger = $(e.relatedTarget);
@@ -1301,7 +1282,9 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Pass');
     chosen_code = $('#modal-verdict-pass').attr("value");
+
     console.log(chosen_code);
+    console.log($("#finalVerdict").val());
     
   });
   ////Conditional Pass
@@ -1310,6 +1293,8 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').append('Defense Verdict: Conditional Pass');
     chosen_code = $('#modal-verdict-conditional-pass').attr("value");
     console.log(chosen_code);
+
+    console.log($("#finalVerdict").val());
   });
   ////Fail
   $('#modal-verdict-fail').click(function(){
@@ -1317,6 +1302,8 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').append('Defense Verdict: Fail');
     chosen_code = $('#modal-verdict-fail').attr("value");
     console.log(chosen_code);
+
+    console.log($("#finalVerdict").val());
   });
   ////No Verdict
   $('#modal-verdict-no-verdict').click(function(){
@@ -1324,13 +1311,18 @@ immediately after the control sidebar -->
     $('#modal-verdict-title').append('Defense Verdict: No Verdict');
     chosen_code = $('#modal-verdict-no-verdict').attr("value");
     console.log(chosen_code);
+
+    console.log($("#finalVerdict").val());
   });
+
   /////Redefense
   $('#modal-verdict-redefense').click(function(){
     $('#modal-verdict-title').empty();
     $('#modal-verdict-title').append('Defense Verdict: Redefense');
     chosen_code = $('#modal-verdict-redefense').attr("value");
     console.log(chosen_code);
+
+    console.log($("#finalVerdict").val());
   });
 
   $('#modal-verdict-redemo').click(function(){
@@ -1346,13 +1338,87 @@ immediately after the control sidebar -->
     chosen_code = $('#modal-verdict-special-defense').attr("value");
 
     console.log(chosen_code);
+
+    console.log($("#finalVerdict").val());
+  });
+
+
+  ////final/////////////////////////
+  ///pass verdict
+  $('#f-modal-verdict-pass').click(function(e){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Pass');
+    chosen_code = $('#f-modal-verdict-pass').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+    console.log($("#finalVerdict").attr("value"));
+    
+  });
+  $('#f-modal-verdict-conditional-pass').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Conditional Pass');
+    chosen_code = $('#f-modal-verdict-conditional-pass').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+    console.log($("#finalVerdict").attr("value"));
+  });
+  ////Fail
+  $('#f-modal-verdict-fail').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Fail');
+    chosen_code = $('#f-modal-verdict-fail').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+    console.log($("#finalVerdict").attr("value"));
+  });
+  ////No Verdict
+  $('#f-modal-verdict-no-verdict').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: No Verdict');
+    chosen_code = $('#f-modal-verdict-no-verdict').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+  });
+  /////Redefense
+  $('#f-modal-verdict-redefense').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Redefense');
+    chosen_code = $('#f-modal-verdict-redefense').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+  });
+
+  $('#f-modal-verdict-redemo').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Redemo');
+    chosen_code = $('#f-modal-verdict-redemo').attr("value");
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
+  });
+
+  $('#f-modal-verdict-special-defense').click(function(){
+    $('#modal-verdict-title').empty();
+    $('#modal-verdict-title').append('Defense Verdict: Special Defense');
+    chosen_code = $('#f-modal-verdict-special-defense').attr("value");
+
+    console.log(chosen_code);
+    type = $("#finalVerdict").attr("value");
   });
 
   function edit_verdict()
   {
+    var link = "";
+    if(type != 1)
+    {
+      link = '/tms_ci/index.php/coordinator/update_initial_group_verdict';
+    }
+    else
+    {
+      link = '/tms_ci/index.php/coordinator/update_final_group_verdict';
+    }
     $.ajax({
       type: 'POST',
-      url: '/tms_ci/index.php/coordinator/update_group_verdict',
+      url: link,
       data: {'group_id': value, 'verdict': chosen_code},
       success: function()
       {

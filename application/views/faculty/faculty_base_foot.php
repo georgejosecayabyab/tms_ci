@@ -18,16 +18,6 @@
     <!-- Home tab content -->
     <div class="tab-pane active" id="control-sidebar-home-tab">
 
-    <ul class="control-sidebar-menu">
-      <li>
-        <a href="<?php echo site_url('faculty/view_profile');?>">
-          <i class="menu-icon fa fa-user bg-green"></i>
-          <div class="menu-info">
-            <h4 class="control-sidebar-subheading">View Profile</h4>
-          </div>
-        </a>
-      </li>
-    </ul>
     <!-- /.control-sidebar-menu -->
      <ul class="control-sidebar-menu">
       <li>

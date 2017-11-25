@@ -410,7 +410,7 @@
 
 		}
 
-		public function update_group_verdict()
+		public function update_initial_group_verdict()
 		{
 			$group_id = $this->input->post("group_id");
 			$verdict = $this->input->post("verdict");
@@ -426,6 +426,16 @@
 			}
 			
 
+			$this->session->set_flashdata('success', 'Verdict has been updated!');
+		}
+
+		public function update_final_group_verdict()
+		{
+			$group_id = $this->input->post("group_id");
+			$verdict = $this->input->post("verdict");
+
+			$this->coordinator_model->update_final_verdict($group_id, $verdict);
+			
 			$this->session->set_flashdata('success', 'Verdict has been updated!');
 		}
 
@@ -766,8 +776,8 @@
 			$date_time = date("Y-m-d H:i:s");
 
 			$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha_numeric');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim');
 
 			if($this->form_validation->run() == FALSE)
 			{
@@ -793,8 +803,8 @@
 			$date_time = date("Y-m-d H:i:s");
 
 			$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha_numeric');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|trim');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim');
 
 			if($this->form_validation->run() == FALSE)
 			{
@@ -933,7 +943,7 @@
 		{
 			$specialization = $this->input->post('specialization');
 
-			$this->form_validation->set_rules('specialization', 'Specialization', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('specialization', 'Specialization', 'required|trim');
 
 			if($this->form_validation->run() == FALSE)
 			{
@@ -988,12 +998,23 @@
 			$year = $this->input->post('year');
 			$this->coordinator_model->activate_new_year($year);
 			$result = $this->coordinator_model->get_all_passed_group();
+
+			$all_group = $this->coordinator_model->get_group_info();
 			foreach($result as $row)
 			{
 				$group_id = $row['GROUP_ID'];
 				$degree_code = $row['DEGREE_CODE'];
 				$this->coordinator_model->sample_move_term($group_id, $degree_code);
 			}
+
+			foreach($all_group as $row)
+			{
+				$group_id = $row['GROUP_ID'];
+				$this->coordinator_model->delete_all_defense_date($group_id);
+				$this->coordinator_model->update_verdicts($group_id);
+			}
+
+
 
 			redirect('coordinator/view_set_term');
 
@@ -1029,8 +1050,8 @@
 				}
 			}
 
-			$this->form_validation->set_rules('group_name', 'Group Name', 'required|trim|alpha_numeric');
-			$this->form_validation->set_rules('thesis_title', 'Thesis Title', 'required|trim|alpha_numeric');
+			$this->form_validation->set_rules('group_name', 'Group Name', 'required|trim');
+			$this->form_validation->set_rules('thesis_title', 'Thesis Title', 'required');
 
 			if($this->form_validation->run() == FALSE)
 			{

@@ -492,6 +492,27 @@
 			return $query->result_array();
 		}
 
+
+		public function insert_thesis_tag($thesis_id, $specialization)
+		{
+			$sql = "insert into thesis_specialization (thesis_id, specialization_id) values (".$thesis_id.", (select specialization_id from specialization where specialization='".$specialization."'))";
+			$this->db->query($sql);
+		}
+
+		public function get_thesis_id($group_id)
+		{
+			$sql = "select * from thesis_group where group_id=".$group_id."";
+			$query = $this->db->query($sql);
+			return $query->first_row('array');
+		}
+
+		public function get_all_tags()
+		{
+			$sql = "select * from specialization;";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
 	}
 
 

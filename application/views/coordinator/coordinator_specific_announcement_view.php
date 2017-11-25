@@ -31,7 +31,7 @@
               <tbody>
                 <?php foreach($related_news as $row):?>
                   <tr>
-                    <td><a href="coordinatorSpecificAnnouncements.html"><?php echo $row['event_desc'];?></a></td>
+                    <td><?php echo $row['event_desc'];?></td>
                     <td><?php echo $row['course_code'];?></td>
                  
                     <td><a href="<?php echo site_url('coordinator/delete_related_news/'.$row['event_id']);?>"><button type="button" class="btn btn-block btn-danger">Delete</button></td>

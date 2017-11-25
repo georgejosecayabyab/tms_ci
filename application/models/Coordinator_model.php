@@ -164,7 +164,6 @@ class coordinator_model extends CI_Model
 				ON TG.GROUP_ID=DD.GROUP_ID
 				JOIN THESIS T
 				ON T.THESIS_ID=TG.THESIS_ID
-				WHERE DATEDIFF(DD.DEFENSE_DATE, CURDATE()) >= 0
 				ORDER BY DD.DEFENSE_DATE ASC;";
 
 		$query = $this->db->query($sql);
@@ -237,8 +236,35 @@ class coordinator_model extends CI_Model
 		$data = array(
 			'initial_verdict' => $verdict
 		);
+
 		$this->db->where('group_id', $group_id);
 		$this->db->update('thesis_group', $data); 
+	}
+
+	public function update_defense_type($group_id, $verdict)
+	{
+		$defense_type = "";
+		// if()
+		// {
+
+		// }
+		// else if()
+		// {
+
+		// }
+		// else
+		// {
+
+		// }
+
+
+		$data = array(
+			'group_id' => $group_id,
+			'defense_type' => $verdict
+		);
+
+		$this->db->where('group_id', $group_id);
+		$this->db->update('defense_date', $data); 
 	}
 
 	public function update_final_verdict($group_id, $verdict)
@@ -724,7 +750,19 @@ class coordinator_model extends CI_Model
 		return $query->first_row('array');
 	}
 
+	public function delete_all_defense_date($group_id)
+	{
+		$sql = "delete from defense_date where group_id=".$group_id.";";
+		$this->db->query($sql);
+	}
 
+	public function update_verdicts($group_id)
+	{
+		$sql = "update thesis_group
+				set initial_verdict='NOV', final_verdict='NVY' 
+				where group_id=".$group_id.";";
+		$this->db->query($sql);
+	}
 
 }
 

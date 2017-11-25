@@ -18,33 +18,7 @@
         <!-- Home tab content -->
         <div class="tab-pane active" id="control-sidebar-home-tab">
           
-          <ul class="control-sidebar-menu">
-            <li>
-              <a href="javascript:;">
-                <i class="menu-icon fa fa-user bg-green"></i>
-
-                <div class="menu-info">
-                  <h4 class="control-sidebar-subheading">View Profile</h4>
-
-                 
-                </div>
-              </a>
-            </li>
-          </ul>
-          <!-- /.control-sidebar-menu -->
-           <ul class="control-sidebar-menu">
-            <li>
-              <a href="javascript:;">
-                <i class="menu-icon fa fa-gears bg-green"></i>
-
-                <div class="menu-info">
-                  <h4 class="control-sidebar-subheading">Edit Profile</h4>
-
-                 
-                </div>
-              </a>
-            </li>
-          </ul>
+          
 
 
 
@@ -100,6 +74,38 @@
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
 
 <script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
+<script>
+  $('#tags').change(function(){
+    var sel = $('#tags').select2("val");
+    console.log(sel);
+
+    
+    $('#select_tags').append('<input value="'+ sel+'" name="selected_tags_value">');
+  });
+
+  $('#submit_tag').click(function(){
+    var sel = $('#tags').select2("val");
+    console.log(sel);
+
+    $.ajax({
+      type:'POST',
+      url: '/tms_ci/index.php/student/add_tags',
+      data: {'tags': sel},
+      success: function(data)
+      {
+        for(var x =0; x<data.length; x++)
+        {
+          console.log('tag is '+data[x]);
+        }
+      },
+      error: function(err)
+      {
+        console.log(err);
+      }
+    });
+  });
+</script>
 
 <script>
   $(function () {

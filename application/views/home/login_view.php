@@ -35,7 +35,7 @@
 
    
 
-    <a href="#" id="forget">I forgot my password</a><br>
+    
    
 
   </div>

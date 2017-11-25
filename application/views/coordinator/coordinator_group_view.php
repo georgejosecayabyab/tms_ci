@@ -49,33 +49,63 @@
               <td><a href="#" data-toggle="modal" data-target="#modal-description"><?php echo $row['GROUP_NAME'];?></a></td><!--isn't better to have it as thesis?-->
               <td><?php echo $row['COURSE_CODE'];?></td>
               <td>
-                <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
-                <?php
-                  $panels = 'None -';
-                  $panels2 = '';
-                  foreach($panel as $prow)
-                  {
-                    if($row['GROUP_ID']==$prow['group_id'])
+                <?php if($row['INITIAL_VERDICT'] != 'NOV'):?>
+                  <center>
+                  <?php
+                    $panels = 'None -';
+                    $panels2 = '';
+                    foreach($panel as $prow)
                     {
-                      $panels.=$prow['name'].', ';
-                      $panels2.=$prow['name'].', ';
+                      if($row['GROUP_ID']==$prow['group_id'])
+                      {
+                        $panels.=$prow['name'].', ';
+                        $panels2.=$prow['name'].', ';
+                      }
                     }
-                  }
-                  if($panels=='None -'){
-                    echo substr(trim($panels), 0, -1);
-                  }
-                  else
-                  {
-                    echo substr(trim($panels2), 0, -1);
-                  }
-                  
-                ?>
+                    if($panels=='None -'){
+                      echo substr(trim($panels), 0, -1);
+                    }
+                    else
+                    {
+                      echo substr(trim($panels2), 0, -1);
+                    }
+                    
+                  ?>
                   <i class="fa fa-users"> </i>
-                </button>
+                  </center>
+                <?php else:?>
+                  <button id="modal-panel-button" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-panel">
+                    <?php
+                      $panels = 'None -';
+                      $panels2 = '';
+                      foreach($panel as $prow)
+                      {
+                        if($row['GROUP_ID']==$prow['group_id'])
+                        {
+                          $panels.=$prow['name'].', ';
+                          $panels2.=$prow['name'].', ';
+                        }
+                      }
+                      if($panels=='None -'){
+                        echo substr(trim($panels), 0, -1);
+                      }
+                      else
+                      {
+                        echo substr(trim($panels2), 0, -1);
+                      }
+                      
+                    ?>
+                    <i class="fa fa-users"> </i>
+                  </button>
+                <?php endif;?>
               </td>
-              <td><?php echo $row['DEFENSE_TYPE'];?></td>
               <td>
-                <?php if($row['FINAL_VERDICT']!="P" && $row['FINAL_VERDICT']!="F" ):?>
+                <?php 
+                  echo $row['DEFENSE_TYPE'];
+                ?>
+              </td>
+              <td>
+                <?php if($row['FINAL_VERDICT']!="P" && $row['FINAL_VERDICT']!="F" && $row['INITIAL_VERDICT']!="CP"):?>
                   <?php if($row['DEFENSE_DATE']==null):?>
                     <button value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-defensedate">
                     Set Date <i class="fa fa-fw fa-calendar-plus-o"> </i>
@@ -106,10 +136,10 @@
                 <?php endif;?>
               </td>
               <td>
-                <?php if($row['FINAL_VERDICT']!="P" && $row['FINAL_VERDICT']!="F" ):?>
-                  <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict" onclick="verdictState('<?php echo $row['DEFENSE_TYPE'];?>')">   
+                <?php if($row['INITIAL_VERDICT'] == 'NOV'):?>
+                  <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict" onclick="verdictState('<?php echo $row['DEFENSE_TYPE'];?>')"> 
                     <?php 
-                      if($row['INITIAL_VERDICT']!='NOV')
+                      if($row['INITIAL_VERDICT']=='NOV')
                       {
                         if($row['INITIAL_VERDICT']=='NOV')
                         {
@@ -134,7 +164,7 @@
                       }
                       else
                       {
-                        if($row['FINAL_VERDICT']=='NOV')
+                        if($row['FINAL_VERDICT']=='NVY')
                         {
                           echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
                         }
@@ -158,29 +188,57 @@
                     ?>
                   </button>
                 <?php else:?>
-                  <?php 
-                      if($row['FINAL_VERDICT']=='NVY')
-                      {
-                        echo 'No Verdict Yet<i class="fa fa-question-circle noVerdictCircle"> </i> ';
-                      }
-                      else if($row['FINAL_VERDICT']=='CP')
-                      {
-                        echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
-                      }
-                      else if($row['FINAL_VERDICT']=='F')
-                      {
-                        echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
-                      }
-                      else if($row['FINAL_VERDICT']=='P')
-                      {
-                        echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
-                      }
-                      else
-                      {
-                        echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
-                      }
-                    ?>
+                  <?php if($row['FINAL_VERDICT'] != 'P'): ?>
+                    <button id="<?php echo $row['INITIAL_VERDICT'];?>" value="<?php echo $row['GROUP_ID'];?>" type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-verdict" onclick="verdictState('no')"> 
+                        <?php 
+                            if($row['INITIAL_VERDICT']=='NOV')
+                            {
+                              echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                            }
+                            else if($row['INITIAL_VERDICT']=='CP')
+                            {
+                              echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                            }
+                            else if($row['INITIAL_VERDICT']=='F')
+                            {
+                              echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                            }
+                            else if($row['INITIAL_VERDICT']=='P')
+                            {
+                              echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                            }
+                            else
+                            {
+                              echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                            }
+                        ?>
+                    </button>
+                  <?php else:?>
+                    <?php 
+                            if($row['INITIAL_VERDICT']=='NOV')
+                            {
+                              echo 'No Verdict <i class="fa fa-question-circle noVerdictCircle"> </i> ';
+                            }
+                            else if($row['INITIAL_VERDICT']=='CP')
+                            {
+                              echo 'Conditional Pass <i class="fa fa-check-circle conditionalCircle">';
+                            }
+                            else if($row['INITIAL_VERDICT']=='F')
+                            {
+                              echo 'Fail <i class="fa fa-times-circle failCircle"> </i>';
+                            }
+                            else if($row['INITIAL_VERDICT']=='P')
+                            {
+                              echo 'Pass <i class="fa fa-check-circle successCircle"></i>';
+                            }
+                            else
+                            {
+                              echo 'Redefense  <i class="fa fa-refresh redefenseCircle"> </i>';
+                            }
+                        ?>
+                  <?php endif;?>
                 <?php endif;?>
+
               </td>
             </tr>
           <?php endforeach;?>
@@ -432,7 +490,7 @@
         </div>
         <div class="modal-body">
 
-        <div id="initialVerdict">
+        <div id="initialVerdict" value="0">
 
           <h4> <label> Initial Verdict: </label> </h4>
 
@@ -461,27 +519,27 @@
           </div>
 
         </div>
-        <div id="finalVerdict">
+        <div id="finalVerdict" value="1">
           <h4> <label>Final Verdict: </label> </h4>
           <div class="row">
-            <a id="modal-verdict-pass" value="P" class="btn btn-app successBtn">
+            <a id="f-modal-verdict-pass" value="P" class="btn btn-app successBtn">
               <i class="fa fa-check"></i> Pass
             </a>
-            <a id="modal-verdict-conditional-pass" value="CP" class="btn btn-app conditionalBtn">
+            <a id="f-modal-verdict-conditional-pass" value="CP" class="btn btn-app conditionalBtn">
               <i class="fa fa-check"></i> Conditional Pass
             </a>
 
-             <a id="modal-verdict-redefense" value="RD" class="btn btn-app redefenseBtn">
+             <a id="f-modal-verdict-redefense" value="RD" class="btn btn-app redefenseBtn">
               <i class="fa fa-check"></i> Redefense
             </a>
-            <a id="modal-verdict-redemo" value="RM" class="btn btn-app redefenseBtn1">
+            <a id="f-modal-verdict-redemo" value="RM" class="btn btn-app redefenseBtn1">
               <i class="fa fa-refresh"></i> Redemo
             </a>
 
-            <a id="modal-verdict-special-defense" value="SD" class="btn btn-app redefenseBtn2">
+            <a id="f-modal-verdict-special-defense" value="SD" class="btn btn-app redefenseBtn2">
               <i class="fa fa-refresh"></i> Special Defense
             </a>
-            <a id="modal-verdict-fail" value="F" class="btn btn-app failBtn">
+            <a id="f-modal-verdict-fail" value="F" class="btn btn-app failBtn">
               <i class="fa fa-times"></i> Fail
             </a>
           </div>
@@ -725,7 +783,6 @@
               </div>
             </div>
             <div>
-              <a href="#" id="manualPanelButton"> + Manually Input The Panelist</a>
             </div>
           </div>
           <div class="post">

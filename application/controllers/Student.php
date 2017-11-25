@@ -40,7 +40,7 @@
 				'form' => "",
 				'archive' => "" 
 			);
-
+			
 			$this->load->view('student/student_base_head', $data);
 			$this->load->view('student/student_home_view', $data);
 			$this->load->view('student/student_base_foot', $data);
@@ -133,6 +133,7 @@
 				$data['submit'] = $this->student_model->latest_uploaded($group_id);
 				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
 				$data['reply'] = $this->student_model->get_discussion_reply_count();
+				$data['tags'] = $this->student_model->get_all_tags();
 				$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
 				$data['active_tab'] = array(
 					'home' => "",
@@ -297,10 +298,9 @@
             		// $revision = $this->upload->do_upload('revision_file');
 					$this->upload_file('thesis_file', 'revision_file');
 					// $this->upload_file('revision_file');
-					$rest = $this->upload->data();
-					$d3 = $_FILES['thesis_file']['type'];
+					
 
-		            $this->session->set_flashdata('success', $d3);
+		            $this->session->set_flashdata('success', 'Documents have been uploaded!');
 					redirect('student/view_group/'.$group['group_id']);
             	}
 				
@@ -308,7 +308,7 @@
             }
             else
             {
-            	$this->session->set_flashdata('fail', 'uploading of documents come in pair2');
+            	$this->session->set_flashdata('fail', 'Uploading requires revised document and associated revisions list');
             	redirect('student/view_group/'.$group['group_id']);
             }
 		}
@@ -374,6 +374,7 @@
 	            $data = array('upload_data' => $this->upload->data());
 	            $rest = $this->upload->data();
 	            $this->student_model->insert_revision($rest['file_name'], $upload_name, $date_time, $group_id);
+	            $this->session->set_flashdata('success', 'Documents have been uploaded!');
             }
 		}
 
@@ -675,6 +676,32 @@
 			$user_id = $session['user_id'];
 
 			$this->student_model->delete_schedule($user_id);
+		}
+
+		public function add_tags()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->student_model->get_group($user_id);
+			$thesis_id = $this->student_model->get_thesis_id($group_id['group_id']);
+			$tags = $this->input->post("tags");
+			$ar = array();
+			for($x = 0; $x<sizeof($tags); $x++)
+			{
+				$ar[]= $tags[$x];
+			}
+			// $this->load->view('student/student_base_head', $data);
+			// $this->load->view('student/student_home_view', $data);
+			// $this->load->view('student/student_base_foot', $data);
+
+			for($x = 0; $x<sizeof($ar); $x++)
+			{
+				$this->student_model->insert_thesis_tag($thesis_id['thesis_id'], $ar[$x]);
+			}
+
+			header('Content-Type: application/json');
+			echo json_encode($ar);
 		}
 
 	}

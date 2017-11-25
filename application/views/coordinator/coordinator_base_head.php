@@ -146,7 +146,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="<?php echo $active_tab['specific_announcement'];?>"><a href="<?php echo site_url('coordinator/view_specific_announcement');?>"><i class="fa fa-circle-o"></i> Specific Announcements</a></li>
           </ul>
           <li class="<?php echo $active_tab['form'];?>"><a href="<?php echo site_url('coordinator/view_form');?>"><i class="fa fa-sticky-note"></i> <span>Forms</span></a></li>
-          <li class="<?php echo $active_tab['report'];?>"><a href="<?php echo site_url('coordinator/view_report');?>"><i class="fa fa-bar-chart"></i> <span>Monitoring Report</span></a></li>
           <li class="<?php echo $active_tab['archive'];?>"><a href="<?php echo site_url('coordinator/view_archive');?>"><i class="fa fa-archive"></i> <span>Archive</span></a></li>
           <li class="<?php echo $active_tab['specialization'];?>"><a href="<?php echo site_url('coordinator/view_specialization');?>"><i class="fa fa-lightbulb-o"></i> <span>Specialization</span></a></li>
           <li class="<?php echo $active_tab['term'];?>"><a href="<?php echo site_url('coordinator/view_set_term');?>"><i class="fa fa-calendar"></i> <span>Set Current Term </span></a></li>

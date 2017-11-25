@@ -269,13 +269,6 @@
                               <div class="timeline-body">'
                                 .$row['THESIS_COMMENT'].
                               '</div>';
-                              if($row['USER_ID']==$student_data['user_id'])
-                              {
-                                echo '<div class="timeline-footer">
-                                  <a class="btn btn-primary btn-xs">Edit</a>
-                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                                </div>';
-                              }
                             echo '</div>
                           </li>';
                         }
@@ -292,13 +285,6 @@
                               <div class="timeline-body">'
                                 .$row['THESIS_COMMENT'].
                               '</div>';
-                              if($row['USER_ID']==$student_data['user_id'])
-                              {
-                                echo '<div class="timeline-footer">
-                                  <a class="btn btn-primary btn-xs">Edit</a>
-                                  <a class="btn btn-danger btn-xs" href="'.site_url('faculty/delete_comment/'.$row['THESIS_COMMENT_ID']).'">Delete</a>
-                                </div>';
-                              }
                             echo '</div>
                           </li>';
                         }
@@ -328,39 +314,19 @@
               <!-- /.tab-pane -->
 
               <div class="tab-pane" id="settings"><!--settings tab-->
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Thesis Title</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Thesis Title">
-                    </div>
-                  </div>
-                  
+                <form class="form-horizontal" action="<?php echo site_url('student');?>"  method="post">
+                <div id="select_tags" hidden></div>
                   
                   
                   <div class="form-group ">
                     <label for="inputName" class="col-sm-2 control-label">Specialization</label>
                     
                     <div class="col-sm-10">
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Select an area of specialization"
+                      <select class="form-control select2" name="tags" id="tags" multiple="multiple" data-placeholder="Select an area of specialization"
                         style="width: 100%;">
-                        <option>Algorithms and Complexity</option>
-                        <option>Architecture and Organization</option>
-                        <option>Computational Science</option>
-                        <option>Digital Signal Processing</option>
-                        <option>Discrete Structure</option>
-                        <option>Embedded and Control System</option>
-                        <option>General Computer Science</option>
-                        <option>Robotics</option>
-                        <option>Software Engineering</option>
-                        <option>Graphics and Visual Computing</option>
-                        <option>Human-Computer Interaction</option>
-                        <option>Information Management</option>
-                        <option>Intelligent Systems</option>
-                        <option>Net-centric computing</option>
-                        <option>Operating Systems</option>
-                        <option>Programming Languages</option>
-                        <option>Social and Professional Issues</option>
+                        <?php foreach($tags as $row):?>
+                          <option><?php echo $row['specialization'];?></option>
+                        <?php endforeach;?>
                       </select>
                     </div>
                   </div>
@@ -368,7 +334,7 @@
                   
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button id="submitbtn" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Save and Quit</button>
+                      <button id="submit_tag" type="button" class="btn btn-success">Save and Quit</button>
                       <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
                       
                     </div>
