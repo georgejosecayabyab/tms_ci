@@ -38,7 +38,7 @@
       </div>
   </aside>
   <!-- /.control-sidebar -->
-  
+
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
@@ -58,12 +58,12 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>js/adminlte.min.js"></script>
 
+<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.js"></script>
 
 <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
-
-<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
 
 <script type="text/javascript">
   $('#datepicker').datepicker({

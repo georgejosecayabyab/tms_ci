@@ -15,7 +15,20 @@
 
   <!-- Main content -->
   <section class="content">
-
+    <?php if($this->session->flashdata('fail')): ?>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+        <?php echo $this->session->flashdata('fail'); ?></center>
+      </div>
+    <?php endif; ?>
+    <?php if($this->session->flashdata('success')): ?>
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+        <?php echo $this->session->flashdata('success'); ?></center>
+      </div>
+    <?php endif; ?> 
     <div class="row">
       <div class="col-md-3">
 
@@ -253,15 +266,29 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="setMeeting">
-              <div class="input-group date">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
+              <form method="post" action="<?php echo site_url('faculty/validate_meeting');?>">
+                <input type="hidden" name="group_id" id="group_id" value="<?php echo $group['group_id'];?>">
+                <div class="form-group">
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" name="datepicker" id="datepicker">
+                  </div>
                 </div>
-                <input type="text" class="form-control pull-right" id="datepicker">
-              </div>
-              <button id="submitbtn" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Set Meeting</button>
-              <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
-            </div>
+
+                <div class="form-group">
+                  <label for="Venue" class="control-label">Venue</label>
+                  <input class="form-control" id="venue" name="venue" placeholder="venue">
+                </div>
+
+                <div class="form-group">
+                  <button id="submitbtn" type="submit" class="btn btn-success">Set Meeting</button>
+                  <button id="submitbtn2" type="button" class="btn btn-danger">Exit</button>
+                </div>
+
+                
+              </form>
           </div>
           <!-- /.tab-content -->
         </div>

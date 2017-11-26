@@ -611,6 +611,10 @@
 			$this->db->delete('faculty_specialization'); 
 		}
 
+		public function insert_meeting($data)
+		{
+			$this->db->insert('meeting', $data);
+		}
 
 	}
 ?>

@@ -521,14 +521,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   
                   <div class="tab-pane" id="setMeeting">
-                    <div class="input-group date">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
+                    <form method="post" action="<?php echo site_url('student/set_meeting');?>">
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="date" class="form-control pull-right" id="datepicker">
                       </div>
-                      <input type="text" class="form-control pull-right" id="datepicker">
-                    </div>
-                    <button id="submitbtn" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-success">Set Meeting</button>
-                    <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="venue" class="form-control pull-right" id="datepicker">
+                      </div>
+                      <button id="submitbtn" type="button" class="btn btn-success">Set Meeting</button>
+                      <button id="submitbtn2" type="button" class="btn btn-danger">Exit</button>
+                    </form>
                   </div>
 
                   <div class="tab-pane" id="newUpload"><!--new upload tab-->

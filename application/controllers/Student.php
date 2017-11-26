@@ -142,12 +142,32 @@
 				'archive' => "" 
 			);
 
-			// $this->load->view('student/student_base_head', $data);
-			// $this->load->view('student/student_group_view', $data);
-			// $this->load->view('student/student_base_foot', $data);
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_group_view', $data);
+			$this->load->view('student/student_base_foot', $data);
 
 			// $this->load->view('student/sample');
-			$this->load->view('student/student_group_whole_version_view', $data);
+			//$this->load->view('student/student_group_whole_version_view', $data);
+		}
+
+		public function view_set_meeting()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "active",
+				'group_schedule' => "",
+				'form' => "",
+				'archive' => "" 
+			);
+
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_set_meeting_view', $data);
+			$this->load->view('student/student_base_foot', $data);
 		}
 
 		public function view_schedule()
@@ -718,6 +738,42 @@
 			header('Content-Type: application/json');
 			echo json_encode($ar);
 		}
+
+		public function validate_meeting()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$group_id = $this->student_model->get_group($user_id);
+			$date = $this->input->post('datepicker');
+			$venue = $this->input->post('venue');
+
+			$new_date = date('Y-m-d H:i:s', strtotime($date));
+
+
+			$this->form_validation->set_rules('venue', 'Venue', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('student/view_group/'.$group_id['group_id']);
+			}
+			else
+			{
+				$data = array(
+					'date' => $new_date,
+					'group_id' => $group_id['group_id'],
+					'created_by' => $user_id,
+					'venue' => $venue
+				);
+
+				$this->student_model->insert_meeting($data);
+				$this->session->set_flashdata('success', 'Meeting has been created!');
+				redirect('student/view_group/'.$group_id['group_id']);
+			}
+		}
+
 
 	}
 

@@ -797,6 +797,40 @@
 			echo json_encode($ar);
 		}
 
+		public function validate_meeting()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$group_id = $this->input->post('group_id');
+			$date = $this->input->post('datepicker');
+			$venue = $this->input->post('venue');
+
+			$new_date = date('Y-m-d H:i:s', strtotime($date));
+
+
+			$this->form_validation->set_rules('venue', 'Venue', 'required|trim');
+
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->session->set_flashdata('fail', validation_errors());
+				redirect('faculty/view_advisee_specific/'.$group_id);
+			}
+			else
+			{
+				$data = array(
+					'date' => $new_date,
+					'group_id' => $group_id,
+					'created_by' => $user_id,
+					'venue' => $venue
+				);
+
+				$this->faculty_model->insert_meeting($data);
+				$this->session->set_flashdata('success', 'Meeting has been created!');
+				redirect('faculty/view_advisee_specific/'.$group_id);
+			}
+		}
+
 	}
 
 ?>

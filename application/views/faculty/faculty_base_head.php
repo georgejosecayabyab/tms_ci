@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/custom.css">
   
-  <link rel="stylesheet" href="<?php echo base_url();?>css/index.css">
+  <!-- <link rel="stylesheet" href="<?php echo base_url();?>css/index.css"> -->
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
 
@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
 
-  <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet">
+ <!--  <link href="<?php echo base_url();?>css/editor.css" rel="stylesheet"> -->
 
   <link rel="stylesheet" href="<?php echo base_url();?>ccs/bootstrap-datepicker.min.css">
 

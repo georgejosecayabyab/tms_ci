@@ -326,6 +326,9 @@
                   <div class="col-sm-10">
                     <select class="form-control select2" name="tags" id="tags" multiple="multiple" data-placeholder="Select an area of specialization"
                       style="width: 100%;">
+                      <?php foreach($tag as $row):?>
+                        <option selected><?php echo $row['specialization'];?></option>
+                      <?php endforeach;?>
                       <?php foreach($tags as $row):?>
                         <option><?php echo $row['specialization'];?></option>
                       <?php endforeach;?>
@@ -336,7 +339,7 @@
                 
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                    <button id="submit_tag" type="button" class="btn btn-success">Save and Quit</button>
+                    <a href="<?php echo site_url('student/view_group/'.$group_id['group_id']);?>"><button id="submit_tag" type="button" class="btn btn-success">Save and Quit</button></a>
                     <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
                     
                   </div>
@@ -397,7 +400,7 @@
               </section>
             </div>
             <!-- /.tab-pane -->
-            
+
             <div class="tab-pane" id="abstract"><!--abstract tab-->
               <form action="<?php echo site_url('student/validate_abstract');?>" method="post">
                 <input type="hidden" name="thesis_id" value="<?php echo $group['thesis_id'];?>">
@@ -420,12 +423,28 @@
             </div>
 
             <div class="tab-pane" id="setMeeting">
-              <div class="input-group date">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
+              <form method="post" action="<?php echo site_url('student/validate_meeting');?>">
+                <div class="form-group">
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" name="datepicker" id="datepicker">
+                  </div>
                 </div>
-                <input type="text" class="form-control pull-right" id="datepicker">
-              </div>
+
+                <div class="form-group">
+                  <label for="Venue" class="control-label">Venue</label>
+                  <input class="form-control" id="venue" name="venue" placeholder="venue">
+                </div>
+
+                <div class="form-group">
+                  <button id="submitbtn" type="submit" class="btn btn-success">Set Meeting</button>
+                  <button id="submitbtn2" type="button" class="btn btn-danger">Exit</button>
+                </div>
+
+                
+              </form>
             </div>
 
   </section>

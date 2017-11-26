@@ -535,6 +535,11 @@
 			$this->db->delete('thesis_specialization'); 
 		}
 
+		public function insert_meeting($data)
+		{
+			$this->db->insert('meeting', $data);
+		}
+
 	}
 
 
