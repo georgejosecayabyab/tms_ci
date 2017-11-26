@@ -73,7 +73,8 @@
                 <div class="col-lg-3 col-xs-12">
                   <form>
                     <button id="submit"  type="button" class="btn btn-success">Save and Quit</button>
-                    <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
+                    <a href="<?php echo site_url('student/view_schedule');?>"><button id="submit" type="button" class="btn btn-primary">View Schedule</button></a>
+                    <a href="<?php echo site_url('student/view_schedule');?>"><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
                     
                   </form>
                 </div>

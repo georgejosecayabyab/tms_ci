@@ -17,11 +17,6 @@
       <div class="tab-content">
         <!-- Home tab content -->
         <div class="tab-pane active" id="control-sidebar-home-tab">
-          
-          
-
-
-
            <ul class="control-sidebar-menu">
             <li>
               <a href="<?php echo site_url('student/logout');?>">
@@ -43,6 +38,7 @@
       </div>
   </aside>
   <!-- /.control-sidebar -->
+  
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
@@ -65,15 +61,15 @@
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.js"></script>
 
+<script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
+
+<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
+
 <script type="text/javascript">
   $('#datepicker').datepicker({
     autoclose: true
   })
 </script>
-
-<script src="<?php echo base_url();?>js/jquery.weekly-schedule-plugin.js"></script>
-
-<script src="<?php echo base_url();?>js/select2.full.min.js"></script>
 
 <script>
   $('#tags').change(function(){

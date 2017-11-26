@@ -73,6 +73,30 @@ immediately after the control sidebar -->
 
 <script src="<?php echo base_url();?>js/bootstrap-datepicker.min.js"></script>
 
+<script>
+  $('#submit_tag').click(function(){
+    var sel = $('#tags').select2("val");
+    console.log(sel);
+
+    $.ajax({
+      type:'POST',
+      url: '/tms_ci/index.php/faculty/add_tags',
+      data: {'tags': sel},
+      success: function(data)
+      {
+        for(var x =0; x<data.length; x++)
+        {
+          console.log('tag is '+data[x]);
+        }
+      },
+      error: function(err)
+      {
+        console.log(err);
+      }
+    });
+  });
+</script>
+
 <script type="text/javascript">
   $('#datepicker').datepicker({
     autoclose: true
@@ -132,7 +156,8 @@ immediately after the control sidebar -->
   });
 
 
-  $("#submit").click(function() {
+  $("#submit").click(
+    function() {
     var test = $('#target').weekly_schedule("getSelectedHour");
     console.log(test);
     $.ajax({

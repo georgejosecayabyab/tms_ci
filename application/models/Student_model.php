@@ -506,11 +506,33 @@
 			return $query->first_row('array');
 		}
 
-		public function get_all_tags()
+		public function get_all_tags($group_id)
 		{
-			$sql = "select * from specialization;";
+			$sql = "select * 
+					from specialization 
+					where specialization_id not in 
+						(select specialization_id from thesis_specialization where thesis_id=
+							(select thesis_id from thesis_group where group_id=".$group_id."));";
 			$query = $this->db->query($sql);
 			return $query->result_array();
+		}
+
+		public function get_sched($user_id)
+		{
+			$sql = "SELECT S.USER_ID, S.DAY, TIME_FORMAT(T.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(T.END_TIME, '%h:%i %p') AS END
+					FROM SCHEDULE S 
+					JOIN TIME T 
+					ON T.TIME_ID=S.TIME_ID 
+					WHERE USER_ID=".$user_id.";";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
+
+		public function delete_thesis_tags($thesis_id)
+		{
+			//escape all variable
+			$this->db->where('thesis_id', $thesis_id);
+			$this->db->delete('thesis_specialization'); 
 		}
 
 	}

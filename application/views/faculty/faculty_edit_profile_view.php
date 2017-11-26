@@ -10,6 +10,20 @@
       <!-- Main content -->
       
       <section class="content container-fluid">
+        <?php if($this->session->flashdata('fail')): ?>
+          <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+            <?php echo $this->session->flashdata('fail'); ?></center>
+          </div>
+        <?php endif; ?>
+        <?php if($this->session->flashdata('success')): ?>
+          <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <center><h4><i class="icon fa fa-info"></i> Alert!</h4>
+            <?php echo $this->session->flashdata('success'); ?></center>
+          </div>
+        <?php endif; ?> 
         
         <div class="row" id="scheduleRow">
           
@@ -44,7 +58,7 @@
               <div  class="box-body">
               
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <form class="form-horizontal">
+              <form class="form-horizontal" method="POST">
                 <div class="form-group">
                   <label for="inputFirstName" class="col-sm-2 control-label">First Name</label>
                   <div class="col-sm-8">
@@ -76,7 +90,7 @@
                   <label for="allSpecialization" class="col-sm-2 control-label">Specialization</label>
                   
                   <div class="col-sm-8">
-                    <select id="allSpecialization" class="form-control select2" multiple="multiple" data-placeholder="Select an area of specialization"
+                    <select id="tags" name="tags" class="form-control select2" multiple="multiple" data-placeholder="Select an area of specialization"
                       style="width: 100%;">
                       <?php foreach($all_tag as $row):?>
                         <option id="<?php echo $row['specialization_id'];?>"><?php echo $row['specialization'];?></option>
@@ -93,8 +107,8 @@
                     <div class="col-lg-4 col-xs-12">
                     </div>
                     <div class="col-lg-3 col-xs-12">
-                      <button id="submitbtn" onclick="location.href='<?php echo site_url('faculty/view_profile');?>'" type="button" class="btn btn-danger">Exit</button>
-                      <button id="submit_edit"  type="button" class="btn btn-primary">Save and Quit</button>
+                      <a href="<?php echo site_url('faculty/view_profile');?>"><button id="submit_tag"  name="submit_tag"  type="button" class="btn btn-primary">Save and Quit</button></a>
+                      <a href="<?php echo site_url('faculty/view_profile');?>"><button id="submitbtn" type="button" class="btn btn-danger">Exit</button>
                     </div>
                   </div>
                 </div>

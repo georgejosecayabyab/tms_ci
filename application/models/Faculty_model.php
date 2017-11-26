@@ -473,8 +473,8 @@
 
 		public function insert_faculty_specialization($user_id, $tag_name)
 		{
-			$sql = "INSERT INTO FACULTY_SPECIALIZATION
-					VALUES (".user_id.", (SELECT SPECIALIZATION_ID FROM SPECIALIZATION WHERE SPECIALIZATION='".$tag_name."'));";
+			$sql = "INSERT INTO FACULTY_SPECIALIZATION 
+					VALUES (".$user_id.", (SELECT SPECIALIZATION_ID FROM SPECIALIZATION WHERE SPECIALIZATION='".$tag_name."'));";
 			$this->db->query($sql);
 		}
 
@@ -595,9 +595,20 @@
 
 		public function get_sched($user_id)
 		{
-			$sql = "SELECT * FROM SCHEDULE WHERE USER_ID=".$user_id.";";
+			$sql = "SELECT S.USER_ID, S.DAY, TIME_FORMAT(T.START_TIME, '%h:%i %p') AS START, TIME_FORMAT(T.END_TIME, '%h:%i %p') AS END
+					FROM SCHEDULE S 
+					JOIN TIME T 
+					ON T.TIME_ID=S.TIME_ID 
+					WHERE USER_ID=".$user_id.";";
 			$query = $this->db->query($sql);
 			return $query->result_array();
+		}
+
+		public function delete_faculty_tags($user_id)
+		{
+			//escape all variable
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('faculty_specialization'); 
 		}
 
 

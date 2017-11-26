@@ -13,14 +13,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url();?>css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>css/AdminLTE.min.css">
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/skins/skin-green.min.css">
-
-  <link rel="stylesheet" href="<?php echo base_url();?>css/select2.min.css">
 
   <link rel="stylesheet" href="<?php echo base_url();?>css/custom.css">
   

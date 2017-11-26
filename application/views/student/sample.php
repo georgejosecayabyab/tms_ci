@@ -453,6 +453,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                     </form>
                   </div>
+                  
                   <div class="tab-pane" id="setMeeting">
                     <div class="input-group date">
                       <div class="input-group-addon">
@@ -461,6 +462,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <input type="text" class="form-control pull-right" id="datepicker">
                     </div>
                   </div>
+
                   <div class="tab-pane" id="newUpload">
                     <form class="form-horizontal">
                       <div class="form-group">

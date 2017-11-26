@@ -121,52 +121,33 @@
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
-			if($group_id)
-			{
-				$data['student_data'] = $this->student_model->get_user_information($user_id);
-				$data['group_id'] = $this->student_model->get_group($user_id);
-				$data['group'] = $this->student_model->get_group_details($group_id);
-				$data['defense'] = $this->student_model->get_defense($group_id);
-				$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
-				$data['member'] = $this->student_model->get_thesis_group_members($group_id);
-				$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
-				$data['submit'] = $this->student_model->latest_uploaded($group_id);
-				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
-				$data['reply'] = $this->student_model->get_discussion_reply_count();
-				$data['tags'] = $this->student_model->get_all_tags();
-				$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
-				$data['active_tab'] = array(
-					'home' => "",
-					'group' => "active",
-					'group_schedule' => "",
-					'form' => "",
-					'archive' => "" 
-				);
 
-				$this->load->view('student/student_base_head', $data);
-				$this->load->view('student/student_group_view', $data);
-				$this->load->view('student/student_base_foot', $data);
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['group'] = $this->student_model->get_group_details($group_id);
+			$data['defense'] = $this->student_model->get_defense($group_id);
+			$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
+			$data['member'] = $this->student_model->get_thesis_group_members($group_id);
+			$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
+			$data['submit'] = $this->student_model->latest_uploaded($group_id);
+			$data['comment'] = $this->student_model->get_thesis_comment($group_id);
+			$data['reply'] = $this->student_model->get_discussion_reply_count();
+			$data['tags'] = $this->student_model->get_all_tags($group_id);
+			$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "active",
+				'group_schedule' => "",
+				'form' => "",
+				'archive' => "" 
+			);
 
+			// $this->load->view('student/student_base_head', $data);
+			// $this->load->view('student/student_group_view', $data);
+			// $this->load->view('student/student_base_foot', $data);
 
-
-				
-			}
-			else
-			{
-				$data['student_data'] = $this->student_model->get_user_information($user_id);
-				$data['group_id'] = $this->student_model->get_group($user_id);
-				$data['active_tab'] = array(
-					'home' => "",
-					'group' => "active",
-					'group_schedule' => "",
-					'form' => "",
-					'archive' => "" 
-				);
-
-				$this->load->view('student/student_base_head', $data);
-				$this->load->view('student/student_no_group_view', $data);
-				$this->load->view('student/student_base_foot', $data);
-			}
+			// $this->load->view('student/sample');
+			$this->load->view('student/student_group_whole_version_view', $data);
 		}
 
 		public function view_schedule()
@@ -175,6 +156,38 @@
 			$user_id = $session['user_id'];
 			
 			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['sched'] = $this->student_model->get_sched($user_id);
+			$data['group_id'] = $this->student_model->get_group($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'group' => "",
+				'group_schedule' => "active",
+				'form' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('student/student_base_head', $data);
+			if(sizeof($data['sched'])>0)
+			{
+				$this->load->view('student/student_with_schedule_view', $data);
+			}
+			else
+			{
+				$this->load->view('student/student_schedule_view', $data);
+			}
+			
+			$this->load->view('student/student_base_foot', $data); 
+			//$this->load->view('faculty/sample', $data);
+		}
+
+		public function view_edit_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+			
+			$data['student_data'] = $this->student_model->get_user_information($user_id);
+			$data['sched'] = $this->student_model->get_sched($user_id);
 			$data['group_id'] = $this->student_model->get_group($user_id);
 			$data['active_tab'] = array(
 				'home' => "",
@@ -694,6 +707,8 @@
 			// $this->load->view('student/student_base_head', $data);
 			// $this->load->view('student/student_home_view', $data);
 			// $this->load->view('student/student_base_foot', $data);
+
+			$this->student_model->delete_thesis_tags($thesis_id['thesis_id']);
 
 			for($x = 0; $x<sizeof($ar); $x++)
 			{

@@ -290,6 +290,36 @@
 
 
 			$this->load->view('faculty/faculty_base_head', $data);
+			if(sizeof($data['sched'])> 0)
+			{
+				$this->load->view('faculty/faculty_with_schedule_view', $data);
+			}
+			else
+			{
+				$this->load->view('faculty/faculty_schedule_view', $data);
+			}
+			$this->load->view('faculty/faculty_base_foot', $data); 
+			//$this->load->view('faculty/sample', $data);
+		}
+
+		public function view_edit_schedule()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$data['faculty_data'] = $this->faculty_model->get_faculty_detail($user_id);
+			$data['sched'] = $this->faculty_model->get_sched($user_id);
+			$data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			$data['active_tab'] = array(
+				'home' => "",
+				'schedule' => "active",
+				'advisees' => "",
+				'panels' => "",
+				'archive' => "" 
+			);
+
+
+			$this->load->view('faculty/faculty_base_head', $data);
 			$this->load->view('faculty/faculty_schedule_view', $data);
 			$this->load->view('faculty/faculty_base_foot', $data); 
 			//$this->load->view('faculty/sample', $data);
@@ -741,6 +771,30 @@
 			echo json_encode($agile);
 
 
+		}
+
+		public function add_tags()
+		{
+			$session = $this->session->userdata();
+			$user_id = $session['user_id'];
+
+			$faculty_tag = $this->faculty_model->get_faculty_specialization($user_id);
+			$tags = $this->input->post("tags");
+			$ar = array();
+			for($x = 0; $x<sizeof($tags); $x++)
+			{
+				$ar[]= $tags[$x];
+			}
+
+			$this->faculty_model->delete_faculty_tags($user_id);
+			for($x = 0; $x<sizeof($ar); $x++)
+			{
+
+				$this->faculty_model->insert_faculty_specialization($user_id, $ar[$x]);
+			}
+			$this->session->set_flashdata('success', 'Faculty specialization has been edited!');
+			header('Content-Type: application/json');
+			echo json_encode($ar);
 		}
 
 	}

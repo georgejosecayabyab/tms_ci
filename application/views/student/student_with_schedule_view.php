@@ -99,7 +99,7 @@
               </div>
               <div class="col-lg-3 col-xs-12">
                 <form>
-                  <a href="<?php echo site_url('faculty/view_edit_schedule');?>"><button id="editSched" type="button" class="btn btn-success">Edit schedule</button></a>
+                  <a href="<?php echo site_url('student/view_edit_schedule');?>"><button id="editSched" type="button" class="btn btn-success">Edit schedule</button></a>
                 </form>
               </div>
             </div>
