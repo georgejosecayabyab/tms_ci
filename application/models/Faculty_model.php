@@ -490,7 +490,7 @@
 					from thesis t 
 					join thesis_group tg
 					on tg.thesis_id=t.thesis_id
-					where thesis_status='ON-GOING';";
+					where thesis_status='COMPLETED';";
 			$query = $this->db->query($sql);
 			return $query->result_array();
 		}

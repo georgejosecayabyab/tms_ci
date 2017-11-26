@@ -122,52 +122,73 @@
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 
-			$data['student_data'] = $this->student_model->get_user_information($user_id);
-			$data['group_id'] = $this->student_model->get_group($user_id);
-			$data['group'] = $this->student_model->get_group_details($group_id);
-			$data['defense'] = $this->student_model->get_defense($group_id);
-			$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
-			$data['member'] = $this->student_model->get_thesis_group_members($group_id);
-			$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
-			$data['submit'] = $this->student_model->latest_uploaded($group_id);
-			$data['comment'] = $this->student_model->get_thesis_comment($group_id);
-			$data['reply'] = $this->student_model->get_discussion_reply_count();
-			$data['tags'] = $this->student_model->get_all_tags($group_id);
-			$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
-			$data['active_tab'] = array(
-				'home' => "",
-				'group' => "active",
-				'group_schedule' => "",
-				'form' => "",
-				'archive' => "" 
-			);
+			if($group_id != NULL)
+			{
+				$data['student_data'] = $this->student_model->get_user_information($user_id);
+				$data['group_id'] = $this->student_model->get_group($user_id);
+				$data['group'] = $this->student_model->get_group_details($group_id);
+				$data['defense'] = $this->student_model->get_defense($group_id);
+				$data['tag'] = $this->student_model->get_thesis_specialization($group_id);
+				$data['member'] = $this->student_model->get_thesis_group_members($group_id);
+				$data['discussion'] = $this->student_model->get_discussion_specific($group_id);
+				$data['submit'] = $this->student_model->latest_uploaded($group_id);
+				$data['comment'] = $this->student_model->get_thesis_comment($group_id);
+				$data['reply'] = $this->student_model->get_discussion_reply_count();
+				$data['tags'] = $this->student_model->get_all_tags($group_id);
+				$data['uploads'] = $this->student_model->get_uploads_revision($group_id);
+				$data['active_tab'] = array(
+					'home' => "",
+					'group' => "active",
+					'group_schedule' => "",
+					'form' => "",
+					'archive' => "" 
+				);
 
-			$this->load->view('student/student_base_head', $data);
-			$this->load->view('student/student_group_view', $data);
-			$this->load->view('student/student_base_foot', $data);
+				$this->load->view('student/student_base_head', $data);
+				$this->load->view('student/student_group_view', $data);
+				$this->load->view('student/student_base_foot', $data);
+			}
+			else
+			{
+				$data['student_data'] = $this->student_model->get_user_information($user_id);
+				$data['group_id'] = $this->student_model->get_group($user_id);
+				$data['active_tab'] = array(
+					'home' => "",
+					'group' => "active",
+					'group_schedule' => "",
+					'form' => "",
+					'archive' => "" 
+				);
+
+				$this->load->view('student/student_base_head', $data);
+				$this->load->view('student/student_no_group_view', $data);
+				$this->load->view('student/student_base_foot', $data);
+			}
 
 			// $this->load->view('student/sample');
 			//$this->load->view('student/student_group_whole_version_view', $data);
 		}
 
-		public function view_set_meeting()
+		public function view_panel_document($group_id, $upload_id)
 		{
 			$session = $this->session->userdata();
 			$user_id = $session['user_id'];
 
-			$data['student_data'] = $this->student_model->get_user_information($user_id);
-			$data['group_id'] = $this->student_model->get_group($user_id);
-			$data['active_tab'] = array(
-				'home' => "",
-				'group' => "active",
-				'group_schedule' => "",
-				'form' => "",
-				'archive' => "" 
-			);
+			// $data['student_data'] = $this->student_model->get_user_information($user_id);
+			// $data['faculty_notification'] =$this->faculty_model->get_new_faculty_notification($user_id);
+			// $data['comment'] = $this->faculty_model->get_thesis_comment($group_id);
+			// $data['submit'] = $this->faculty_model->latest_uploaded($group_id);
+			// $data['group'] = $this->faculty_model->get_group_details($group_id);
+			// $data['upload'] = $this->faculty_model->get_upload_thesis_revision($upload_id);
+			// $data['group_id'] = $this->student_model->get_group($user_id);
+			// $data['active_tab'] = array(
+			// 	'home' => "",
+			// 	'group' => "",
+			// 	'group_schedule' => "active",
+			// 	'form' => "",
+			// 	'archive' => "" 
+			// );
 
-			$this->load->view('student/student_base_head', $data);
-			$this->load->view('student/student_set_meeting_view', $data);
-			$this->load->view('student/student_base_foot', $data);
 		}
 
 		public function view_schedule()

@@ -177,7 +177,7 @@ class coordinator_model extends CI_Model
 				from thesis t 
 				left join thesis_group tg
 				on tg.thesis_id=t.thesis_id
-				where thesis_status='ON-GOING';";
+				where thesis_status='COMPLETED';";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
@@ -429,7 +429,8 @@ class coordinator_model extends CI_Model
 				FROM FACULTY F
 				JOIN USER U
 				ON U.USER_ID=F.USER_ID
-				WHERE F.USER_ID NOT IN (SELECT ADVISER_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.");";
+				WHERE F.USER_ID NOT IN (SELECT ADVISER_ID FROM THESIS_GROUP WHERE GROUP_ID=".$group_id.")
+				ORDER BY U.LAST_NAME ASC;";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 		
@@ -615,7 +616,7 @@ class coordinator_model extends CI_Model
 
 	public function get_all_passed_group()
 	{
-		$sql = "SELECT C.COURSE_ORDER, TG.COURSE_CODE, TG.GROUP_NAME, TG.GROUP_ID, C.DEGREE_CODE
+		$sql = "SELECT C.COURSE_ORDER, TG.COURSE_CODE, TG.GROUP_NAME, TG.GROUP_ID, C.DEGREE_CODE, TG.THESIS_ID
 				FROM COURSE C 
 				LEFT JOIN THESIS_GROUP TG 
 				ON TG.COURSE_CODE=C.COURSE_CODE
@@ -659,6 +660,12 @@ class coordinator_model extends CI_Model
 					WHERE GROUP_ID=@GROUP_ID;";
 						
 		$this->db->query($sql);
+
+		$sql = "SELECT @ANSWER;";
+
+		$query = $this->db->query($sql);
+
+		return $query->first_row('array');
 	}
 	public function deactivate_old_term($term)
 	{	
@@ -761,6 +768,50 @@ class coordinator_model extends CI_Model
 		$sql = "update thesis_group
 				set initial_verdict='NOV', final_verdict='NVY' 
 				where group_id=".$group_id.";";
+		$this->db->query($sql);
+	}
+
+	public function delete_notifications()
+	{
+		$this->db->query("SET SQL_SAFE_UPDATES = 0;");
+		$this->db->query("delete from notification;");
+		$this->db->query("SET SQL_SAFE_UPDATES = 1;");
+	}
+
+	public function get_members($group_id)
+	{
+		$sql = "SELECT * 
+				FROM STUDENT_GROUP SG
+				JOIN STUDENT S
+				ON S.USER_ID=SG.STUDENT_ID
+				JOIN COURSE C
+				ON S.COURSE_CODE=C.COURSE_CODE
+				WHERE GROUP_ID=".$group_id." AND STATUS=1";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function update_student_course($user_id, $degree, $course_order)
+	{
+		$sql = "UPDATE STUDENT
+				SET COURSE_CODE=(SELECT COURSE_CODE FROM COURSE WHERE DEGREE_CODE='".$degree."' AND COURSE_ORDER=".$course_order.")
+				WHERE USER_ID=".$user_id.";";
+		$this->db->query($sql);
+	}
+
+	public function update_student_status($user_id)
+	{
+		$sql = "update user 
+				set is_active=0
+				where user_id=".$user_id.";";
+		$this->db->query($sql);
+	}
+
+	public function update_thesis_status($thesis_id)
+	{
+		$sql = "update thesis 
+				set thesis_status='COMPLETED'
+				where thesis_id=".$thesis_id.";";
 		$this->db->query($sql);
 	}
 

@@ -767,12 +767,20 @@ immediately after the control sidebar -->
             if(data['tag_count'].length >= 2)
             {
               var tags = "";
+              var common = "";
               //panel specializations
               for(var y = 0; y<data['panel_tag'].length; y++)
               {
                 if(data['panel_tag'][y]['user_id']==data['tag_count'][1]['USER_ID'])
                 {
                   tags = tags + '<span class="label regularLabel">'+data['panel_tag'][y]['specialization']+'</span><br>';
+                }
+              }
+              for(var x = 0; x<data['tag_common'].length; x++)
+              {
+                if(data['tag_common'][x]['user_id']==data['tag_count'][0]['USER_ID'])
+                {
+                  common = common + '<span class="label regularLabel">'+data['tag_common'][x]['specialization']+'</span><br>';
                 }
               }
 
@@ -790,22 +798,29 @@ immediately after the control sidebar -->
                   <div> \
                     <p>\
                     <b> Common (2): </b> <br>\
-                    <span></span>\
-                    <span class="label regularLabel">Web Platform</span>\
-                    <span class="label regularLabel">Information Technology</span>\
-                    </p>\
+                    <span></span>'
+                    +common+
+                    '</p>\
                   </div>\
                 </div>');
             }
             if(data['tag_count'].length >= 3)
             {
               var tags = "";
+              var common = "";
               //panel specializations
               for(var y = 0; y<data['panel_tag'].length; y++)
               {
                 if(data['panel_tag'][y]['user_id']==data['tag_count'][2]['USER_ID'])
                 {
                   tags = tags + '<span class="label regularLabel">'+data['panel_tag'][y]['specialization']+'</span><br>';
+                }
+              }
+              for(var x = 0; x<data['tag_common'].length; x++)
+              {
+                if(data['tag_common'][x]['user_id']==data['tag_count'][0]['USER_ID'])
+                {
+                  common = common + '<span class="label regularLabel">'+data['tag_common'][x]['specialization']+'</span><br>';
                 }
               }
 
@@ -823,10 +838,9 @@ immediately after the control sidebar -->
                   <div> \
                     <p>\
                     <b> Common (2): </b> <br>\
-                    <span></span>\
-                    <span class="label regularLabel">Web Platform</span>\
-                    <span class="label regularLabel">Information Technology</span>\
-                    </p>\
+                    <span></span>'
+                    +common+
+                    '</p>\
                   </div>\
                 </div>');
             }

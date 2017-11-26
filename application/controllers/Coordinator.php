@@ -1000,22 +1000,39 @@
 			$result = $this->coordinator_model->get_all_passed_group();
 
 			$all_group = $this->coordinator_model->get_group_info();
-			foreach($result as $row)
+
+			//$this->coordinator_model->delete_notifications();
+
+			foreach($result as $row)/////MOVING TO THE NEXT COURSE
 			{
 				$group_id = $row['GROUP_ID'];
 				$degree_code = $row['DEGREE_CODE'];
-				$this->coordinator_model->sample_move_term($group_id, $degree_code);
+				$course_order = $this->coordinator_model->sample_move_term($group_id, $degree_code);
+				$members = $this->coordinator_model->get_members($group_id);
+				foreach($members as $mem)///moves students to next course
+				{
+					$this->coordinator_model->update_student_course($mem['user_id'], $degree_code, $course_order['@ANSWER']);
+					if($mem['course_order'] == $course_order['@ANSWER'])
+					{
+						$this->coordinator_model->update_student_status($mem['user_id']); ///deactivates users
+					}
+				}
+
+				if($row['COURSE_ORDER'] == $course_order['@ANSWER'])////set thesis to completed
+				{
+					$this->coordinator_model->update_thesis_status($row['THESIS_ID']);
+				}
+
 			}
 
-			foreach($all_group as $row)
+			foreach($all_group as $row)////RESETTING VERDICTS
 			{
 				$group_id = $row['GROUP_ID'];
 				$this->coordinator_model->delete_all_defense_date($group_id);
 				$this->coordinator_model->update_verdicts($group_id);
 			}
 
-
-
+			$this->session->set_flashdata('success', 'A new term has been set!');			
 			redirect('coordinator/view_set_term');
 
 		}
@@ -1064,7 +1081,7 @@
 				$this->coordinator_model->insert_thesis($thesis_title);
 				$this->coordinator_model->insert_thesis_group($group_name, $adviser_id, $thesis_title, $course);
 				$thesis_group_id = $this->coordinator_model->get_thesis_group($group_name, $adviser_id);
-				for($x = 1; $x < sizeof($users); $x++)
+				for($x = 0; $x < sizeof($users); $x++)
 				{
 					$this->coordinator_model->insert_student_group($users[$x], $thesis_group_id['group_id']);
 				}
