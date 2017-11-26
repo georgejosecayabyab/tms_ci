@@ -52,6 +52,8 @@ immediately after the control sidebar -->
     var student = $('#student_box').attr('name');
     var member = "";
     var id = [];
+    $('#user_id').empty();
+    $('#users').empty();
 
     //$('#user_id').empty();
     $('table [type="checkbox"]').each(function(i, chk) {
@@ -72,7 +74,7 @@ immediately after the control sidebar -->
             $('#group_members').append(member.substring(0, member.length -2));
             $('#user_id').append('<input value="'+ data['user']['user_id']+'" name="users[]">');
             $('#adviser_id').append('<input value="'+ $('#adviser').val()+'" name="adviser_id">');
-            console.log($('#user_id').val());
+            console.log('kill: '+$('#users').attr("value"));
             console.log('adviser id: '+$('#adviser').val());
           },
           error: function(err)

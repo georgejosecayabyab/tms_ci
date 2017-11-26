@@ -1030,7 +1030,7 @@
 			$course = $this->input->post('course');
 
 			//// validations
-			if(sizeof($users) > 4 || sizeof($users) == 0)
+			if(sizeof($users) > 4 || sizeof($users) < 1)
 			{
 				$this->session->set_flashdata('fail', 'Invalid number of students');
 				redirect('coordinator/view_student');
@@ -1064,12 +1064,17 @@
 				$this->coordinator_model->insert_thesis($thesis_title);
 				$this->coordinator_model->insert_thesis_group($group_name, $adviser_id, $thesis_title, $course);
 				$thesis_group_id = $this->coordinator_model->get_thesis_group($group_name, $adviser_id);
-				for($x = 0; $x < sizeof($users); $x++)
+				for($x = 1; $x < sizeof($users); $x++)
 				{
 					$this->coordinator_model->insert_student_group($users[$x], $thesis_group_id['group_id']);
 				}
-				$this->session->set_flashdata('success', 'Group has been created!');
+				$this->session->set_flashdata('success', 'Group has been created!'.$users[0].'|'.$users[1].'|'.$users[2].'|'.'size: '.sizeof($users));
 				redirect('coordinator/view_student');
+			}
+
+			foreach($users as $row)
+			{
+				echo $row.'<br>';
 			}
 
 		}
