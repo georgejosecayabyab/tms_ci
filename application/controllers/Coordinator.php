@@ -1018,9 +1018,10 @@
 					}
 				}
 
-				if($row['COURSE_ORDER'] == $course_order['@ANSWER'])////set thesis to completed
+				if($row['COURSE_ORDER'] == $course_order['@ANSWER'])////set thesis to completed, DEACTIVATE GROUP
 				{
 					$this->coordinator_model->update_thesis_status($row['THESIS_ID']);
+					$this->coordinator_model->update_group_status($row['GROUP_ID']);
 				}
 
 			}
@@ -1085,7 +1086,7 @@
 				{
 					$this->coordinator_model->insert_student_group($users[$x], $thesis_group_id['group_id']);
 				}
-				$this->session->set_flashdata('success', 'Group has been created!'.$users[0].'|'.$users[1].'|'.$users[2].'|'.'size: '.sizeof($users));
+				$this->session->set_flashdata('success', 'Group has been created!');
 				redirect('coordinator/view_student');
 			}
 

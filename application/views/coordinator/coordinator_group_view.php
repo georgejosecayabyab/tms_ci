@@ -794,11 +794,7 @@
                <div class="form-group">
                   <label>First Panelist</label>
                   <select class="form-control select2" id="firstPanelist" style="width: 100%;">
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
+                    
                   </select>
                 </div>  
               </div>
@@ -806,11 +802,7 @@
                 <div class="form-group">
                   <label>Second Panelist</label>
                   <select class="form-control select2" id="secondPanelist" style="width: 100%;">
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
+                    
                   </select>
                 </div>  
               </div>
@@ -818,11 +810,7 @@
                 <div class="form-group">
                   <label>Third Panelist</label>
                   <select class="form-control select2" id="thirdPanelist" style="width: 100%;">
-                    <option>Oliver Malabanan</option>
-                    <option>Geanne Franco</option>
-                    <option>Fritz Flores</option>
-                    <option>Renato Jose Molano</option>
-                    <option>Thomas James Tiam-Lee</option>
+                    
                   </select>
                 </div>  
               </div>

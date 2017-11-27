@@ -82,7 +82,8 @@ class coordinator_model extends CI_Model
 				FROM THESIS_GROUP TG	LEFT JOIN DEFENSE_DATE DD
 										ON TG.GROUP_ID = DD.GROUP_ID
                         				JOIN COURSE C
-                        				ON TG.COURSE_CODE=C.COURSE_CODE;";
+                        				ON TG.COURSE_CODE=C.COURSE_CODE
+                        				WHERE TG.IS_ACTIVE=1;";
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
@@ -164,6 +165,7 @@ class coordinator_model extends CI_Model
 				ON TG.GROUP_ID=DD.GROUP_ID
 				JOIN THESIS T
 				ON T.THESIS_ID=TG.THESIS_ID
+				WHERE DATEDIFF(DD.DEFENSE_DATE, CURDATE()) >= 0
 				ORDER BY DD.DEFENSE_DATE ASC;";
 
 		$query = $this->db->query($sql);
@@ -812,6 +814,14 @@ class coordinator_model extends CI_Model
 		$sql = "update thesis 
 				set thesis_status='COMPLETED'
 				where thesis_id=".$thesis_id.";";
+		$this->db->query($sql);
+	}
+
+	public function update_group_status($group_id)
+	{
+		$sql = "update thesis_group 
+				set is_active=0
+				where group_id=".$group_id.";";
 		$this->db->query($sql);
 	}
 
