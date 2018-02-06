@@ -1,123 +1,381 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="1067483480445-gengh3tq4anad9odhqs0fralk85veclh.apps.googleusercontent.com">
+    <meta charset="utf-8">
+    <title>CCS - CT Thesis Management System | Home</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    
+
+
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700|Roboto:400,900" rel="stylesheet">
+    
+    <!-- Bootstrap CSS File -->
+    <link href="<?php echo base_url();?>css/bootstrap.min.css" rel="stylesheet">
+  
+    <!-- Libraries CSS Files -->
+    <link href="<?php echo base_url();?>css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Main <style type="text/css"></style>sheet File -->
+    <link href="<?php echo base_url();?>css/style.css" rel="stylesheet">
+    
+    <link href="<?php echo base_url();?>css/customHome.css" rel="stylesheet">
+    <!-- =======================================================
+      Theme Name: Bell
+      Theme URL: https://bootstrapmade.com/bell-free-bootstrap-4-template/
+      Author: BootstrapMade.com
+      Author URL: https://bootstrapmade.com
+    ======================================================= -->
   </head>
+
   <body>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <button id="google">Click</button>
+    <!-- Page Content
+    ================================================== -->
+    <!-- Hero -->
 
+    <section class="hero">
+      <div class="container text-center">
+        <div class="row">
+          
+        </div>
 
+        <div id="titleFace" class="col-md-12">
+          <h1>
+            CCS - CT Thesis <br> Management System
+          </h1>
+
+          <p id="tagline" class="tagline">
+            Everything that you need for your defense <br>
+            All in one website
+          </p>
+          <a id="loginButton" class="btn btn-full" href="<?php echo site_url('login/index');?>">Login</a>
+          <a id="startButton" class="btn btn-full" href="#announcements">Announcements</a>
+        </div>
+      </div>
+      
+    </section>
+    <!-- /Hero -->
     
+  <!-- Header -->
+  <header id="header">
+    <div class="container">
     
-    
-    <!-- jQuery 3 -->
-    <script src="<?php echo base_url();?>js/jquery.min.js"></script>  
-
-    
-
-    <script>
-      $('#google').on('click', function()
-      {
-        function onSignIn(googleUser) {
-
-          var profile = googleUser.getBasicProfile();
-          var email = profile.getEmail();
-
-          $.ajax({
-              type:'POST',
-              url:'http://localhost/login-ci/index.php/login/get_user',
-              success: function(data)
-              {
-                console.log(data.length);
-                var key = false;
-                for(i=0; i<data.length; i++)
-                {
-                  if(data[i].email == email)
-                  {
-                    key = true;
-                  }
-                }
-                if(key==true)
-                {
-                  console.log('GOOD');
-                }
-                else
-                {
-                  console.log('BAD');
-                }
-              },
-              error: function(data)
-              {
-                console.log('wrong!');
-              }
-            });
-
-          console.log('sign');
-          console.log(profile);
+      <div id="logo" class="pull-left">
+        <a href="index.html"><img src="<?php echo base_url();?>img/logo-nav.png" alt="" title="" /></img></a>
+        <!-- Uncomment below if you prefer to use a text image -->
+        <!--<h1><a href="#hero">Bell</a></h1>-->
+      </div>
         
-        }
-      });
-
-      function onSignIn(googleUser) {
-
-        var profile = googleUser.getBasicProfile();
-        var email = profile.getEmail();
-
-        $.ajax({
-            type:'POST',
-            url:'http://localhost/tms_ci/index.php/login/get_user',
-            success: function(data)
-            {
-              console.log(data.length);
-              var key = false;
-              for(i=0; i<data.length; i++)
-              {
-                if(data[i].email == email)
-                {
-                  key = true;
-                }
-              }
-              if(key==true)
-              {
-                console.log('GOOD');
-              }
-              else
-              {
-                console.log('BAD');
-              }
-            },
-            error: function(data)
-            {
-              console.log('wrong!');
-            }
-          });
-
-        console.log('sign');
-        console.log(profile);
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="#about">Schedule</a></li>
+          <li><a href="#awards">Awards</a></li>
+          <li><a href="#news">News</a></li>
+          
         
-      }
+        </ul>
+      </nav><!-- #nav-menu-container -->
+      
+      <nav class="nav-menu pull-right">
+         <li><a href="#">Login</a></li>
+          <li><a href="index.html">Home</a></li>
+        
+      </nav>
+    </div>
+  </header><!-- #header -->
+  
+    <!-- About -->
 
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Given Name: ' + profile.getGivenName());
-      console.log('Family Name: ' + profile.getFamilyName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
 
-    </script>
+    <section class="features" id="announcements">
+      <div class="container">
+        
+        <div class="row">
+          <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block">
+             
+              <div>
+                <h2>
+                <i class="fa fa-calendar"></i> Announcement 1
+                </h2>
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!
 
-    <a href="#" onclick="signOut();">Sign out</a>
+                    <br> </br>
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!
 
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
+          
+              </div>
+            </div>
+          </div>
 
+          <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block">
+             
+              <div>
+                <h2>
+                <i class="fa fa-trophy"></i> Announcement 2
+                </h2>
+
+                <div class="body">
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!
+
+                  <br></br> 
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!
+
+               </div>
+          
+              </div>
+            </div>
+          </div>
+
+           <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block">
+             
+              <div>
+                <h2>
+                <i class="fa fa-newspaper-o"></i>  Announcement 3
+                </h2>
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores! 
+
+                 <br> </br>
+                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!
+
+
+
+
+          
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </section>
+
+       <!-- /About -->
+    <!-- Parallax -->
+
+    <div class="block bg-primary block-pd-lg block-bg-overlay text-center dividers" data-bg-img="<?php echo base_url();?>img/parallax-bg.jpg" data-settings='{"stellar-background-ratio": 2.5}' data-toggle="parallax-bg">
+  
+      </div>
+    <!-- /Parallax -->
+    <!-- Features -->
+
+    <section class="about" id="about">
+      <div class="container ">
+
+      <div>
+   
+
+     <div class="col-sm-12 my-4" id="schedule">
+        <!-- <h2>
+          <i class="fa fa-calendar"></i> 
+          Schedule
+        </h2> -->
+
+      <div id="scheduleBody" class="card">
+     
+        <div class="card-body">
+             <h2 class="card-title">  <i class="fa fa-calendar"></i>  Schedule</h2>
+         
+          <br>
+            <strong> Regular Schedule Dates</strong> 
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+          <strong> Redefense Schedule Dates</strong>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+        </div>
+        <div class="card-footer">
+          
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+  
+      </div>
+    </section>
+ 
+
+    
+    <!-- /Features -->
+    <!-- Call to Action -->
+
+
+
+   <div class="block bg-primary block-pd-lg block-bg-overlay text-center dividers" data-bg-img="<?php echo base_url();?>img/parallax-bg.jpg" data-settings='{"stellar-background-ratio": 2.5}' data-toggle="parallax-bg">
+
+
+      </div>
+    <!-- /Parallax -->
+    <!-- Features -->
+
+    <section class="about" id="awards">
+      <div class="container ">
+
+      <div>
+   
+
+     <div class="col-sm-12 my-4" id="awardsWhole">
+        <!-- <h2>
+          <i class="fa fa-calendar"></i> 
+          Schedule
+        </h2> -->
+
+      <div id="scheduleBody" class="card">
+     
+        <div class="card-body">
+             <h2 class="card-title">  <i class="fa fa-calendar"></i>  Awards</h2>
+         
+          <br>
+            <strong> Congratulations to Team SDDS   </strong> 
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem  quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+          <strong> MOTA Candidates</strong>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+        </div>
+        <div class="card-footer">
+          
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+  
+      </div>
+    </section>
+ 
+
+
+       <div class="block bg-primary block-pd-lg block-bg-overlay text-center dividers" data-bg-img="<?php echo base_url();?>img/parallax-bg.jpg" data-settings='{"stellar-background-ratio": 2.5}' data-toggle="parallax-bg">
+      
+
+      </div>
+    <!-- /Parallax -->
+    <!-- Features -->
+
+    <section class="about" id="news">
+      <div class="container ">
+
+      <div>
+   
+
+     <div class="col-sm-12 my-4" id="newsWhole">
+        <!-- <h2>
+          <i class="fa fa-calendar"></i> 
+          Schedule
+        </h2> -->
+
+      <div id="scheduleBody" class="card">
+     
+        <div class="card-body">
+             <h2 class="card-title">  <i class="fa fa-calendar"></i>  News</h2>
+         
+          <br>
+            <strong> News Ipsunm Dolor</strong> 
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+          <strong> Adipisci News Soluto</strong>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+
+        </div>
+        <div class="card-footer">
+          
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+  
+      </div>
+    </section>
+ 
+
+
+
+  
+      </div>
+ 
+    
+      
+    <footer class="site-footer">
+      <div class="bottom">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-6 col-xs-12 text-lg-left text-center">
+              <p class="copyright-text">
+                © Team GNM
+              </p>
+              <div class="credits">
+                  <!-- 
+                  All the links in the footer should remain intact. 
+                  You can delete the links only if you purchased the pro version.
+                  Licensing information: https://bootstrapmade.com/license/
+                  Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bell
+                -->
+                
+              </div>
+            </div>
+            
+            <div class="col-lg-6 col-xs-12 text-lg-right text-center">
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="index.html">Home</a>
+                </li>
+
+                <li class="list-inline-item">
+                  <a href="#about">Schedule</a>
+                </li>
+
+
+              
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </footer>
+    <a class="scrolltop" href="#"><span class="fa fa-angle-up"></span></a> <!-- JavaScript
+
+
+    <!-- Required JavaScript Libraries -->
+    <script src="<?php echo base_url();?>js/lib/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/superfish/hoverIntent.js"></script>
+    <script src="<?php echo base_url();?>js/lib/superfish/superfish.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/tether/js/tether.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/stellar/stellar.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/counterup/counterup.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/waypoints/waypoints.min.js"></script>
+    <script src="<?php echo base_url();?>js/lib/easing/easing.js"></script>
+    <script src="<?php echo base_url();?>js/lib/stickyjs/sticky.js"></script>
+    <script src="<?php echo base_url();?>js/lib/parallax/parallax.js"></script>
+   
+    
+    <!-- Template Specisifc Custom Javascript File -->
+    <script src="<?php echo base_url();?>js/custom.js"></script>
+    
+   
   </body>
 </html>

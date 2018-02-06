@@ -17,7 +17,7 @@ class coordinator_model extends CI_Model
 					AND DAY='".$day."'
 					GROUP BY TIME_ID);";
 		$query = $this->db->query($sql);
-		return $query->result_array(); //dasdasdas
+		return $query->result_array(); //dasdasdas 
  
 
 	}

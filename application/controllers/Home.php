@@ -20,11 +20,11 @@
 				'login' => "",
 			);
 
-			$this->load->view('home/home_head', $data);
-			$this->load->view('home/home_header');
-			$this->load->view('home/home_view', $data);
+			// $this->load->view('home/home_head', $data);
+			// $this->load->view('home/home_header');
+			// $this->load->view('home/home_view', $data);
 			// $this->load->view('home/home_foot');
-			// $this->load->view('home/complete_home_view');
+			$this->load->view('home/complete_home_view');
 		}
 
 		

@@ -22,8 +22,8 @@
 
         var schedule = this;
 
-         function transformData(output){
-     
+        function transformData(output){
+
             let sched = {};
 
             for(const key in output){
@@ -31,8 +31,7 @@
                 
                 sched[key] = [];
                 for(let index1 = 0; index1 < time.length; ++index1){
-                    sched[key].push(time[index1].classList['2'] + (time[index1].classList['3']).replace('<br>',
-                        ''));
+                    sched[key].push(time[index1].classList['2'] + ' to ' + time[index1].classList['6']);
                 }
             }
 
@@ -56,17 +55,17 @@
                 output[i] = hoursSelected;
             }
             
-           
-            return (transformData(output));
+            console.log(transformData(output));
+            return output;
         }
 
         if (typeof callerSettings == 'string') {
             switch (callerSettings) {
                 case 'getSelectedHour':
-                    return getSelectedHour();
-                    break;
+                return getSelectedHour();
+                break;
                 default:
-                    throw 'Weekly schedule method unrecognized!'
+                throw 'Weekly schedule method unrecognized!'
             }
         }
         // options is an object, initialize!
@@ -124,6 +123,62 @@
                 hourHeaderContainer.append(hour_header_item);
             }
 
+            var testCompare = ["7:30AM", "9:15AM", "11:00AM", "12:45PM", "2:30PM", "4:15PM", "6:00PM", "8:45PM"];
+
+               var testSched = {};
+
+                testSched = {
+
+                "0": [],
+                "1": [],
+                "2": [],
+                "3": [],
+                "4": [],
+                "5": []                    
+            }
+
+
+                
+
+
+            function setSchedule (day1,day2,day3,day4,day5,day6){
+
+
+            day1 = ["7:30AM", "9:15AM", "12:45PM"];
+            day2 = ["12:45PM"];
+            day3 = ["7:30AM", "9:15AM", "12:45PM"];
+            day4 = ["7:30AM", "9:15AM", "12:45PM"];
+            day5 = ["7:30AM", "9:15AM", "12:45PM"];
+            day6 = ["9:15AM", "12:45PM"];
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[0].push(day1[b]);
+
+                }
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[1].push(day2[b]);
+
+                }
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[2].push(day3[b]);
+
+                }
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[3].push(day4[b]);
+
+                }
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[4].push(day5[b]);
+
+                }
+
+                for (var b = 0; b < day1.length; b++ ){
+                    testSched[5].push(day6[b]);
+
+                }
+
+        
+
+            }
 
 
             for(var i = 0; i < days.length; i++) {
@@ -133,30 +188,49 @@
 
                 for(var j = 0; j < hours.length; j++) {
 
-                // if (j == 2){                            
+                var x = 0;
+                var skip = "dont";
+                
+                while (x < 7) {
 
-                //     var hour = $('<div></div>', {
-                //         class: "hour-save " + hours[j]
+                    if (testSched[i][x] == testCompare[j]){                            
 
-                //     }
+                        var hour = $('<div></div>', {
+                            class: "hour-save " + hours[j]
 
-                //     ).addClass('selected');
+                        }
 
-                //     day.append(hour);
+                        ).addClass('selected');
+
+                        day.append(hour);
+
+                        skip = "skip";
+
+
+                    }
+
+                    x++;
+
+                }
+
+                    if(skip == "skip"){
+
+
+                    }
                     
+                    else if(skip == "dont"){
 
-                // }
+                        var hour = $('<div></div>', {
+                            class: "hour " + hours[j]
+                        });
+
+                        day.append(hour);
 
 
-                // else{                            
+                    }
+                        
 
-                    var hour = $('<div></div>', {
-                        class: "hour " + hours[j]
-                    });
-
-                    day.append(hour);
-
-                // }
+                    
 
                     
                 }
@@ -168,21 +242,21 @@
              * Inject objects
              */
 
-            $(schedule).append(dayHeaderContainer);
-            $(schedule).append(days_wrapper);
+             $(schedule).append(dayHeaderContainer);
+             $(schedule).append(days_wrapper);
 
 
             /*
              *  Style Everything
              */
-            $('.schedule').css({
+             $('.schedule').css({
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-start"
             });
 
-            $('.header').css({
+             $('.header').css({
                 height: "30px",
                 width: "100%",
                 background: settings.headerBackgroundColor,
@@ -190,7 +264,7 @@
                 display: "flex",
                 flexDirection: "row"
             });
-            $('.align-block').css({
+             $('.align-block').css({
                 width: "100%",
                 height: "100%",
                 background: settings.headerBackgroundColor,
@@ -274,7 +348,7 @@
                 padding: "30px"
             });
 
-               $('.hour-save').css({
+            $('.hour-save').css({
                 background: "#6fdc6f", // option
                 marginBottom: "1px", // option
                 width: "100%",
@@ -288,12 +362,12 @@
              * Hook eventlisteners
              */
 
-            $("<style type='text/css' scoped> .hover { background: "
+             $("<style type='text/css' scoped> .hover { background: "
                 + settings.hoverColor +
                 " !important;} .selected { background: "
                 + settings.selectionColor +
                 " !important; } .disabled { pointer-events: none !important; opacity: 0.3 !important; box-shadow: none !important; }</style>")
-                .appendTo(schedule);
+             .appendTo(schedule);
 
             // Prevent Right Click
             $('.schedule').on('contextmenu', function() {
@@ -312,13 +386,13 @@
                         if($(this).hasClass('hour-save')){
 
                             $(this).removeClass('selected');
-                             $(this).css('background','#dddddd');
+                            $(this).css('background','#dddddd');
 
                         }
                     }
                     else {
                         $(this).addClass('selected');
-                        console.log(" A A A A A GUY GANSA");
+                        console.log(" A A A A A GUY GANSA ");
                     }
                 }
             }).on('mousedown', function() {
@@ -331,11 +405,11 @@
 
                     if($(this).hasClass('hour-save')){
 
-                    schedule.trigger('selectionremoved')
-                    $(this).removeClass('selected');
-                    devarionMode = true;
-                    console.log("REMOVED? AGUY GANSA");
-                    $(this).css('background','#dddddd');
+                        schedule.trigger('selectionremoved')
+                        $(this).removeClass('selected');
+                        devarionMode = true;
+                        console.log("REMOVED? AGUY GANSA");
+                        $(this).css('background','#dddddd');
 
                     }
 
@@ -345,7 +419,7 @@
                     console.log("REMOVED? AGUY");
                 }
 
-                              
+
 
                 else {
                     schedule.trigger('selectionmade')
@@ -369,9 +443,9 @@
 
         function parseHours(string) {
 
-            var output = ["<br> 7:30 AM<br> - </br> 9:00 AM","<br> 9:15 AM<br> - </br> 10:45 AM","<br> 11:00 AM<br> - </br> 12:30 PM",
-                "<br> 12:45 PM<br> - </br> 2:15 PM","<br> 2:30 PM<br> - </br> 4:00 PM", 
-                "<br> 4:15 PM<br> - </br> 5:45 PM", "<br> 6:00 PM<br> - </br> 7:30 PM", "<br> 8:45 PM<br> - </br> 9:15 PM"];
+            var output = ["<br> 7:30 AM<br> - </br> 9:00 PM","<br> 9:15 AM<br> - </br> 10:45 PM","<br> 11:00 AM<br> - </br> 12:30 PM",
+            "<br> 12:45 AM<br> - </br> 2:15 PM","<br> 2:30 AM<br> - </br> 4:00 PM", 
+            "<br> 4:15 AM<br> - </br> 5:45 PM", "<br> 6:00 AM<br> - </br> 7:30 PM", "<br> 8:45 AM<br> - </br> 9:15 PM"];
 
             return output;
         }

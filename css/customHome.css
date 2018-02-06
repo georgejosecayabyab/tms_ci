@@ -1,0 +1,98 @@
+.hero {
+  display: table;
+  position: relative;
+  background-image: url(../img/cover2.jpg);
+  background-size: cover;
+  padding:100px 0;
+  color: #fff;
+  width: 100%;
+  height: 20px;
+}
+
+#header {
+    background: #00a65a!important;
+    height: 70px;
+}
+
+#startButton{
+  background: #00a65a!important;
+   font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  color: #fff;
+  padding: 15px 45px;
+  border-radius: 50px;
+
+}
+
+#loginButton{
+ background: #00a65a!important;
+   font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  color: #fff;
+  padding: 15px 75px;
+  border-radius: 50px;
+  margin-right: 5px;
+}
+
+
+.features h2{
+  color: #00a65a!important;
+}
+
+
+
+.block{
+  height: 15px;
+}
+
+
+.scrolltop{
+
+    background: #00a65a!important;
+
+}
+
+/*#scheduleBody{
+
+  box-shadow: 0 15px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+} */
+
+
+
+@font-face {
+font-family: "Canterbury Regular";
+src: 
+url("../lib/font-awesome/fonts/canterbury-webfont.woff") format("woff"),
+url("../lib/font-awesome/fonts/canterbury-webfont.woff2") format("woff2"),
+url("../lib/font-awesome/fonts/canterbury-webfont.ttf") format("ttf"),
+url("../lib/font-awesome/fonts/Canterbury_Regular/Canterbury.svg") format("svg"),
+url("../lib/font-awesome/fonts/Canterbury_Regular/Canterbury.eot") format("eot");
+} 
+
+
+#titleFace{
+
+  font-family: 'Canterbury Regular';
+  font-weight:normal;
+  font-style:normal;
+}
+
+#tagline{
+
+  margin-bottom: 2  0px;
+
+}
+
+#header-sticky-wrapper{
+  margin-bottom: -0px;
+}
+
+
+
+.dividers{
+  margin-top: -10px;
+  margin-bottom: -10px;
+  margin-left: 13%;
+  margin-right: 13%;
+}
