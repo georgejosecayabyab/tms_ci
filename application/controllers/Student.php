@@ -658,25 +658,30 @@
 			date_default_timezone_set('Asia/Manila');
 			$date_time = date("Y-m-d H:i:s");
 			$data = array(
-						'notification_details' =>  $notification,
-						'created_by' => $user_id,
-						'target_user_id' => $target_user_id,
-						'is_read' => 0,
-						'date_created' => $date_time,
-						'group_id' => $group_id
-					);
+				'notification_details' =>  $notification,
+				'created_by' => $user_id,
+				'target_user_id' => $target_user_id,
+				'is_read' => 0,
+				'date_created' => $date_time,
+				'group_id' => $group_id
+			);
 			$this->student_model->insert_notification($data);
 		}
 
 		////logout
 		public function logout()
 		{
+            $g_client = $this->google->get_client();
+            $g_client->setAccessToken($this->session->userdata('access_token'));
+
 			$data = array(
+				'access_token' => '',
 				'user_id' => '',
 				'user_type' => ''
 			);
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();
+			$g_client->revokeToken();
 			redirect("home/index");
 		}
 
@@ -690,27 +695,34 @@
 			$sched = $this->input->post("data");
 			$day = $this->input->post("day");
 
-			if($day == 0)
-			{
-				$day = 'MO';
-			}
-			elseif ($day == 1) {
-				$day = 'TU';
-			}
-			elseif ($day == 2) {
-				$day = 'WE';
-			}
-			elseif ($day == 3) {
-				$day = 'TH';
-			}
-			elseif ($day == 4) {
-				$day = 'FR';
-			}
-			elseif ($day == 5) {
-				$day = 'SA';
+			switch($day) {
+				case 0: {
+					$day = 'MO';
+				}break;
+
+				case 1: {
+					$day = 'TU';
+				}break;
+
+				case 2: {
+					$day = 'WE';
+				}break;
+
+				case 3: {
+					$day = 'TH';
+				}break;
+
+				case 4: {
+					$day = 'FR';
+				}break;
+
+				case 5: {
+					$day = 'SA';
+				}break;
 			}
 
-			for($b = 0; $b < sizeof($sched); $b++)
+
+			for($b = 0, $size = sizeof($sched); $b < $scheds; $b++)
 			{
 				//return to js to check if it works
 				$time = $sched[(string)$b];
@@ -751,7 +763,7 @@
 
 			$this->student_model->delete_thesis_tags($thesis_id['thesis_id']);
 
-			for($x = 0; $x<sizeof($ar); $x++)
+			for($x = 0, $size = sizeof($ar); $x < $size; $x++)
 			{
 				$this->student_model->insert_thesis_tag($thesis_id['thesis_id'], $ar[$x]);
 			}

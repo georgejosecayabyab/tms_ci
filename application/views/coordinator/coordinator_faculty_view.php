@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">Faculty</h1>
+    <h2>Faculty</h2>
     <ol class="breadcrumb">
 
       <li><a href="<?php echo site_url('coordinator');?>"><i class="fa fa-home"></i> Home</a></li>
@@ -23,10 +23,16 @@
       <?php echo $this->session->flashdata('success'); ?></center>
     </div>
   <?php endif; ?>
+  <style type="text/css">
+    #addFac{
+      margin-left: 30px;
+      margin-top: 20px
+    }
+  </style>
   <!-- Trigger the modal with a button -->
   <div class="row">
     <div class="col-lg-6 col-xs-4">
-      <button id="addFaculty2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Faculty</button>
+      <button id="addFac" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Faculty</button>
     </div>
   </div>
   <!-- Modal -->

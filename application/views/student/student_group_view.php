@@ -3,13 +3,13 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">
+    <h2>
       <?php echo $group['group_name'];?>
-    </h1>
+    </h2>
     <br>
     <ol class="breadcrumb">
-      <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
-      <li><a href="#">Group</a></li>
+      <li><a href="<?php echo site_url('student');?>"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="<?php echo site_url('student/view_group/'.$group['group_id']);?>">Group</a></li>
       <li class="active"><?php echo $group['group_name'];?></li>
     </ol>
   </section>
@@ -335,12 +335,17 @@
                     </select>
                   </div>
                 </div>
-                
+                 <style type="text/css">
+              .btn-danger{
+                margin-right: 20px;
+              }
+                </style>
                 
                 <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
+                  <div class="col-sm-10">
+                     <button onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
                     <a href="<?php echo site_url('student/view_group/'.$group_id['group_id']);?>"><button id="submit_tag" type="button" class="btn btn-success">Save and Quit</button></a>
-                    <button id="submitbtn2" onclick="location.href='facultyViewProfile.html';" type="button" class="btn btn-danger">Exit</button>
+                   
                     
                   </div>
                 </div>
@@ -411,10 +416,10 @@
                       <div class="box-body">
                         <h3>Abstract</h3>
                         <textarea name="abstract_text" rows="10" cols="110"><?php echo $group['abstract'];?></textarea>
-                        <div class="col-lg-1">
-                        </div>
-                        <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
-                        <a href=""><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
+                        
+                        <a href=""><button type="button" class="btn btn-danger">Exit</button></a>
+                        <button type="submit" class="btn btn-success">Save and Quit</button>
+                        
                       </div>
                     </div>
                   </div>
@@ -432,15 +437,26 @@
                     <input type="text" class="form-control pull-right" name="datepicker" id="datepicker">
                   </div>
                 </div>
+                <style type="text/css">
+                  #setMeeting
+                  {
+                    width: 500px;
+                  }
+                  #venue
+                  {
+                    width: 500px;
+                  }
 
+                </style>
                 <div class="form-group">
                   <label for="Venue" class="control-label">Venue</label>
                   <input class="form-control" id="venue" name="venue" placeholder="venue">
                 </div>
 
                 <div class="form-group">
-                  <button id="submitbtn" type="submit" class="btn btn-success">Set Meeting</button>
-                  <button id="submitbtn2" type="button" class="btn btn-danger">Exit</button>
+                  <button type="button" class="btn btn-danger">Exit</button>
+                  <button type="submit" class="btn btn-success">Set Meeting</button>
+                  
                 </div>
 
                 

@@ -2,12 +2,12 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">
+    <h2>
     Students
     
-    </h1>
+    </h2>
     <ol class="breadcrumb">
-      <li><a href="studentHome"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="<?php echo site_url('coordinator');?>"><i class="fa fa-home"></i> Home</a></li>
       <li><a href="studentThesisArchive.html">Archive</a></li>
     </ol>
   </section>
@@ -26,12 +26,20 @@
       <?php echo $this->session->flashdata('success'); ?></center>
     </div>
   <?php endif; ?>
+  <style type="text/css">
+    #addStu{
+      margin-top: 20px;
+      margin-left: 30px;
+      margin-right: 20px;
+    }
+    #addGroup{
+      margin-top: 20px;
+    }
+  </style>
   <div class="row">
-    <div class="col-lg-2 col-xs-4">
-      <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Student</button>
-    </div>
-    <div class="col-lg-6 col-xs-4">
-      <button id="addFaculty" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Add Group</button>
+    <div class="col-lg-12 col-xs-8">
+      <button id="addStu" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Student</button>
+      <button id="addGroup" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Add Group</button>
     </div>
   </div>
   <!-- Modal 1 -->
@@ -146,8 +154,9 @@
           </div>
           <div class="modal-footer">
             <div class="row" align="center">
-              <button id="add_group_submit" onclick="" type="submit" class="btn btn-success">Save and Quit</button>
               <button id="submitbtn2" data-dismiss="modal" type="button" class="btn btn-danger">Exit</button>
+              <button id="add_group_submit" onclick="" type="submit" class="btn btn-success">Save and Quit</button>
+              
             </div>
           </div>
         </div>

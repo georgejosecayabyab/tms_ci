@@ -35,6 +35,16 @@
 			}
 		}
 
+		//check if user exist
+		public function if_user_gmail($email)
+		{
+			//SELECT * FROM USER WHERE EMAIL=$EMAIL;
+			$this->db->where('email', $email);
+			$this->db->where('is_active', 1);
+			$query = $this->db->get('user');
+			return $query->first_row('array');
+		}
+
 		//get user/general details
 		public function get_user_details($user_id)
 		{

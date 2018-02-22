@@ -2,13 +2,13 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 id="Title">
+      <h2>
         
           Thesis Preview  
 
-      </h1>
+      </h2>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="facultyThesisArchive.html">Archive</a></li>
          <li class="active"><?php echo $thesis['thesis_title'];?></li>
         

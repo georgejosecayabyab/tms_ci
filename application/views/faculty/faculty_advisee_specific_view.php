@@ -2,9 +2,9 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">
+    <h2>
       <?php echo $group['group_name'];?>
-    </h1>
+    </h2>
     <br>
     <ol class="breadcrumb">
       <li><a href="<?php echo site_url('faculty');?>"><i class="fa fa-home"></i> Home</a></li>

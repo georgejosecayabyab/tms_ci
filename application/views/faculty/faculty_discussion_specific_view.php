@@ -7,9 +7,9 @@
       <li class="active"><?php echo $topic_data['topic_name'];?></li>
       
     </ol>
-    <h1 id="Title">
+    <h2>
       <?php echo $topic_data['topic_name'];?>
-    </h1>
+    </h2>
   </section>
   <div  id="timeline">
     <!-- The timeline -->

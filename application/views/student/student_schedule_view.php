@@ -2,14 +2,12 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1 id="Title">
+        <h2>
         Input Schedule
-        </h1>
+        </h2>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
           <li><a href="facultyPanelInitial.html">Schedule</a></li>
-          
-          
         </ol>
       </section>
       <!-- Main content -->
@@ -17,8 +15,6 @@
         <!-- Default box -->
         <div class="box">
           <div class="box-header with-border">
-            
-            
           </div>
           <div class="row">
             <div class="col-xs-6">
@@ -66,15 +62,15 @@
               <!-- /.box-body -->
               
             </div>
+
             <div class="container-fluid">
               <div class="row">
-                <div class="col-lg-4 col-xs-12">
-                </div>
-                <div class="col-lg-3 col-xs-12">
+                <div class="col-lg-5 col-md-6 col-xs-12">
                   <form>
-                    <button id="submit"  type="button" class="btn btn-success">Save and Quit</button>
-                    <a href="<?php echo site_url('student/view_schedule');?>"><button id="submit" type="button" class="btn btn-primary">View Schedule</button></a>
-                    <a href="<?php echo site_url('student/view_schedule');?>"><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
+                     <a href="<?php echo site_url('student/view_schedule');?>"><button type="button" class="btn btn-danger">Exit</button></a>
+                    <button type="button" class="btn btn-success">Save and Quit</button>
+                    <a href="<?php echo site_url('student/view_schedule');?>"><button type="button" class="btn btn-primary">View Schedule</button></a>
+                   
                     
                   </form>
                 </div>

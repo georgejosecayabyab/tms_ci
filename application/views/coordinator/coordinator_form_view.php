@@ -3,10 +3,10 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">
+    <h2>
     Form Download Links
     
-    </h1>
+    </h2>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
       
@@ -27,9 +27,15 @@
       <?php echo $this->session->flashdata('success'); ?></center>
     </div>
   <?php endif; ?>
+  <style type="text/css">
+    #addForm{
+      margin-left: 30px;
+      margin-top: 20px;
+    }
+  </style>
   <div class="row">
-    <div class="col-lg-6 col-xs-4">
-      <button id="addFaculty2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Form</button>
+    <div class="col-lg-12 col-xs-8">
+      <button id="addForm" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Form</button>
     </div>
   </div>
   <!-- Modal -->
