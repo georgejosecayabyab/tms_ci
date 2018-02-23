@@ -51,7 +51,55 @@
             Everything that you need for your defense <br>
             All in one website
           </p>
-          <a id="loginButton" class="btn btn-full" href="<?php echo site_url('login/index');?>">Login</a>
+          <?php
+            require ("vendor/autoload.php");
+            //Step 1: Enter you google account credentials
+
+            $g_client = new Google_Client();
+
+            $g_client->setClientId("1067483480445-gengh3tq4anad9odhqs0fralk85veclh.apps.googleusercontent.com");
+            $g_client->setClientSecret("lQMtpbYso3Hw0FD3G-H8srEq");
+            $g_client->setRedirectUri("http://localhost/tms_ci/index.php/login");     
+            $g_client->setScopes("https://www.googleapis.com/auth/plus.login profile email https://mail.google.com/ https://www.googleapis.com/auth/gmail.compose");
+            //$g_client->setAccessType("offline");
+
+            //Step 2 : Create the url
+            $auth_url = $g_client->createAuthUrl();
+            echo "<a href='$auth_url' class='btn btn-full'>Login Through Google </a>";
+
+            //Step 3 : Get the authorization  code
+            $code = isset($_GET['code']) ? $_GET['code'] : NULL;
+
+            //Step 4: Get access token
+            if(isset($code)) {
+
+                try {
+
+                    $token = $g_client->fetchAccessTokenWithAuthCode($code);
+                    $g_client->setAccessToken($token);
+
+                }catch (Exception $e){
+                    echo $e->getMessage();
+                }
+
+
+
+
+                try {
+                    $pay_load = $g_client->verifyIdToken();
+
+
+                }catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+
+            } else{
+                $pay_load = null;
+            }
+
+
+          ?>
+          <!--<a id="loginButton" class="btn btn-full" href="<?php //echo site_url('login/index');?>">Login</a>-->
           <a id="startButton" class="btn btn-full" href="#announcements">Announcements</a>
         </div>
       </div>

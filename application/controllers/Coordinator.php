@@ -1100,12 +1100,17 @@
 		////logout
 		public function logout()
 		{
+			$g_client = $this->google->get_client();
+            $g_client->setAccessToken($this->session->userdata('access_token'));
+
 			$data = array(
+				'access_token' => '',
 				'user_id' => '',
 				'user_type' => ''
 			);
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();
+			$g_client->revokeToken();
 			redirect("home/index");
 		}
 

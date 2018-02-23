@@ -40,10 +40,56 @@
 				'form' => "",
 				'archive' => "" 
 			);
-			
-			$this->load->view('student/student_base_head', $data);
-			$this->load->view('student/student_home_view', $data);
-			$this->load->view('student/student_base_foot', $data);
+
+			$g_client = $this->google->get_client();
+			$g_client->setAccessToken($session['access_token']);
+			$gmail_service = new Google_Service_Gmail($g_client);
+			$postbody = new Google_Service_Gmail_Message();
+			var_dump($postbody);
+
+			//echo $this->sendMessage($gmail_service, "me", $postbody); 
+
+			$from = 'george_cayabyab@dlsu.edu.ph';
+			$to = 'george_cayabyab@dlsu.edu.ph';
+			$cc = 'george_cayabyab@dlsu.edu.ph';
+			$bcc = '';
+			$subject = 'hello mail';
+			$body = 'hello body mail';
+			echo $this->sendEmail($from, $to, $cc, $bcc, $subject, $body);
+			// $this->load->view('student/student_base_head', $data);
+			// $this->load->view('student/student_home_view', $data);
+			// $this->load->view('student/student_base_foot', $data);
+		}
+
+		public function sendEmail($from, $to, $cc, $bcc, $subject, $body)
+		{
+		    global $ini, $verbose;
+		    $strRawMessage = 'From: ' . $from. "\r\n";
+		    $strRawMessage .= "To: {$to}\r\n";
+		    $strRawMessage .= "CC: {$cc}\r\n";
+		    $strRawMessage .= "BCC: {$bcc}\r\n";
+		    $strRawMessage .= 'Subject: =?utf-8?B?' . base64_encode($subject) . "?=\r\n";
+		    $strRawMessage .= "MIME-Version: 1.0\r\n";
+		    $strRawMessage .= "Content-Type: text/html; charset=utf-8\r\n";
+		    $strRawMessage .= 'Content-Transfer-Encoding: quoted-printable' . "\r\n\r\n";
+		    $strRawMessage .= implode('<br>', str_replace(array('\\n', "\n"), '<br>' . "\r\n", $body)) . "\r\n";
+		    //Users.messages->send - Requires -> Prepare the message in message/rfc822
+		    // The message needs to be encoded in Base64URL
+		    $mime = rtrim(strtr(base64_encode($strRawMessage), '+/', '-_'), '=');
+		    try {
+		        $msg = new Google_Service_Gmail_Message();
+		        $msg->setRaw($mime);
+		        //The special value **me** can be used to indicate the authenticated user.
+		        $objSentMsg = $this->service->users_messages->send($ini['gmail_username'], $msg);
+		        if ($verbose > 3) {
+		            print __FUNCTION__ . '(): Email sent:\\n';
+		            print_r($objSentMsg);
+		        }
+		    } catch (Exception $e) {
+		        print 'Error: Exception - ' . $e->getMessage() . "\n";
+		        return FALSE;
+		    }
+		    return TRUE;
 		}
 
 		public function view_forms()//get course or course id
@@ -658,25 +704,30 @@
 			date_default_timezone_set('Asia/Manila');
 			$date_time = date("Y-m-d H:i:s");
 			$data = array(
-						'notification_details' =>  $notification,
-						'created_by' => $user_id,
-						'target_user_id' => $target_user_id,
-						'is_read' => 0,
-						'date_created' => $date_time,
-						'group_id' => $group_id
-					);
+				'notification_details' =>  $notification,
+				'created_by' => $user_id,
+				'target_user_id' => $target_user_id,
+				'is_read' => 0,
+				'date_created' => $date_time,
+				'group_id' => $group_id
+			);
 			$this->student_model->insert_notification($data);
 		}
 
 		////logout
 		public function logout()
 		{
+            $g_client = $this->google->get_client();
+            $g_client->setAccessToken($this->session->userdata('access_token'));
+
 			$data = array(
+				'access_token' => '',
 				'user_id' => '',
 				'user_type' => ''
 			);
 			$this->session->unset_userdata($data);
 			$this->session->sess_destroy();
+			$g_client->revokeToken();
 			redirect("home/index");
 		}
 
@@ -690,27 +741,34 @@
 			$sched = $this->input->post("data");
 			$day = $this->input->post("day");
 
-			if($day == 0)
-			{
-				$day = 'MO';
-			}
-			elseif ($day == 1) {
-				$day = 'TU';
-			}
-			elseif ($day == 2) {
-				$day = 'WE';
-			}
-			elseif ($day == 3) {
-				$day = 'TH';
-			}
-			elseif ($day == 4) {
-				$day = 'FR';
-			}
-			elseif ($day == 5) {
-				$day = 'SA';
+			switch($day) {
+				case 0: {
+					$day = 'MO';
+				}break;
+
+				case 1: {
+					$day = 'TU';
+				}break;
+
+				case 2: {
+					$day = 'WE';
+				}break;
+
+				case 3: {
+					$day = 'TH';
+				}break;
+
+				case 4: {
+					$day = 'FR';
+				}break;
+
+				case 5: {
+					$day = 'SA';
+				}break;
 			}
 
-			for($b = 0; $b < sizeof($sched); $b++)
+
+			for($b = 0, $size = sizeof($sched); $b < $scheds; $b++)
 			{
 				//return to js to check if it works
 				$time = $sched[(string)$b];
@@ -751,7 +809,7 @@
 
 			$this->student_model->delete_thesis_tags($thesis_id['thesis_id']);
 
-			for($x = 0; $x<sizeof($ar); $x++)
+			for($x = 0, $size = sizeof($ar); $x < $size; $x++)
 			{
 				$this->student_model->insert_thesis_tag($thesis_id['thesis_id'], $ar[$x]);
 			}
