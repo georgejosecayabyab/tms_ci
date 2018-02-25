@@ -384,12 +384,15 @@
                     </thead>
                     
                     <tbody>
+                      <?php $num = 1;?>
                       <?php foreach($uploads as $row):?>
+                        
                         <tr>
-                          <td><a href="<?php echo site_url('student/download_file/'.$row['upload_name']);?>"><?php echo $row['upload_name'];?></a></td>
+                          <td><a href="<?php echo site_url('student/download_file/'.$row['upload_name']);?>"><?php echo 'Revised Document #'.$num;?></a></td>
                           <td><?php echo $row['upload_date_time'];?></td>
-                          <td><a href="<?php echo site_url('student/download_file/'.$row['revision_name']);?>"><?php echo $row['revision_name'];?></a></td>
+                          <td><a href="<?php echo site_url('student/download_file/'.$row['revision_name']);?>"><?php echo 'Revisions List #'.$num;?></a></td>
                         </tr>
+                        <?php $num = $num + 1;?>
                       <?php endforeach;?>
                     </tbody>
                   </table>

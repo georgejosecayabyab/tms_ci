@@ -41,24 +41,24 @@
 				'archive' => "" 
 			);
 
-			$g_client = $this->google->get_client();
-			$g_client->setAccessToken($session['access_token']);
-			$gmail_service = new Google_Service_Gmail($g_client);
-			$postbody = new Google_Service_Gmail_Message();
-			var_dump($postbody);
+			// $g_client = $this->google->get_client();
+			// $g_client->setAccessToken($session['access_token']);
+			// $gmail_service = new Google_Service_Gmail($g_client);
+			// $postbody = new Google_Service_Gmail_Message();
+			// var_dump($postbody);
 
 			//echo $this->sendMessage($gmail_service, "me", $postbody); 
 
-			$from = 'george_cayabyab@dlsu.edu.ph';
-			$to = 'george_cayabyab@dlsu.edu.ph';
-			$cc = 'george_cayabyab@dlsu.edu.ph';
-			$bcc = '';
-			$subject = 'hello mail';
-			$body = 'hello body mail';
-			echo $this->sendEmail($from, $to, $cc, $bcc, $subject, $body);
-			// $this->load->view('student/student_base_head', $data);
-			// $this->load->view('student/student_home_view', $data);
-			// $this->load->view('student/student_base_foot', $data);
+			// $from = 'george_cayabyab@dlsu.edu.ph';
+			// $to = 'george_cayabyab@dlsu.edu.ph';
+			// $cc = 'george_cayabyab@dlsu.edu.ph';
+			// $bcc = '';
+			// $subject = 'hello mail';
+			// $body = 'hello body mail';
+			// echo $this->sendEmail($from, $to, $cc, $bcc, $subject, $body);
+			$this->load->view('student/student_base_head', $data);
+			$this->load->view('student/student_home_view', $data);
+			$this->load->view('student/student_base_foot', $data);
 		}
 
 		public function sendEmail($from, $to, $cc, $bcc, $subject, $body)
