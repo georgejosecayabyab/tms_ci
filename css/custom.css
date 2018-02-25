@@ -18,7 +18,7 @@
 
 #Title{
 
-	font-size: 50px;
+	font-size: 20px;
 }
 
 .box.box-primary {
@@ -28,6 +28,8 @@
 .nav-tabs-custom>.nav-tabs>li.active {
     border-top-color: #00a65a;
 }
+
+
 
 
 .regularLabel{
@@ -335,6 +337,8 @@
 	left: -20px;
 
 }
+
+
 
 .buttonCustom{
 	position: relative;

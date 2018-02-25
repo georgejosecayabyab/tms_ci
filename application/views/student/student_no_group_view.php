@@ -2,10 +2,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 id="Title">
+      <h2>
         No Group Assigned
         
-      </h1>
+      </h2>
       <ol class="breadcrumb">
         <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="studentGroup.html"><i class="fa fa-home"></i> Group</a></li>

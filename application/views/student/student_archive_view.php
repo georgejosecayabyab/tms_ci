@@ -2,13 +2,13 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 id="Title">
+      <h2>
         Thesis Archive
         
-      </h1>
+      </h2>
       <ol class="breadcrumb">
-        <li><a href="studentHome"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="studentThesisArchive.html">Archive</a></li>
+        <li><a href="<?php echo site_url('student');?>"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="<?php echo site_url('student/view_archive');?>">Archive</a></li>
       </ol>
     </section>
 
@@ -75,52 +75,8 @@
                 
               </tbody>
             </table>
-            <div class="col-lg-4 col-xs-4">
-              <!-- small box -->
-              <div class="small-box bg-red">
-                
-                
-              </div>
-              
-              
-            </div>
-            <div class="col-lg-4 col-xs-4">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                
-                
-              </div>
-              
-              
-              <div class="col-lg-4 col-xs-4">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                  
-                  
-                </div>
-                
-              </div>
-              <div class="row">
-                <div class="col-lg-6 col-xs-4">
-                  
-                  <!-- /.box-header -->
-                  <div class="box-body">
-                    <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-                    <ul class="todo-list">
-                      
-                    </ul>
-                  </div>
-                  <!-- /.box-body -->
-                  
-                </div>
-              </div>
-              <div class="col-lg-6 col-xs-4">
-                
-                <!-- /.box-header -->
-                
-              </div>
-              <!-- /.box-body -->
-            </div>
+          
+            
           </div>
           </div>
         

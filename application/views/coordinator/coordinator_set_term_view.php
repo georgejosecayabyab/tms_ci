@@ -2,12 +2,12 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1 id="Title">
+    <h2>
     Set Term
     
-    </h1>
+    </h2>
     <ol class="breadcrumb">
-      <li><a href="studentHome.html"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="<?php echo site_url('coordinator');?>"><i class="fa fa-home"></i> Home</a></li>
       <li><a href="studentGroup.html"><i class="fa fa-home"></i> Group</a></li>
       
     </ol>
@@ -49,11 +49,12 @@
                   </text>
                 </div>
               </div>
+          
               <div class="form-group ">
                 <label for="term" class="col-sm-2 control-label">Term</label>
                 <div class="col-sm-8">
                   <span>
-                    <select class="form-control select2" name="term" style="width: 100%;">
+                    <select id="term1" class="form-control select2" name="term">
                       <?php foreach($all_term as $row):?>
                         <?php if($term['term']==$row['term']):?>
                           <option selected><?php echo $term['term'];?></option>
@@ -68,7 +69,7 @@
               <div class="form-group">
                 <label for="year" class="col-sm-2 control-label">School Year</label>
                 <div class="col-sm-1">
-                  <select class="form-control select2" name="year">
+                  <select id="schoolyr" class="form-control select2" name="year">
                     <?php foreach($all_year as $row):?>
                       <?php if($year==$row['year']):?>
                         <option selected><?php echo $year;?></option>
@@ -81,15 +82,28 @@
               </div>
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-lg-4 col-xs-12">
-                  </div>
-                  <div class="col-lg-3 col-xs-12">
-                    <button id="submitbtn" type="submit" class="btn btn-success">Save and Quit</button>
-                    <a href="<?php echo site_url('coordinator');?>"><button id="submitbtn2" type="button" class="btn btn-danger">Exit</button></a>
+                  
+                  <div class="col-lg-12 col-xs-12">
+                    <a href="<?php echo site_url('coordinator');?>"><button type="button" class="btn btn-danger">Exit</button></a>
+                    <button type="submit" class="btn btn-success">Save and Quit</button>
+                    
                   </div>
                 </div>
               </div>
             </div>
+            <style type="text/css">
+              .btn-danger{
+                margin-left: 70px;
+                margin-right: 20px;
+              }
+              #schoolyr{
+                width: 100px;
+              }
+              #term1{
+                width: 100px;
+              }
+
+            </style>
             <!-- /.box-body -->
           </form>
         </div>
